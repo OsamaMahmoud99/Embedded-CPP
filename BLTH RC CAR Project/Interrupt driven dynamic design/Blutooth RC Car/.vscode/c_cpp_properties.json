@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "F:\\OSAMAA\\Embedded System\\14-Others\\RAM Push\\RP Development tools\\AVR Toolchain\\avr\\include",
+                "LIB",
+                "MCAL/MDIO",
+                "MCAL/MPWM",
+                "MCAL/MUART",
+                "HAL/HBUZZER",
+                "HAL/HBLTH",
+                "APP/Bluetooth_RC_Car"
+        
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "__AVR_ATmega8__"
+            ],
+            "compilerPath": "F:\\OSAMAA\\Embedded System\\14-Others\\RAM Push\\RP Development tools\\AVR Toolchain\\bin\\avr-g++",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "windows-gcc-x86"
+        }
+    ],
+    "version": 4
+}

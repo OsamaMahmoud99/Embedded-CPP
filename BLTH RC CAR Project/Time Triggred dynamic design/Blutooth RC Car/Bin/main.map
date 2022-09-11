@@ -1,0 +1,494 @@
+Archive member included because of file (symbol)
+
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodsi4.o)
+                              STTS_program.o (__udivmodsi4)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+                              c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o (exit)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+                              Bluetooth_RC_Car_program.o (__do_copy_data)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+                              Bluetooth_RC_Car_program.o (__do_clear_bss)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_ctors.o)
+                              Bluetooth_RC_Car_program.o (__do_global_ctors)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_tablejump.o)
+                              c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_ctors.o) (__tablejump__)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00002000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000400         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+LOAD main.o
+LOAD Bluetooth_RC_Car_program.o
+LOAD STTS_program.o
+LOAD HBUZZER_program.o
+LOAD HBUZZER_cfg.o
+LOAD HLED_program.o
+LOAD HLED_cfg.o
+LOAD HMOTOR_program.o
+LOAD HMOTOR_cfg.o
+LOAD HBLTH_program.o
+LOAD HBLTH_cfg.o
+LOAD MDIO_program.o
+LOAD MPWM_program.o
+LOAD MUART_program.o
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4\libm.a
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4\libc.a
+LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0xaa8
+ *(.vectors)
+ .vectors       0x00000000       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+                0x00000026                . = ALIGN (0x2)
+                0x00000026                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000026        0x0 linker stubs
+ *(.trampolines*)
+                0x00000026                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000026                __ctors_start = .
+ *(.ctors)
+ .ctors         0x00000026        0x2 Bluetooth_RC_Car_program.o
+ .ctors         0x00000028        0x2 HBUZZER_program.o
+ .ctors         0x0000002a        0x2 HLED_program.o
+ .ctors         0x0000002c        0x2 HMOTOR_program.o
+ .ctors         0x0000002e        0x2 HBLTH_program.o
+                0x00000030                __ctors_end = .
+                0x00000030                __dtors_start = .
+ *(.dtors)
+                0x00000030                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000030        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+                0x00000030                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000030        0xc c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x0000003c       0x16 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+                0x0000003c                __do_copy_data
+ .init4         0x00000052       0x10 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+                0x00000052                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ .init6         0x00000062       0x14 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_ctors.o)
+                0x00000062                __do_global_ctors
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000076        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ *(.init9)
+ *(.text)
+ .text          0x0000007a        0x2 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+                0x0000007a                __vector_1
+                0x0000007a                __vector_12
+                0x0000007a                __bad_interrupt
+                0x0000007a                __vector_6
+                0x0000007a                __vector_17
+                0x0000007a                __vector_7
+                0x0000007a                __vector_5
+                0x0000007a                __vector_4
+                0x0000007a                __vector_9
+                0x0000007a                __vector_2
+                0x0000007a                __vector_15
+                0x0000007a                __vector_8
+                0x0000007a                __vector_14
+                0x0000007a                __vector_10
+                0x0000007a                __vector_16
+                0x0000007a                __vector_18
+ .text          0x0000007c        0x6 main.o
+                0x0000007c                main
+ .text          0x00000082      0x1e6 Bluetooth_RC_Car_program.o
+                0x000000c0                system_run()
+                0x00000082                system_init()
+ .text          0x00000268      0x16a STTS_program.o
+                0x000002da                ResumeTask(unsigned char)
+                0x000002b0                sttsClass_t::schedulerRun()
+                0x0000028c                sttsClass_t::CreateTask(task_t)
+                0x000002f0                __vector_3
+                0x0000027a                sttsClass_t::sttsClass_t(unsigned char)
+                0x00000268                sttsClass_t::sttsClass_t(unsigned char)
+                0x000002c4                SuspendTask(unsigned char)
+ .text          0x000003d2       0x3a HBUZZER_program.o
+                0x00000402                hbuzzerClass_t::hbuzzerClass_t()
+                0x000003ee                hbuzzerClass_t::Buzzer_On()
+                0x000003e4                hbuzzerClass_t::Buzzer_Off()
+                0x000003f8                hbuzzerClass_t::hbuzzerClass_t()
+ .text          0x0000040c        0x0 HBUZZER_cfg.o
+ .text          0x0000040c       0xc8 HLED_program.o
+                0x0000044c                hledClass_t::LED_Off()
+                0x00000490                hledClass_t::hledClass_t(unsigned char)
+                0x000004b2                hledClass_t::hledClass_t(unsigned char)
+                0x0000046e                hledClass_t::LED_On()
+                0x0000042e                hledClass_t::LED_toggle()
+ .text          0x000004d4        0x0 HLED_cfg.o
+ .text          0x000004d4      0x1a8 HMOTOR_program.o
+                0x00000626                hmotorClass_t::hmotorClass_t(unsigned char)
+                0x00000542                hmotorClass_t::UpdateMotor(unsigned char, unsigned char)
+                0x000005d0                hmotorClass_t::hmotorClass_t(unsigned char)
+ .text          0x0000067c        0x0 HMOTOR_cfg.o
+ .text          0x0000067c       0x6a HBLTH_program.o
+                0x000006ba                hblthClass_t::getData(unsigned char*)
+                0x000006b2                hblthClass_t::getData_interrupt(unsigned char*)
+                0x000006d4                hblthClass_t::hblthClass_t()
+                0x000006c2                hblthClass_t::hblthClass_t()
+ .text          0x000006e6        0x0 HBLTH_cfg.o
+ .text          0x000006e6      0x192 MDIO_program.o
+                0x000007a8                mdioClass_t::SetPinValue(unsigned char)
+                0x000006e6                mdioClass_t::SetPinDirection(unsigned char)
+                0x0000080c                mdioClass_t::TogglePinValue()
+                0x0000083a                mdioClass_t::GetPinValue(unsigned char*)
+ .text          0x00000878      0x112 MPWM_program.o
+                0x00000920                mpwmClass_t::updatepwm(unsigned char, unsigned char)
+                0x000008cc                mpwmClass_t::mpwmClass_t(unsigned char)
+                0x00000878                mpwmClass_t::mpwmClass_t(unsigned char)
+ .text          0x0000098a       0xca MUART_program.o
+                0x000009fc                muartClass_t::ReceiveByte_Interrupt(unsigned char*)
+                0x00000a30                __vector_11
+                0x000009e0                muartClass_t::ReceiveByte(unsigned char*)
+                0x00000a12                __vector_13
+                0x000009c2                muartClass_t::SendStream(unsigned char*, unsigned char)
+                0x0000099e                muartClass_t::muartClass_t(unsigned short, unsigned char)
+                0x0000098a                muartClass_t::muartClass_t(unsigned short, unsigned char)
+                0x000009b2                muartClass_t::SendByte(unsigned char)
+                0x000009ec                muartClass_t::SendByte_Interrupt(unsigned char)
+ .text          0x00000a54        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodsi4.o)
+ .text          0x00000a54        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .text          0x00000a54        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .text          0x00000a54        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+ .text          0x00000a54        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_ctors.o)
+ .text          0x00000a54        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_tablejump.o)
+                0x00000a54                . = ALIGN (0x2)
+ *(.text.*)
+ .text.libgcc   0x00000a54       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodsi4.o)
+                0x00000a54                __udivmodsi4
+ .text.libgcc   0x00000a98        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .text.libgcc   0x00000a98        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000a98        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000a98        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_ctors.o)
+ .text.libgcc   0x00000a98        0xc c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_tablejump.o)
+                0x00000a9c                __tablejump__
+                0x00000a98                __tablejump2__
+                0x00000aa4                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00000aa4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+                0x00000aa4                exit
+                0x00000aa4                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00000aa4        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ *(.fini0)
+                0x00000aa8                _etext = .
+
+.data           0x00800060       0x30 load address 0x00000aa8
+                0x00800060                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ .data          0x00800060        0x0 main.o
+ .data          0x00800060        0x8 Bluetooth_RC_Car_program.o
+ .data          0x00800068        0x0 STTS_program.o
+ .data          0x00800068        0x0 HBUZZER_program.o
+ .data          0x00800068        0x2 HBUZZER_cfg.o
+                0x00800068                BUZZER_PINMAP
+ .data          0x0080006a        0x0 HLED_program.o
+ .data          0x0080006a        0x4 HLED_cfg.o
+                0x0080006a                LED_PINMAP
+ .data          0x0080006e        0x0 HMOTOR_program.o
+ .data          0x0080006e        0xc HMOTOR_cfg.o
+                0x0080006e                MOTOR_PINMAP
+ .data          0x0080007a        0x0 HBLTH_program.o
+ .data          0x0080007a        0x3 HBLTH_cfg.o
+                0x0080007a                BLTH_PINMAP
+ .data          0x0080007d       0x12 MDIO_program.o
+                0x0080007d                gu8Arr_ddrArray
+                0x00800089                gu8Arr_pinArray
+                0x00800083                gu8Arr_portArray
+ .data          0x0080008f        0x0 MPWM_program.o
+ .data          0x0080008f        0x1 MUART_program.o
+ .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodsi4.o)
+ .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+ .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_ctors.o)
+ .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_tablejump.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x00800090                . = ALIGN (0x2)
+                0x00800090                _edata = .
+                0x00800090                PROVIDE (__data_end, .)
+
+.bss            0x00800090       0x34
+                0x00800090                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr4/crtm8.o
+ .bss           0x00800090        0x0 main.o
+ .bss           0x00800090        0xb Bluetooth_RC_Car_program.o
+                0x00800096                gobj_tts
+                0x00800094                gobj_rightMotor
+                0x00800092                gobj_frontLeds
+                0x00800093                gobj_rearLeds
+                0x00800091                gobj_buzzer
+                0x00800095                gobj_leftMotor
+                0x00800090                gobj_bluetoothcommunication
+ .bss           0x0080009b        0xd STTS_program.o
+ .bss           0x008000a8        0x2 HBUZZER_program.o
+                0x008000a8                gobj_buzzerPin
+ .bss           0x008000aa        0x0 HBUZZER_cfg.o
+ .bss           0x008000aa        0x4 HLED_program.o
+                0x008000aa                gobj_Led1Pin
+                0x008000ac                gobj_Led2Pin
+ .bss           0x008000ae        0x0 HLED_cfg.o
+ .bss           0x008000ae        0xe HMOTOR_program.o
+                0x008000b8                gobj_Motor2_DIR_IN3Pin
+                0x008000ba                gobj_Motor2_DIR_IN4Pin
+                0x008000b4                gobj_Motor1_DIR_IN1Pin
+                0x008000b6                gobj_Motor1_DIR_IN2Pin
+                0x008000af                gobj_Motor2_PWMChannel2
+                0x008000b0                gobj_Motor1_PWM_EN1Pin
+                0x008000ae                gobj_Motor1_PWMChannel1
+                0x008000b2                gobj_Motor2_PWM_EN2Pin
+ .bss           0x008000bc        0x0 HMOTOR_cfg.o
+ .bss           0x008000bc        0x6 HBLTH_program.o
+                0x008000c0                gobj_blthData_Nointerrupt
+                0x008000be                gobj_blthRXPin
+                0x008000bc                gobj_blthTXPin
+                0x008000c1                gobj_blthData_interrupt
+ .bss           0x008000c2        0x0 HBLTH_cfg.o
+ .bss           0x008000c2        0x0 MDIO_program.o
+ .bss           0x008000c2        0x0 MPWM_program.o
+ .bss           0x008000c2        0x2 MUART_program.o
+ .bss           0x008000c4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_udivmodsi4.o)
+ .bss           0x008000c4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_exit.o)
+ .bss           0x008000c4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_copy_data.o)
+ .bss           0x008000c4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_clear_bss.o)
+ .bss           0x008000c4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_ctors.o)
+ .bss           0x008000c4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a(_tablejump.o)
+ *(.bss*)
+ *(COMMON)
+                0x008000c4                PROVIDE (__bss_end, .)
+                0x00000aa8                __data_load_start = LOADADDR (.data)
+                0x00000ad8                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x008000c4        0x0
+                0x008000c4                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x008000c4                PROVIDE (__noinit_end, .)
+                0x008000c4                _end = .
+                0x008000c4                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(main.elf elf32-avr)
+LOAD linker stubs
