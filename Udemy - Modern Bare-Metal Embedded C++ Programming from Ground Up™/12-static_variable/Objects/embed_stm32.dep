@@ -1,0 +1,38 @@
+Dependencies for Project 'embed', Target 'stm32': (DO NOT MODIFY !)
+CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
+F (.\uart.cpp)(0x65D9CA09)(--cpp -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_stm32-IC:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32F446xx -D_RTE_-o .\objects\uart.o --omf_browse .\objects\uart.crf --depend .\objects\uart.d)
+I (uart.h)(0x65D9C6FF)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x63749E4A)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f446xx.h)(0x63749E4A)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm4.h)(0x5E8F1772)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5F63BFBC)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E834D12)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x63749E4A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5F63BFBC)
+F (.\uart.h)(0x65D9C6FF)()
+F (.\main.cpp)(0x65EC5288)(--cpp -c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_stm32-IC:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32F446xx -D_RTE_-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (uart.h)(0x65D9C6FF)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x63749E4A)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f446xx.h)(0x63749E4A)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm4.h)(0x5E8F1772)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5F63BFBC)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E834D12)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x63749E4A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5F63BFBC)
+F (RTE\Device\STM32F446RETx\startup_stm32f446xx.s)(0x65D9C861)(--cpu Cortex-M4.fp.sp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_stm32-IC:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 532" --pd "_RTE_ SETA 1" --pd "STM32F446xx SETA 1" --pd "_RTE_ SETA 1"--list .\listings\startup_stm32f446xx.lst --xref -o .\objects\startup_stm32f446xx.o --depend .\objects\startup_stm32f446xx.d)
+F (RTE\Device\STM32F446RETx\system_stm32f4xx.c)(0x63749E4A)(-c --cpu Cortex-M4.fp.sp -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_stm32-IC:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="532" -D_RTE_ -DSTM32F446xx -D_RTE_-o .\objects\system_stm32f4xx.o --omf_browse .\objects\system_stm32f4xx.crf --depend .\objects\system_stm32f4xx.d)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x63749E4A)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f446xx.h)(0x63749E4A)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm4.h)(0x5E8F1772)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5F63BFBC)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5E834D12)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h)(0x5E8F1772)
+I (C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x63749E4A)
