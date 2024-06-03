@@ -1,0 +1,7 @@
+load STM32F401RETx 
+project name STCubeGenerated 
+project toolchain "MDK-ARM V5" 
+project path "G:\OSAMAA\Embedded System\17-Embedded C++\Udemy - Embedded Software Development using C++\Section3 Servo motor Library Development\Servo\Servo_CubeMx\RTE\Device\STM32F401RETx\" 
+set tpl_path "C:\Users\Osama\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.17.1\MDK\CubeMX" 
+set dest_path "STM32F401RETx" 
+SetCopyLibrary  "copy as reference"
