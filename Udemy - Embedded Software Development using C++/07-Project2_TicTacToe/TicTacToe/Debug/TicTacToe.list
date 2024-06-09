@@ -1,0 +1,3638 @@
+
+TicTacToe.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000194  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         0000165c  08000194  08000194  00010194  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000220  080017f0  080017f0  000117f0  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .ARM.extab    00000000  08001a10  08001a10  00020018  2**0
+                  CONTENTS
+  4 .ARM          00000000  08001a10  08001a10  00020018  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  08001a10  08001a10  00020018  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08001a10  08001a10  00011a10  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  08001a14  08001a14  00011a14  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         00000018  20000000  08001a18  00020000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          00000074  20000018  08001a30  00020018  2**2
+                  ALLOC
+ 10 ._user_heap_stack 00000604  2000008c  08001a30  0002008c  2**0
+                  ALLOC
+ 11 .ARM.attributes 00000030  00000000  00000000  00020018  2**0
+                  CONTENTS, READONLY
+ 12 .debug_info   00004f29  00000000  00000000  00020048  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_abbrev 00001464  00000000  00000000  00024f71  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_aranges 00000470  00000000  00000000  000263d8  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .debug_ranges 000003e0  00000000  00000000  00026848  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 16 .debug_macro  000161a0  00000000  00000000  00026c28  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 17 .debug_line   00004d5a  00000000  00000000  0003cdc8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 18 .debug_str    0007e53f  00000000  00000000  00041b22  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 19 .comment      0000007b  00000000  00000000  000c0061  2**0
+                  CONTENTS, READONLY
+ 20 .debug_frame  00000f90  00000000  00000000  000c00dc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+08000194 <__do_global_dtors_aux>:
+ 8000194:	b510      	push	{r4, lr}
+ 8000196:	4c05      	ldr	r4, [pc, #20]	; (80001ac <__do_global_dtors_aux+0x18>)
+ 8000198:	7823      	ldrb	r3, [r4, #0]
+ 800019a:	b933      	cbnz	r3, 80001aa <__do_global_dtors_aux+0x16>
+ 800019c:	4b04      	ldr	r3, [pc, #16]	; (80001b0 <__do_global_dtors_aux+0x1c>)
+ 800019e:	b113      	cbz	r3, 80001a6 <__do_global_dtors_aux+0x12>
+ 80001a0:	4804      	ldr	r0, [pc, #16]	; (80001b4 <__do_global_dtors_aux+0x20>)
+ 80001a2:	f3af 8000 	nop.w
+ 80001a6:	2301      	movs	r3, #1
+ 80001a8:	7023      	strb	r3, [r4, #0]
+ 80001aa:	bd10      	pop	{r4, pc}
+ 80001ac:	20000018 	.word	0x20000018
+ 80001b0:	00000000 	.word	0x00000000
+ 80001b4:	080017d8 	.word	0x080017d8
+
+080001b8 <frame_dummy>:
+ 80001b8:	b508      	push	{r3, lr}
+ 80001ba:	4b03      	ldr	r3, [pc, #12]	; (80001c8 <frame_dummy+0x10>)
+ 80001bc:	b11b      	cbz	r3, 80001c6 <frame_dummy+0xe>
+ 80001be:	4903      	ldr	r1, [pc, #12]	; (80001cc <frame_dummy+0x14>)
+ 80001c0:	4803      	ldr	r0, [pc, #12]	; (80001d0 <frame_dummy+0x18>)
+ 80001c2:	f3af 8000 	nop.w
+ 80001c6:	bd08      	pop	{r3, pc}
+ 80001c8:	00000000 	.word	0x00000000
+ 80001cc:	2000001c 	.word	0x2000001c
+ 80001d0:	080017d8 	.word	0x080017d8
+
+080001d4 <_ZL15UpdateGameBoardR3LCDRcPA5_c>:
+
+static void UpdateGameBoard(LCD& lcd,
+										        char& pressedKey,
+										        char gameBoard[Board::numberOfRows]
+																	        [Board::numberOfCols])
+{
+ 80001d4:	b480      	push	{r7}
+ 80001d6:	b087      	sub	sp, #28
+ 80001d8:	af00      	add	r7, sp, #0
+ 80001da:	60f8      	str	r0, [r7, #12]
+ 80001dc:	60b9      	str	r1, [r7, #8]
+ 80001de:	607a      	str	r2, [r7, #4]
+	bool playerMadeAnInput = false;
+ 80001e0:	2300      	movs	r3, #0
+ 80001e2:	75fb      	strb	r3, [r7, #23]
+
+	for(uint8_t rowIndex = 0; rowIndex < Board::numberOfRows; rowIndex++)
+ 80001e4:	2300      	movs	r3, #0
+ 80001e6:	75bb      	strb	r3, [r7, #22]
+ 80001e8:	7dbb      	ldrb	r3, [r7, #22]
+ 80001ea:	2b02      	cmp	r3, #2
+ 80001ec:	d840      	bhi.n	8000270 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x9c>
+	{
+		for(uint8_t colIndex = 0; colIndex < Board::numberOfCols; colIndex++)
+ 80001ee:	2300      	movs	r3, #0
+ 80001f0:	757b      	strb	r3, [r7, #21]
+ 80001f2:	7d7b      	ldrb	r3, [r7, #21]
+ 80001f4:	2b04      	cmp	r3, #4
+ 80001f6:	d833      	bhi.n	8000260 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x8c>
+		{
+			if(pressedKey == gameBoard[rowIndex][colIndex])
+ 80001f8:	68bb      	ldr	r3, [r7, #8]
+ 80001fa:	7819      	ldrb	r1, [r3, #0]
+ 80001fc:	7dba      	ldrb	r2, [r7, #22]
+ 80001fe:	4613      	mov	r3, r2
+ 8000200:	009b      	lsls	r3, r3, #2
+ 8000202:	4413      	add	r3, r2
+ 8000204:	687a      	ldr	r2, [r7, #4]
+ 8000206:	441a      	add	r2, r3
+ 8000208:	7d7b      	ldrb	r3, [r7, #21]
+ 800020a:	5cd3      	ldrb	r3, [r2, r3]
+ 800020c:	4299      	cmp	r1, r3
+ 800020e:	d123      	bne.n	8000258 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x84>
+			{
+				switch(player)
+ 8000210:	4b1a      	ldr	r3, [pc, #104]	; (800027c <_ZL15UpdateGameBoardR3LCDRcPA5_c+0xa8>)
+ 8000212:	781b      	ldrb	r3, [r3, #0]
+ 8000214:	2b00      	cmp	r3, #0
+ 8000216:	d002      	beq.n	800021e <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x4a>
+ 8000218:	2b01      	cmp	r3, #1
+ 800021a:	d00d      	beq.n	8000238 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x64>
+ 800021c:	e019      	b.n	8000252 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x7e>
+				{
+					case PLAYER_1:
+						gameBoard[rowIndex][colIndex] = 'X';
+ 800021e:	7dba      	ldrb	r2, [r7, #22]
+ 8000220:	4613      	mov	r3, r2
+ 8000222:	009b      	lsls	r3, r3, #2
+ 8000224:	4413      	add	r3, r2
+ 8000226:	687a      	ldr	r2, [r7, #4]
+ 8000228:	441a      	add	r2, r3
+ 800022a:	7d7b      	ldrb	r3, [r7, #21]
+ 800022c:	2158      	movs	r1, #88	; 0x58
+ 800022e:	54d1      	strb	r1, [r2, r3]
+						player = PLAYER_2;
+ 8000230:	4b12      	ldr	r3, [pc, #72]	; (800027c <_ZL15UpdateGameBoardR3LCDRcPA5_c+0xa8>)
+ 8000232:	2201      	movs	r2, #1
+ 8000234:	701a      	strb	r2, [r3, #0]
+						break;
+ 8000236:	e00c      	b.n	8000252 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x7e>
+					case PLAYER_2:
+						gameBoard[rowIndex][colIndex] = 'O';
+ 8000238:	7dba      	ldrb	r2, [r7, #22]
+ 800023a:	4613      	mov	r3, r2
+ 800023c:	009b      	lsls	r3, r3, #2
+ 800023e:	4413      	add	r3, r2
+ 8000240:	687a      	ldr	r2, [r7, #4]
+ 8000242:	441a      	add	r2, r3
+ 8000244:	7d7b      	ldrb	r3, [r7, #21]
+ 8000246:	214f      	movs	r1, #79	; 0x4f
+ 8000248:	54d1      	strb	r1, [r2, r3]
+						player = PLAYER_1;
+ 800024a:	4b0c      	ldr	r3, [pc, #48]	; (800027c <_ZL15UpdateGameBoardR3LCDRcPA5_c+0xa8>)
+ 800024c:	2200      	movs	r2, #0
+ 800024e:	701a      	strb	r2, [r3, #0]
+						break;
+ 8000250:	bf00      	nop
+				}
+				playerMadeAnInput = true;
+ 8000252:	2301      	movs	r3, #1
+ 8000254:	75fb      	strb	r3, [r7, #23]
+				break; //break inner loop
+ 8000256:	e003      	b.n	8000260 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x8c>
+		for(uint8_t colIndex = 0; colIndex < Board::numberOfCols; colIndex++)
+ 8000258:	7d7b      	ldrb	r3, [r7, #21]
+ 800025a:	3301      	adds	r3, #1
+ 800025c:	757b      	strb	r3, [r7, #21]
+ 800025e:	e7c8      	b.n	80001f2 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x1e>
+			}
+		}
+		if(playerMadeAnInput)
+ 8000260:	7dfb      	ldrb	r3, [r7, #23]
+ 8000262:	2b00      	cmp	r3, #0
+ 8000264:	d103      	bne.n	800026e <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x9a>
+	for(uint8_t rowIndex = 0; rowIndex < Board::numberOfRows; rowIndex++)
+ 8000266:	7dbb      	ldrb	r3, [r7, #22]
+ 8000268:	3301      	adds	r3, #1
+ 800026a:	75bb      	strb	r3, [r7, #22]
+ 800026c:	e7bc      	b.n	80001e8 <_ZL15UpdateGameBoardR3LCDRcPA5_c+0x14>
+		{//break outer loop
+			break;
+ 800026e:	bf00      	nop
+		}
+	}	
+}
+ 8000270:	bf00      	nop
+ 8000272:	371c      	adds	r7, #28
+ 8000274:	46bd      	mov	sp, r7
+ 8000276:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800027a:	4770      	bx	lr
+ 800027c:	20000034 	.word	0x20000034
+
+08000280 <_ZL16DisplayGameBoardR3LCDPA5_c>:
+
+static void DisplayGameBoard(LCD& lcd,
+											       char gameBoard[Board::numberOfRows]
+																		       [Board::numberOfCols])
+{
+ 8000280:	b580      	push	{r7, lr}
+ 8000282:	b084      	sub	sp, #16
+ 8000284:	af00      	add	r7, sp, #0
+ 8000286:	6078      	str	r0, [r7, #4]
+ 8000288:	6039      	str	r1, [r7, #0]
+	uint8_t rowPos = 1;
+ 800028a:	2301      	movs	r3, #1
+ 800028c:	73fb      	strb	r3, [r7, #15]
+	const uint8_t startingColumnPos = 5;
+ 800028e:	2305      	movs	r3, #5
+ 8000290:	733b      	strb	r3, [r7, #12]
+	
+	for(uint8_t rowIndex = 0; rowIndex < Board::numberOfRows; rowIndex++)
+ 8000292:	2300      	movs	r3, #0
+ 8000294:	73bb      	strb	r3, [r7, #14]
+ 8000296:	7bbb      	ldrb	r3, [r7, #14]
+ 8000298:	2b02      	cmp	r3, #2
+ 800029a:	d821      	bhi.n	80002e0 <_ZL16DisplayGameBoardR3LCDPA5_c+0x60>
+	{
+		lcd.SetCursor(rowPos,startingColumnPos);
+ 800029c:	7bfb      	ldrb	r3, [r7, #15]
+ 800029e:	2205      	movs	r2, #5
+ 80002a0:	4619      	mov	r1, r3
+ 80002a2:	6878      	ldr	r0, [r7, #4]
+ 80002a4:	f000 fd7a 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+		rowPos++; //move to next row
+ 80002a8:	7bfb      	ldrb	r3, [r7, #15]
+ 80002aa:	3301      	adds	r3, #1
+ 80002ac:	73fb      	strb	r3, [r7, #15]
+		for(uint8_t colIndex = 0; colIndex < Board::numberOfCols; colIndex++)
+ 80002ae:	2300      	movs	r3, #0
+ 80002b0:	737b      	strb	r3, [r7, #13]
+ 80002b2:	7b7b      	ldrb	r3, [r7, #13]
+ 80002b4:	2b04      	cmp	r3, #4
+ 80002b6:	d80f      	bhi.n	80002d8 <_ZL16DisplayGameBoardR3LCDPA5_c+0x58>
+		{
+			lcd.Print(gameBoard[rowIndex][colIndex]);
+ 80002b8:	7bba      	ldrb	r2, [r7, #14]
+ 80002ba:	4613      	mov	r3, r2
+ 80002bc:	009b      	lsls	r3, r3, #2
+ 80002be:	4413      	add	r3, r2
+ 80002c0:	683a      	ldr	r2, [r7, #0]
+ 80002c2:	441a      	add	r2, r3
+ 80002c4:	7b7b      	ldrb	r3, [r7, #13]
+ 80002c6:	5cd3      	ldrb	r3, [r2, r3]
+ 80002c8:	4619      	mov	r1, r3
+ 80002ca:	6878      	ldr	r0, [r7, #4]
+ 80002cc:	f000 fd8e 	bl	8000dec <_ZN3LCD5PrintEc>
+		for(uint8_t colIndex = 0; colIndex < Board::numberOfCols; colIndex++)
+ 80002d0:	7b7b      	ldrb	r3, [r7, #13]
+ 80002d2:	3301      	adds	r3, #1
+ 80002d4:	737b      	strb	r3, [r7, #13]
+ 80002d6:	e7ec      	b.n	80002b2 <_ZL16DisplayGameBoardR3LCDPA5_c+0x32>
+	for(uint8_t rowIndex = 0; rowIndex < Board::numberOfRows; rowIndex++)
+ 80002d8:	7bbb      	ldrb	r3, [r7, #14]
+ 80002da:	3301      	adds	r3, #1
+ 80002dc:	73bb      	strb	r3, [r7, #14]
+ 80002de:	e7da      	b.n	8000296 <_ZL16DisplayGameBoardR3LCDPA5_c+0x16>
+		}
+	}	
+}
+ 80002e0:	bf00      	nop
+ 80002e2:	3710      	adds	r7, #16
+ 80002e4:	46bd      	mov	sp, r7
+ 80002e6:	bd80      	pop	{r7, pc}
+
+080002e8 <_ZL21CheckForHorizontalWinPA5_c>:
+
+static gameResult_t CheckForHorizontalWin(char gameBoard[Board::numberOfRows]
+																								        [Board::numberOfCols])
+{
+ 80002e8:	b480      	push	{r7}
+ 80002ea:	b087      	sub	sp, #28
+ 80002ec:	af00      	add	r7, sp, #0
+ 80002ee:	6078      	str	r0, [r7, #4]
+	gameResult_t result = {0};
+ 80002f0:	2300      	movs	r3, #0
+ 80002f2:	81bb      	strh	r3, [r7, #12]
+	char startOfRow;
+	uint8_t numberOfMatchingPlayerInputs = 0; 
+ 80002f4:	2300      	movs	r3, #0
+ 80002f6:	75fb      	strb	r3, [r7, #23]
+	
+	for(uint8_t rowIndex = 0; rowIndex < Board::numberOfRows; rowIndex++)
+ 80002f8:	2300      	movs	r3, #0
+ 80002fa:	75bb      	strb	r3, [r7, #22]
+ 80002fc:	7dbb      	ldrb	r3, [r7, #22]
+ 80002fe:	2b02      	cmp	r3, #2
+ 8000300:	d82e      	bhi.n	8000360 <_ZL21CheckForHorizontalWinPA5_c+0x78>
+	{
+		startOfRow = gameBoard[rowIndex][0];
+ 8000302:	7dba      	ldrb	r2, [r7, #22]
+ 8000304:	4613      	mov	r3, r2
+ 8000306:	009b      	lsls	r3, r3, #2
+ 8000308:	4413      	add	r3, r2
+ 800030a:	687a      	ldr	r2, [r7, #4]
+ 800030c:	4413      	add	r3, r2
+ 800030e:	781b      	ldrb	r3, [r3, #0]
+ 8000310:	753b      	strb	r3, [r7, #20]
+		for(uint8_t colIndex = 2; colIndex < Board::numberOfCols; colIndex+=2)
+ 8000312:	2302      	movs	r3, #2
+ 8000314:	757b      	strb	r3, [r7, #21]
+ 8000316:	7d7b      	ldrb	r3, [r7, #21]
+ 8000318:	2b04      	cmp	r3, #4
+ 800031a:	d811      	bhi.n	8000340 <_ZL21CheckForHorizontalWinPA5_c+0x58>
+		{
+			if(startOfRow == gameBoard[rowIndex][colIndex])
+ 800031c:	7dba      	ldrb	r2, [r7, #22]
+ 800031e:	4613      	mov	r3, r2
+ 8000320:	009b      	lsls	r3, r3, #2
+ 8000322:	4413      	add	r3, r2
+ 8000324:	687a      	ldr	r2, [r7, #4]
+ 8000326:	441a      	add	r2, r3
+ 8000328:	7d7b      	ldrb	r3, [r7, #21]
+ 800032a:	5cd3      	ldrb	r3, [r2, r3]
+ 800032c:	7d3a      	ldrb	r2, [r7, #20]
+ 800032e:	429a      	cmp	r2, r3
+ 8000330:	d102      	bne.n	8000338 <_ZL21CheckForHorizontalWinPA5_c+0x50>
+			{
+				numberOfMatchingPlayerInputs++;
+ 8000332:	7dfb      	ldrb	r3, [r7, #23]
+ 8000334:	3301      	adds	r3, #1
+ 8000336:	75fb      	strb	r3, [r7, #23]
+		for(uint8_t colIndex = 2; colIndex < Board::numberOfCols; colIndex+=2)
+ 8000338:	7d7b      	ldrb	r3, [r7, #21]
+ 800033a:	3302      	adds	r3, #2
+ 800033c:	757b      	strb	r3, [r7, #21]
+ 800033e:	e7ea      	b.n	8000316 <_ZL21CheckForHorizontalWinPA5_c+0x2e>
+			}
+		}
+		if(numberOfMatchingPlayerInputs == 2)
+ 8000340:	7dfb      	ldrb	r3, [r7, #23]
+ 8000342:	2b02      	cmp	r3, #2
+ 8000344:	d106      	bne.n	8000354 <_ZL21CheckForHorizontalWinPA5_c+0x6c>
+		{
+			result.winDetected = true;
+ 8000346:	2301      	movs	r3, #1
+ 8000348:	733b      	strb	r3, [r7, #12]
+			result.winner = startOfRow;
+ 800034a:	7d3b      	ldrb	r3, [r7, #20]
+ 800034c:	737b      	strb	r3, [r7, #13]
+			return result;
+ 800034e:	89bb      	ldrh	r3, [r7, #12]
+ 8000350:	823b      	strh	r3, [r7, #16]
+ 8000352:	e007      	b.n	8000364 <_ZL21CheckForHorizontalWinPA5_c+0x7c>
+		}
+		else
+		{
+			numberOfMatchingPlayerInputs = 0;
+ 8000354:	2300      	movs	r3, #0
+ 8000356:	75fb      	strb	r3, [r7, #23]
+	for(uint8_t rowIndex = 0; rowIndex < Board::numberOfRows; rowIndex++)
+ 8000358:	7dbb      	ldrb	r3, [r7, #22]
+ 800035a:	3301      	adds	r3, #1
+ 800035c:	75bb      	strb	r3, [r7, #22]
+ 800035e:	e7cd      	b.n	80002fc <_ZL21CheckForHorizontalWinPA5_c+0x14>
+		}
+	}
+	return result;
+ 8000360:	89bb      	ldrh	r3, [r7, #12]
+ 8000362:	823b      	strh	r3, [r7, #16]
+ 8000364:	2300      	movs	r3, #0
+ 8000366:	7c3a      	ldrb	r2, [r7, #16]
+ 8000368:	f362 0307 	bfi	r3, r2, #0, #8
+ 800036c:	7c7a      	ldrb	r2, [r7, #17]
+ 800036e:	f362 230f 	bfi	r3, r2, #8, #8
+}
+ 8000372:	4618      	mov	r0, r3
+ 8000374:	371c      	adds	r7, #28
+ 8000376:	46bd      	mov	sp, r7
+ 8000378:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800037c:	4770      	bx	lr
+
+0800037e <_ZL19CheckForVerticalWinPA5_c>:
+
+static gameResult_t CheckForVerticalWin(char gameBoard[Board::numberOfRows]
+																							        [Board::numberOfCols])
+{
+ 800037e:	b480      	push	{r7}
+ 8000380:	b087      	sub	sp, #28
+ 8000382:	af00      	add	r7, sp, #0
+ 8000384:	6078      	str	r0, [r7, #4]
+	gameResult_t result = {0};
+ 8000386:	2300      	movs	r3, #0
+ 8000388:	81bb      	strh	r3, [r7, #12]
+	char startOfColumn;
+	uint8_t numberOfMatchingPlayerInputs = 0;
+ 800038a:	2300      	movs	r3, #0
+ 800038c:	75fb      	strb	r3, [r7, #23]
+	
+	for(uint8_t colIndex = 0; colIndex < Board::numberOfCols; colIndex+=2)
+ 800038e:	2300      	movs	r3, #0
+ 8000390:	75bb      	strb	r3, [r7, #22]
+ 8000392:	7dbb      	ldrb	r3, [r7, #22]
+ 8000394:	2b04      	cmp	r3, #4
+ 8000396:	d82a      	bhi.n	80003ee <_ZL19CheckForVerticalWinPA5_c+0x70>
+	{
+		startOfColumn = gameBoard[0][colIndex];
+ 8000398:	7dbb      	ldrb	r3, [r7, #22]
+ 800039a:	687a      	ldr	r2, [r7, #4]
+ 800039c:	5cd3      	ldrb	r3, [r2, r3]
+ 800039e:	753b      	strb	r3, [r7, #20]
+		for(uint8_t rowIndex = 1; rowIndex < Board::numberOfRows; rowIndex++)
+ 80003a0:	2301      	movs	r3, #1
+ 80003a2:	757b      	strb	r3, [r7, #21]
+ 80003a4:	7d7b      	ldrb	r3, [r7, #21]
+ 80003a6:	2b02      	cmp	r3, #2
+ 80003a8:	d811      	bhi.n	80003ce <_ZL19CheckForVerticalWinPA5_c+0x50>
+		{
+			if(startOfColumn == gameBoard[rowIndex][colIndex])
+ 80003aa:	7d7a      	ldrb	r2, [r7, #21]
+ 80003ac:	4613      	mov	r3, r2
+ 80003ae:	009b      	lsls	r3, r3, #2
+ 80003b0:	4413      	add	r3, r2
+ 80003b2:	687a      	ldr	r2, [r7, #4]
+ 80003b4:	441a      	add	r2, r3
+ 80003b6:	7dbb      	ldrb	r3, [r7, #22]
+ 80003b8:	5cd3      	ldrb	r3, [r2, r3]
+ 80003ba:	7d3a      	ldrb	r2, [r7, #20]
+ 80003bc:	429a      	cmp	r2, r3
+ 80003be:	d102      	bne.n	80003c6 <_ZL19CheckForVerticalWinPA5_c+0x48>
+			{
+				numberOfMatchingPlayerInputs++;
+ 80003c0:	7dfb      	ldrb	r3, [r7, #23]
+ 80003c2:	3301      	adds	r3, #1
+ 80003c4:	75fb      	strb	r3, [r7, #23]
+		for(uint8_t rowIndex = 1; rowIndex < Board::numberOfRows; rowIndex++)
+ 80003c6:	7d7b      	ldrb	r3, [r7, #21]
+ 80003c8:	3301      	adds	r3, #1
+ 80003ca:	757b      	strb	r3, [r7, #21]
+ 80003cc:	e7ea      	b.n	80003a4 <_ZL19CheckForVerticalWinPA5_c+0x26>
+			}
+		}
+		if(numberOfMatchingPlayerInputs == 2)
+ 80003ce:	7dfb      	ldrb	r3, [r7, #23]
+ 80003d0:	2b02      	cmp	r3, #2
+ 80003d2:	d106      	bne.n	80003e2 <_ZL19CheckForVerticalWinPA5_c+0x64>
+		{
+			result.winDetected = true;
+ 80003d4:	2301      	movs	r3, #1
+ 80003d6:	733b      	strb	r3, [r7, #12]
+			result.winner = startOfColumn;
+ 80003d8:	7d3b      	ldrb	r3, [r7, #20]
+ 80003da:	737b      	strb	r3, [r7, #13]
+			return result;
+ 80003dc:	89bb      	ldrh	r3, [r7, #12]
+ 80003de:	823b      	strh	r3, [r7, #16]
+ 80003e0:	e007      	b.n	80003f2 <_ZL19CheckForVerticalWinPA5_c+0x74>
+		}
+		else
+		{
+			numberOfMatchingPlayerInputs = 0;
+ 80003e2:	2300      	movs	r3, #0
+ 80003e4:	75fb      	strb	r3, [r7, #23]
+	for(uint8_t colIndex = 0; colIndex < Board::numberOfCols; colIndex+=2)
+ 80003e6:	7dbb      	ldrb	r3, [r7, #22]
+ 80003e8:	3302      	adds	r3, #2
+ 80003ea:	75bb      	strb	r3, [r7, #22]
+ 80003ec:	e7d1      	b.n	8000392 <_ZL19CheckForVerticalWinPA5_c+0x14>
+		}
+	}
+	return result;	
+ 80003ee:	89bb      	ldrh	r3, [r7, #12]
+ 80003f0:	823b      	strh	r3, [r7, #16]
+ 80003f2:	2300      	movs	r3, #0
+ 80003f4:	7c3a      	ldrb	r2, [r7, #16]
+ 80003f6:	f362 0307 	bfi	r3, r2, #0, #8
+ 80003fa:	7c7a      	ldrb	r2, [r7, #17]
+ 80003fc:	f362 230f 	bfi	r3, r2, #8, #8
+}
+ 8000400:	4618      	mov	r0, r3
+ 8000402:	371c      	adds	r7, #28
+ 8000404:	46bd      	mov	sp, r7
+ 8000406:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800040a:	4770      	bx	lr
+
+0800040c <_ZL19CheckForDiagonalWinPA5_c>:
+
+static gameResult_t CheckForDiagonalWin(char gameBoard[Board::numberOfRows]
+																							        [Board::numberOfCols])
+{
+ 800040c:	b480      	push	{r7}
+ 800040e:	b085      	sub	sp, #20
+ 8000410:	af00      	add	r7, sp, #0
+ 8000412:	6078      	str	r0, [r7, #4]
+	gameResult_t result = {0};
+ 8000414:	2300      	movs	r3, #0
+ 8000416:	813b      	strh	r3, [r7, #8]
+	//Back slash diagonal
+	if((gameBoard[0][0] == gameBoard[1][2])&&(gameBoard[0][0] == gameBoard[2][4]))
+ 8000418:	687b      	ldr	r3, [r7, #4]
+ 800041a:	781a      	ldrb	r2, [r3, #0]
+ 800041c:	687b      	ldr	r3, [r7, #4]
+ 800041e:	3305      	adds	r3, #5
+ 8000420:	789b      	ldrb	r3, [r3, #2]
+ 8000422:	429a      	cmp	r2, r3
+ 8000424:	d10e      	bne.n	8000444 <_ZL19CheckForDiagonalWinPA5_c+0x38>
+ 8000426:	687b      	ldr	r3, [r7, #4]
+ 8000428:	781a      	ldrb	r2, [r3, #0]
+ 800042a:	687b      	ldr	r3, [r7, #4]
+ 800042c:	330a      	adds	r3, #10
+ 800042e:	791b      	ldrb	r3, [r3, #4]
+ 8000430:	429a      	cmp	r2, r3
+ 8000432:	d107      	bne.n	8000444 <_ZL19CheckForDiagonalWinPA5_c+0x38>
+	{
+		result.winDetected = true;
+ 8000434:	2301      	movs	r3, #1
+ 8000436:	723b      	strb	r3, [r7, #8]
+		result.winner = gameBoard[0][0];
+ 8000438:	687b      	ldr	r3, [r7, #4]
+ 800043a:	781b      	ldrb	r3, [r3, #0]
+ 800043c:	727b      	strb	r3, [r7, #9]
+		return result;
+ 800043e:	893b      	ldrh	r3, [r7, #8]
+ 8000440:	81bb      	strh	r3, [r7, #12]
+ 8000442:	e017      	b.n	8000474 <_ZL19CheckForDiagonalWinPA5_c+0x68>
+	}
+	//Forward slash diagonal
+	if((gameBoard[0][4] == gameBoard[1][2])&&(gameBoard[0][4] == gameBoard[2][0]))
+ 8000444:	687b      	ldr	r3, [r7, #4]
+ 8000446:	791a      	ldrb	r2, [r3, #4]
+ 8000448:	687b      	ldr	r3, [r7, #4]
+ 800044a:	3305      	adds	r3, #5
+ 800044c:	789b      	ldrb	r3, [r3, #2]
+ 800044e:	429a      	cmp	r2, r3
+ 8000450:	d10e      	bne.n	8000470 <_ZL19CheckForDiagonalWinPA5_c+0x64>
+ 8000452:	687b      	ldr	r3, [r7, #4]
+ 8000454:	791a      	ldrb	r2, [r3, #4]
+ 8000456:	687b      	ldr	r3, [r7, #4]
+ 8000458:	330a      	adds	r3, #10
+ 800045a:	781b      	ldrb	r3, [r3, #0]
+ 800045c:	429a      	cmp	r2, r3
+ 800045e:	d107      	bne.n	8000470 <_ZL19CheckForDiagonalWinPA5_c+0x64>
+	{
+		result.winDetected = true;
+ 8000460:	2301      	movs	r3, #1
+ 8000462:	723b      	strb	r3, [r7, #8]
+		result.winner = gameBoard[0][4];
+ 8000464:	687b      	ldr	r3, [r7, #4]
+ 8000466:	791b      	ldrb	r3, [r3, #4]
+ 8000468:	727b      	strb	r3, [r7, #9]
+		return result;
+ 800046a:	893b      	ldrh	r3, [r7, #8]
+ 800046c:	81bb      	strh	r3, [r7, #12]
+ 800046e:	e001      	b.n	8000474 <_ZL19CheckForDiagonalWinPA5_c+0x68>
+	}
+	return result;
+ 8000470:	893b      	ldrh	r3, [r7, #8]
+ 8000472:	81bb      	strh	r3, [r7, #12]
+ 8000474:	2300      	movs	r3, #0
+ 8000476:	7b3a      	ldrb	r2, [r7, #12]
+ 8000478:	f362 0307 	bfi	r3, r2, #0, #8
+ 800047c:	7b7a      	ldrb	r2, [r7, #13]
+ 800047e:	f362 230f 	bfi	r3, r2, #8, #8
+}
+ 8000482:	4618      	mov	r0, r3
+ 8000484:	3714      	adds	r7, #20
+ 8000486:	46bd      	mov	sp, r7
+ 8000488:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800048c:	4770      	bx	lr
+	...
+
+08000490 <_Z17Game_DisplayIntroR3LCD>:
+
+//Extern functions
+void Game_DisplayIntro(LCD& lcd)
+{
+ 8000490:	b580      	push	{r7, lr}
+ 8000492:	b082      	sub	sp, #8
+ 8000494:	af00      	add	r7, sp, #0
+ 8000496:	6078      	str	r0, [r7, #4]
+	lcd.Clear();
+ 8000498:	6878      	ldr	r0, [r7, #4]
+ 800049a:	f000 fcc4 	bl	8000e26 <_ZN3LCD5ClearEv>
+	lcd.SetCursor(0,1);
+ 800049e:	2201      	movs	r2, #1
+ 80004a0:	2100      	movs	r1, #0
+ 80004a2:	6878      	ldr	r0, [r7, #4]
+ 80004a4:	f000 fc7a 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("|   WELCOME      |");
+ 80004a8:	4911      	ldr	r1, [pc, #68]	; (80004f0 <_Z17Game_DisplayIntroR3LCD+0x60>)
+ 80004aa:	6878      	ldr	r0, [r7, #4]
+ 80004ac:	f000 fcae 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(1,1);
+ 80004b0:	2201      	movs	r2, #1
+ 80004b2:	2101      	movs	r1, #1
+ 80004b4:	6878      	ldr	r0, [r7, #4]
+ 80004b6:	f000 fc71 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("|   TO THE       |");
+ 80004ba:	490e      	ldr	r1, [pc, #56]	; (80004f4 <_Z17Game_DisplayIntroR3LCD+0x64>)
+ 80004bc:	6878      	ldr	r0, [r7, #4]
+ 80004be:	f000 fca5 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(2,1);
+ 80004c2:	2201      	movs	r2, #1
+ 80004c4:	2102      	movs	r1, #2
+ 80004c6:	6878      	ldr	r0, [r7, #4]
+ 80004c8:	f000 fc68 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("|   TIC TAC TOE  |");
+ 80004cc:	490a      	ldr	r1, [pc, #40]	; (80004f8 <_Z17Game_DisplayIntroR3LCD+0x68>)
+ 80004ce:	6878      	ldr	r0, [r7, #4]
+ 80004d0:	f000 fc9c 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(3,1);
+ 80004d4:	2201      	movs	r2, #1
+ 80004d6:	2103      	movs	r1, #3
+ 80004d8:	6878      	ldr	r0, [r7, #4]
+ 80004da:	f000 fc5f 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("|   TOURNAMENT   |");		
+ 80004de:	4907      	ldr	r1, [pc, #28]	; (80004fc <_Z17Game_DisplayIntroR3LCD+0x6c>)
+ 80004e0:	6878      	ldr	r0, [r7, #4]
+ 80004e2:	f000 fc93 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+}
+ 80004e6:	bf00      	nop
+ 80004e8:	3708      	adds	r7, #8
+ 80004ea:	46bd      	mov	sp, r7
+ 80004ec:	bd80      	pop	{r7, pc}
+ 80004ee:	bf00      	nop
+ 80004f0:	080017f0 	.word	0x080017f0
+ 80004f4:	08001804 	.word	0x08001804
+ 80004f8:	08001818 	.word	0x08001818
+ 80004fc:	0800182c 	.word	0x0800182c
+
+08000500 <_Z16Game_DisplayMenuR3LCD>:
+
+void Game_DisplayMenu(LCD& lcd)
+{
+ 8000500:	b580      	push	{r7, lr}
+ 8000502:	b082      	sub	sp, #8
+ 8000504:	af00      	add	r7, sp, #0
+ 8000506:	6078      	str	r0, [r7, #4]
+	lcd.Clear();
+ 8000508:	6878      	ldr	r0, [r7, #4]
+ 800050a:	f000 fc8c 	bl	8000e26 <_ZN3LCD5ClearEv>
+	lcd.SetCursor(0,4);
+ 800050e:	2204      	movs	r2, #4
+ 8000510:	2100      	movs	r1, #0
+ 8000512:	6878      	ldr	r0, [r7, #4]
+ 8000514:	f000 fc42 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("Game Menu");
+ 8000518:	4911      	ldr	r1, [pc, #68]	; (8000560 <_Z16Game_DisplayMenuR3LCD+0x60>)
+ 800051a:	6878      	ldr	r0, [r7, #4]
+ 800051c:	f000 fc76 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(1,0);
+ 8000520:	2200      	movs	r2, #0
+ 8000522:	2101      	movs	r1, #1
+ 8000524:	6878      	ldr	r0, [r7, #4]
+ 8000526:	f000 fc39 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("1|2|3   A:Start");
+ 800052a:	490e      	ldr	r1, [pc, #56]	; (8000564 <_Z16Game_DisplayMenuR3LCD+0x64>)
+ 800052c:	6878      	ldr	r0, [r7, #4]
+ 800052e:	f000 fc6d 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(2,0);
+ 8000532:	2200      	movs	r2, #0
+ 8000534:	2102      	movs	r1, #2
+ 8000536:	6878      	ldr	r0, [r7, #4]
+ 8000538:	f000 fc30 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("4|5|6   B:Back/Exit");
+ 800053c:	490a      	ldr	r1, [pc, #40]	; (8000568 <_Z16Game_DisplayMenuR3LCD+0x68>)
+ 800053e:	6878      	ldr	r0, [r7, #4]
+ 8000540:	f000 fc64 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(3,0);
+ 8000544:	2200      	movs	r2, #0
+ 8000546:	2103      	movs	r1, #3
+ 8000548:	6878      	ldr	r0, [r7, #4]
+ 800054a:	f000 fc27 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("7|8|9   #:Rules");	
+ 800054e:	4907      	ldr	r1, [pc, #28]	; (800056c <_Z16Game_DisplayMenuR3LCD+0x6c>)
+ 8000550:	6878      	ldr	r0, [r7, #4]
+ 8000552:	f000 fc5b 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+}
+ 8000556:	bf00      	nop
+ 8000558:	3708      	adds	r7, #8
+ 800055a:	46bd      	mov	sp, r7
+ 800055c:	bd80      	pop	{r7, pc}
+ 800055e:	bf00      	nop
+ 8000560:	08001840 	.word	0x08001840
+ 8000564:	0800184c 	.word	0x0800184c
+ 8000568:	0800185c 	.word	0x0800185c
+ 800056c:	08001870 	.word	0x08001870
+
+08000570 <_Z17Game_DisplayRulesR3LCD>:
+
+void Game_DisplayRules(LCD& lcd)
+{
+ 8000570:	b580      	push	{r7, lr}
+ 8000572:	b082      	sub	sp, #8
+ 8000574:	af00      	add	r7, sp, #0
+ 8000576:	6078      	str	r0, [r7, #4]
+	lcd.Clear();
+ 8000578:	6878      	ldr	r0, [r7, #4]
+ 800057a:	f000 fc54 	bl	8000e26 <_ZN3LCD5ClearEv>
+	lcd.SetCursor(0,4);
+ 800057e:	2204      	movs	r2, #4
+ 8000580:	2100      	movs	r1, #0
+ 8000582:	6878      	ldr	r0, [r7, #4]
+ 8000584:	f000 fc0a 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("Rule(1/2)");
+ 8000588:	4926      	ldr	r1, [pc, #152]	; (8000624 <_Z17Game_DisplayRulesR3LCD+0xb4>)
+ 800058a:	6878      	ldr	r0, [r7, #4]
+ 800058c:	f000 fc3e 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(1,0);
+ 8000590:	2200      	movs	r2, #0
+ 8000592:	2101      	movs	r1, #1
+ 8000594:	6878      	ldr	r0, [r7, #4]
+ 8000596:	f000 fc01 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("Press the numbers");
+ 800059a:	4923      	ldr	r1, [pc, #140]	; (8000628 <_Z17Game_DisplayRulesR3LCD+0xb8>)
+ 800059c:	6878      	ldr	r0, [r7, #4]
+ 800059e:	f000 fc35 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(2,0);
+ 80005a2:	2200      	movs	r2, #0
+ 80005a4:	2102      	movs	r1, #2
+ 80005a6:	6878      	ldr	r0, [r7, #4]
+ 80005a8:	f000 fbf8 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("to place X or O to");
+ 80005ac:	491f      	ldr	r1, [pc, #124]	; (800062c <_Z17Game_DisplayRulesR3LCD+0xbc>)
+ 80005ae:	6878      	ldr	r0, [r7, #4]
+ 80005b0:	f000 fc2c 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(3,0);
+ 80005b4:	2200      	movs	r2, #0
+ 80005b6:	2103      	movs	r1, #3
+ 80005b8:	6878      	ldr	r0, [r7, #4]
+ 80005ba:	f000 fbef 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("the game board");
+ 80005be:	491c      	ldr	r1, [pc, #112]	; (8000630 <_Z17Game_DisplayRulesR3LCD+0xc0>)
+ 80005c0:	6878      	ldr	r0, [r7, #4]
+ 80005c2:	f000 fc23 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	HAL_Delay(1500);
+ 80005c6:	f240 50dc 	movw	r0, #1500	; 0x5dc
+ 80005ca:	f000 fe1d 	bl	8001208 <HAL_Delay>
+	lcd.Clear();
+ 80005ce:	6878      	ldr	r0, [r7, #4]
+ 80005d0:	f000 fc29 	bl	8000e26 <_ZN3LCD5ClearEv>
+	lcd.SetCursor(0,4);
+ 80005d4:	2204      	movs	r2, #4
+ 80005d6:	2100      	movs	r1, #0
+ 80005d8:	6878      	ldr	r0, [r7, #4]
+ 80005da:	f000 fbdf 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("Rule(2/2)");
+ 80005de:	4915      	ldr	r1, [pc, #84]	; (8000634 <_Z17Game_DisplayRulesR3LCD+0xc4>)
+ 80005e0:	6878      	ldr	r0, [r7, #4]
+ 80005e2:	f000 fc13 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(1,0);
+ 80005e6:	2200      	movs	r2, #0
+ 80005e8:	2101      	movs	r1, #1
+ 80005ea:	6878      	ldr	r0, [r7, #4]
+ 80005ec:	f000 fbd6 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("X is to player 1");
+ 80005f0:	4911      	ldr	r1, [pc, #68]	; (8000638 <_Z17Game_DisplayRulesR3LCD+0xc8>)
+ 80005f2:	6878      	ldr	r0, [r7, #4]
+ 80005f4:	f000 fc0a 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(2,0);
+ 80005f8:	2200      	movs	r2, #0
+ 80005fa:	2102      	movs	r1, #2
+ 80005fc:	6878      	ldr	r0, [r7, #4]
+ 80005fe:	f000 fbcd 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("O is to player 2");
+ 8000602:	490e      	ldr	r1, [pc, #56]	; (800063c <_Z17Game_DisplayRulesR3LCD+0xcc>)
+ 8000604:	6878      	ldr	r0, [r7, #4]
+ 8000606:	f000 fc01 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+	lcd.SetCursor(3,0);
+ 800060a:	2200      	movs	r2, #0
+ 800060c:	2103      	movs	r1, #3
+ 800060e:	6878      	ldr	r0, [r7, #4]
+ 8000610:	f000 fbc4 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("Players take turns");
+ 8000614:	490a      	ldr	r1, [pc, #40]	; (8000640 <_Z17Game_DisplayRulesR3LCD+0xd0>)
+ 8000616:	6878      	ldr	r0, [r7, #4]
+ 8000618:	f000 fbf8 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+}
+ 800061c:	bf00      	nop
+ 800061e:	3708      	adds	r7, #8
+ 8000620:	46bd      	mov	sp, r7
+ 8000622:	bd80      	pop	{r7, pc}
+ 8000624:	08001880 	.word	0x08001880
+ 8000628:	0800188c 	.word	0x0800188c
+ 800062c:	080018a0 	.word	0x080018a0
+ 8000630:	080018b4 	.word	0x080018b4
+ 8000634:	080018c4 	.word	0x080018c4
+ 8000638:	080018d0 	.word	0x080018d0
+ 800063c:	080018e4 	.word	0x080018e4
+ 8000640:	080018f8 	.word	0x080018f8
+
+08000644 <_Z10Game_StartR3LCDR6Keypad>:
+
+void Game_Start(LCD& lcd,Keypad& keypad)
+{
+ 8000644:	b590      	push	{r4, r7, lr}
+ 8000646:	b089      	sub	sp, #36	; 0x24
+ 8000648:	af00      	add	r7, sp, #0
+ 800064a:	6078      	str	r0, [r7, #4]
+ 800064c:	6039      	str	r1, [r7, #0]
+	lcd.Clear();
+ 800064e:	6878      	ldr	r0, [r7, #4]
+ 8000650:	f000 fbe9 	bl	8000e26 <_ZN3LCD5ClearEv>
+	lcd.SetCursor(0,3);
+ 8000654:	2203      	movs	r2, #3
+ 8000656:	2100      	movs	r1, #0
+ 8000658:	6878      	ldr	r0, [r7, #4]
+ 800065a:	f000 fb9f 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+	lcd.Print("TIC TAC TOE");
+ 800065e:	492c      	ldr	r1, [pc, #176]	; (8000710 <_Z10Game_StartR3LCDR6Keypad+0xcc>)
+ 8000660:	6878      	ldr	r0, [r7, #4]
+ 8000662:	f000 fbd3 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+
+	char gameBoard[Board::numberOfRows][Board::numberOfCols] = 
+ 8000666:	4b2b      	ldr	r3, [pc, #172]	; (8000714 <_Z10Game_StartR3LCDR6Keypad+0xd0>)
+ 8000668:	f107 0410 	add.w	r4, r7, #16
+ 800066c:	cb0f      	ldmia	r3, {r0, r1, r2, r3}
+ 800066e:	c407      	stmia	r4!, {r0, r1, r2}
+ 8000670:	8023      	strh	r3, [r4, #0]
+ 8000672:	3402      	adds	r4, #2
+ 8000674:	0c1b      	lsrs	r3, r3, #16
+ 8000676:	7023      	strb	r3, [r4, #0]
+		CheckForDiagonalWin
+	};
+	
+	while(1)
+	{//Game loop
+		DisplayGameBoard(lcd,gameBoard);
+ 8000678:	f107 0310 	add.w	r3, r7, #16
+ 800067c:	4619      	mov	r1, r3
+ 800067e:	6878      	ldr	r0, [r7, #4]
+ 8000680:	f7ff fdfe 	bl	8000280 <_ZL16DisplayGameBoardR3LCDPA5_c>
+		char pressedKey = keypad.GetCharShortPress();
+ 8000684:	6838      	ldr	r0, [r7, #0]
+ 8000686:	f000 f993 	bl	80009b0 <_ZN6Keypad17GetCharShortPressEv>
+ 800068a:	4603      	mov	r3, r0
+ 800068c:	73fb      	strb	r3, [r7, #15]
+		
+		if(pressedKey == 'B')
+ 800068e:	7bfb      	ldrb	r3, [r7, #15]
+ 8000690:	2b42      	cmp	r3, #66	; 0x42
+ 8000692:	d106      	bne.n	80006a2 <_Z10Game_StartR3LCDR6Keypad+0x5e>
+		{ //Exit game
+			Game_DisplayMenu(lcd);
+ 8000694:	6878      	ldr	r0, [r7, #4]
+ 8000696:	f7ff ff33 	bl	8000500 <_Z16Game_DisplayMenuR3LCD>
+			player = PLAYER_1; //return first player status to player 1
+ 800069a:	4b1f      	ldr	r3, [pc, #124]	; (8000718 <_Z10Game_StartR3LCDR6Keypad+0xd4>)
+ 800069c:	2200      	movs	r2, #0
+ 800069e:	701a      	strb	r2, [r3, #0]
+					break;
+				}
+			}
+		}
+	}
+}
+ 80006a0:	e033      	b.n	800070a <_Z10Game_StartR3LCDR6Keypad+0xc6>
+		UpdateGameBoard(lcd,pressedKey,gameBoard);
+ 80006a2:	f107 0210 	add.w	r2, r7, #16
+ 80006a6:	f107 030f 	add.w	r3, r7, #15
+ 80006aa:	4619      	mov	r1, r3
+ 80006ac:	6878      	ldr	r0, [r7, #4]
+ 80006ae:	f7ff fd91 	bl	80001d4 <_ZL15UpdateGameBoardR3LCDRcPA5_c>
+		for(uint8_t i = 0; i < 3; i++)
+ 80006b2:	2300      	movs	r3, #0
+ 80006b4:	77fb      	strb	r3, [r7, #31]
+ 80006b6:	7ffb      	ldrb	r3, [r7, #31]
+ 80006b8:	2b02      	cmp	r3, #2
+ 80006ba:	d8dd      	bhi.n	8000678 <_Z10Game_StartR3LCDR6Keypad+0x34>
+			gameResult_t result = CheckWin[i](gameBoard);
+ 80006bc:	7ffb      	ldrb	r3, [r7, #31]
+ 80006be:	4a17      	ldr	r2, [pc, #92]	; (800071c <_Z10Game_StartR3LCDR6Keypad+0xd8>)
+ 80006c0:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 80006c4:	f107 0210 	add.w	r2, r7, #16
+ 80006c8:	4610      	mov	r0, r2
+ 80006ca:	4798      	blx	r3
+ 80006cc:	4603      	mov	r3, r0
+ 80006ce:	81bb      	strh	r3, [r7, #12]
+			if(result.winDetected)
+ 80006d0:	7b3b      	ldrb	r3, [r7, #12]
+ 80006d2:	2b00      	cmp	r3, #0
+ 80006d4:	d014      	beq.n	8000700 <_Z10Game_StartR3LCDR6Keypad+0xbc>
+				lcd.SetCursor(1,13);
+ 80006d6:	220d      	movs	r2, #13
+ 80006d8:	2101      	movs	r1, #1
+ 80006da:	6878      	ldr	r0, [r7, #4]
+ 80006dc:	f000 fb5e 	bl	8000d9c <_ZN3LCD9SetCursorEhh>
+				if(result.winner == 'X')
+ 80006e0:	7b7b      	ldrb	r3, [r7, #13]
+ 80006e2:	2b58      	cmp	r3, #88	; 0x58
+ 80006e4:	d104      	bne.n	80006f0 <_Z10Game_StartR3LCDR6Keypad+0xac>
+					lcd.Print("P1 wins");
+ 80006e6:	490e      	ldr	r1, [pc, #56]	; (8000720 <_Z10Game_StartR3LCDR6Keypad+0xdc>)
+ 80006e8:	6878      	ldr	r0, [r7, #4]
+ 80006ea:	f000 fb8f 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+					break;
+ 80006ee:	e00b      	b.n	8000708 <_Z10Game_StartR3LCDR6Keypad+0xc4>
+				else if(result.winner == 'O')
+ 80006f0:	7b7b      	ldrb	r3, [r7, #13]
+ 80006f2:	2b4f      	cmp	r3, #79	; 0x4f
+ 80006f4:	d104      	bne.n	8000700 <_Z10Game_StartR3LCDR6Keypad+0xbc>
+					lcd.Print("P2 wins");
+ 80006f6:	490b      	ldr	r1, [pc, #44]	; (8000724 <_Z10Game_StartR3LCDR6Keypad+0xe0>)
+ 80006f8:	6878      	ldr	r0, [r7, #4]
+ 80006fa:	f000 fb87 	bl	8000e0c <_ZN3LCD5PrintEPKc>
+					break;
+ 80006fe:	e003      	b.n	8000708 <_Z10Game_StartR3LCDR6Keypad+0xc4>
+		for(uint8_t i = 0; i < 3; i++)
+ 8000700:	7ffb      	ldrb	r3, [r7, #31]
+ 8000702:	3301      	adds	r3, #1
+ 8000704:	77fb      	strb	r3, [r7, #31]
+ 8000706:	e7d6      	b.n	80006b6 <_Z10Game_StartR3LCDR6Keypad+0x72>
+	}
+ 8000708:	e7b6      	b.n	8000678 <_Z10Game_StartR3LCDR6Keypad+0x34>
+}
+ 800070a:	3724      	adds	r7, #36	; 0x24
+ 800070c:	46bd      	mov	sp, r7
+ 800070e:	bd90      	pop	{r4, r7, pc}
+ 8000710:	0800190c 	.word	0x0800190c
+ 8000714:	08001928 	.word	0x08001928
+ 8000718:	20000034 	.word	0x20000034
+ 800071c:	20000000 	.word	0x20000000
+ 8000720:	08001918 	.word	0x08001918
+ 8000724:	08001920 	.word	0x08001920
+
+08000728 <_ZN6Keypad9SelectRowEh>:
+ {'4','5','6','B'},
+ {'1','2','3','C'},
+ {'*','0','=','D'}};
+
+void Keypad::SelectRow(uint8_t pinIndex) 
+{
+ 8000728:	b580      	push	{r7, lr}
+ 800072a:	b084      	sub	sp, #16
+ 800072c:	af00      	add	r7, sp, #0
+ 800072e:	6078      	str	r0, [r7, #4]
+ 8000730:	460b      	mov	r3, r1
+ 8000732:	70fb      	strb	r3, [r7, #3]
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 8000734:	2300      	movs	r3, #0
+ 8000736:	73fb      	strb	r3, [r7, #15]
+ 8000738:	7bfb      	ldrb	r3, [r7, #15]
+ 800073a:	2b03      	cmp	r3, #3
+ 800073c:	d828      	bhi.n	8000790 <_ZN6Keypad9SelectRowEh+0x68>
+	{
+		if(i == pinIndex)
+ 800073e:	7bfa      	ldrb	r2, [r7, #15]
+ 8000740:	78fb      	ldrb	r3, [r7, #3]
+ 8000742:	429a      	cmp	r2, r3
+ 8000744:	d110      	bne.n	8000768 <_ZN6Keypad9SelectRowEh+0x40>
+		{
+			HAL_GPIO_WritePin(pRow[i].port,pRow[i].selectedPin,GPIO_PIN_RESET);
+ 8000746:	687b      	ldr	r3, [r7, #4]
+ 8000748:	681a      	ldr	r2, [r3, #0]
+ 800074a:	7bfb      	ldrb	r3, [r7, #15]
+ 800074c:	00db      	lsls	r3, r3, #3
+ 800074e:	4413      	add	r3, r2
+ 8000750:	6818      	ldr	r0, [r3, #0]
+ 8000752:	687b      	ldr	r3, [r7, #4]
+ 8000754:	681a      	ldr	r2, [r3, #0]
+ 8000756:	7bfb      	ldrb	r3, [r7, #15]
+ 8000758:	00db      	lsls	r3, r3, #3
+ 800075a:	4413      	add	r3, r2
+ 800075c:	889b      	ldrh	r3, [r3, #4]
+ 800075e:	2200      	movs	r2, #0
+ 8000760:	4619      	mov	r1, r3
+ 8000762:	f000 fff3 	bl	800174c <HAL_GPIO_WritePin>
+ 8000766:	e00f      	b.n	8000788 <_ZN6Keypad9SelectRowEh+0x60>
+		}
+		else
+		{
+			HAL_GPIO_WritePin(pRow[i].port,pRow[i].selectedPin,GPIO_PIN_SET);
+ 8000768:	687b      	ldr	r3, [r7, #4]
+ 800076a:	681a      	ldr	r2, [r3, #0]
+ 800076c:	7bfb      	ldrb	r3, [r7, #15]
+ 800076e:	00db      	lsls	r3, r3, #3
+ 8000770:	4413      	add	r3, r2
+ 8000772:	6818      	ldr	r0, [r3, #0]
+ 8000774:	687b      	ldr	r3, [r7, #4]
+ 8000776:	681a      	ldr	r2, [r3, #0]
+ 8000778:	7bfb      	ldrb	r3, [r7, #15]
+ 800077a:	00db      	lsls	r3, r3, #3
+ 800077c:	4413      	add	r3, r2
+ 800077e:	889b      	ldrh	r3, [r3, #4]
+ 8000780:	2201      	movs	r2, #1
+ 8000782:	4619      	mov	r1, r3
+ 8000784:	f000 ffe2 	bl	800174c <HAL_GPIO_WritePin>
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 8000788:	7bfb      	ldrb	r3, [r7, #15]
+ 800078a:	3301      	adds	r3, #1
+ 800078c:	73fb      	strb	r3, [r7, #15]
+ 800078e:	e7d3      	b.n	8000738 <_ZN6Keypad9SelectRowEh+0x10>
+		}
+	}
+}
+ 8000790:	bf00      	nop
+ 8000792:	3710      	adds	r7, #16
+ 8000794:	46bd      	mov	sp, r7
+ 8000796:	bd80      	pop	{r7, pc}
+
+08000798 <_ZN6Keypad11IsDebouncedEh>:
+
+bool Keypad::IsDebounced(uint8_t pinIndex)
+{
+ 8000798:	b580      	push	{r7, lr}
+ 800079a:	b082      	sub	sp, #8
+ 800079c:	af00      	add	r7, sp, #0
+ 800079e:	6078      	str	r0, [r7, #4]
+ 80007a0:	460b      	mov	r3, r1
+ 80007a2:	70fb      	strb	r3, [r7, #3]
+	if(HAL_GPIO_ReadPin(pCol[pinIndex].port,pCol[pinIndex].selectedPin) == GPIO_PIN_RESET)
+ 80007a4:	687b      	ldr	r3, [r7, #4]
+ 80007a6:	685a      	ldr	r2, [r3, #4]
+ 80007a8:	78fb      	ldrb	r3, [r7, #3]
+ 80007aa:	00db      	lsls	r3, r3, #3
+ 80007ac:	4413      	add	r3, r2
+ 80007ae:	6818      	ldr	r0, [r3, #0]
+ 80007b0:	687b      	ldr	r3, [r7, #4]
+ 80007b2:	685a      	ldr	r2, [r3, #4]
+ 80007b4:	78fb      	ldrb	r3, [r7, #3]
+ 80007b6:	00db      	lsls	r3, r3, #3
+ 80007b8:	4413      	add	r3, r2
+ 80007ba:	889b      	ldrh	r3, [r3, #4]
+ 80007bc:	4619      	mov	r1, r3
+ 80007be:	f000 ffad 	bl	800171c <HAL_GPIO_ReadPin>
+ 80007c2:	4603      	mov	r3, r0
+ 80007c4:	2b00      	cmp	r3, #0
+ 80007c6:	bf0c      	ite	eq
+ 80007c8:	2301      	moveq	r3, #1
+ 80007ca:	2300      	movne	r3, #0
+ 80007cc:	b2db      	uxtb	r3, r3
+ 80007ce:	2b00      	cmp	r3, #0
+ 80007d0:	d01b      	beq.n	800080a <_ZN6Keypad11IsDebouncedEh+0x72>
+	{
+		HAL_Delay(15);
+ 80007d2:	200f      	movs	r0, #15
+ 80007d4:	f000 fd18 	bl	8001208 <HAL_Delay>
+		if(HAL_GPIO_ReadPin(pCol[pinIndex].port,pCol[pinIndex].selectedPin) == GPIO_PIN_RESET)
+ 80007d8:	687b      	ldr	r3, [r7, #4]
+ 80007da:	685a      	ldr	r2, [r3, #4]
+ 80007dc:	78fb      	ldrb	r3, [r7, #3]
+ 80007de:	00db      	lsls	r3, r3, #3
+ 80007e0:	4413      	add	r3, r2
+ 80007e2:	6818      	ldr	r0, [r3, #0]
+ 80007e4:	687b      	ldr	r3, [r7, #4]
+ 80007e6:	685a      	ldr	r2, [r3, #4]
+ 80007e8:	78fb      	ldrb	r3, [r7, #3]
+ 80007ea:	00db      	lsls	r3, r3, #3
+ 80007ec:	4413      	add	r3, r2
+ 80007ee:	889b      	ldrh	r3, [r3, #4]
+ 80007f0:	4619      	mov	r1, r3
+ 80007f2:	f000 ff93 	bl	800171c <HAL_GPIO_ReadPin>
+ 80007f6:	4603      	mov	r3, r0
+ 80007f8:	2b00      	cmp	r3, #0
+ 80007fa:	bf0c      	ite	eq
+ 80007fc:	2301      	moveq	r3, #1
+ 80007fe:	2300      	movne	r3, #0
+ 8000800:	b2db      	uxtb	r3, r3
+ 8000802:	2b00      	cmp	r3, #0
+ 8000804:	d001      	beq.n	800080a <_ZN6Keypad11IsDebouncedEh+0x72>
+		{
+			return true;
+ 8000806:	2301      	movs	r3, #1
+ 8000808:	e000      	b.n	800080c <_ZN6Keypad11IsDebouncedEh+0x74>
+		}
+	}
+	return false;
+ 800080a:	2300      	movs	r3, #0
+}
+ 800080c:	4618      	mov	r0, r3
+ 800080e:	3708      	adds	r7, #8
+ 8000810:	46bd      	mov	sp, r7
+ 8000812:	bd80      	pop	{r7, pc}
+
+08000814 <_ZN6KeypadC1EP11pinStruct_tS1_>:
+	
+Keypad::Keypad(pinStruct_t* pRowPins,pinStruct_t* pColumnPins)
+ 8000814:	b580      	push	{r7, lr}
+ 8000816:	b0ae      	sub	sp, #184	; 0xb8
+ 8000818:	af00      	add	r7, sp, #0
+ 800081a:	60f8      	str	r0, [r7, #12]
+ 800081c:	60b9      	str	r1, [r7, #8]
+ 800081e:	607a      	str	r2, [r7, #4]
+{
+	GPIO_InitTypeDef rowPinInitStruct[NUMBER_OF_ROWS] = {0};
+ 8000820:	f107 0314 	add.w	r3, r7, #20
+ 8000824:	2250      	movs	r2, #80	; 0x50
+ 8000826:	2100      	movs	r1, #0
+ 8000828:	4618      	mov	r0, r3
+ 800082a:	f000 ffcd 	bl	80017c8 <memset>
+	GPIO_InitTypeDef columnPinInitStruct[NUMBER_OF_COLUMNS] = {0};
+ 800082e:	f107 0364 	add.w	r3, r7, #100	; 0x64
+ 8000832:	2250      	movs	r2, #80	; 0x50
+ 8000834:	2100      	movs	r1, #0
+ 8000836:	4618      	mov	r0, r3
+ 8000838:	f000 ffc6 	bl	80017c8 <memset>
+	pRow = pRowPins;
+ 800083c:	68fb      	ldr	r3, [r7, #12]
+ 800083e:	68ba      	ldr	r2, [r7, #8]
+ 8000840:	601a      	str	r2, [r3, #0]
+	pCol = pColumnPins;
+ 8000842:	68fb      	ldr	r3, [r7, #12]
+ 8000844:	687a      	ldr	r2, [r7, #4]
+ 8000846:	605a      	str	r2, [r3, #4]
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 8000848:	2300      	movs	r3, #0
+ 800084a:	f887 30b7 	strb.w	r3, [r7, #183]	; 0xb7
+ 800084e:	f897 30b7 	ldrb.w	r3, [r7, #183]	; 0xb7
+ 8000852:	2b03      	cmp	r3, #3
+ 8000854:	d81d      	bhi.n	8000892 <_ZN6KeypadC1EP11pinStruct_tS1_+0x7e>
+	{
+		for(uint8_t j = 0; j < NUMBER_OF_COLUMNS; j++)
+ 8000856:	2300      	movs	r3, #0
+ 8000858:	f887 30b6 	strb.w	r3, [r7, #182]	; 0xb6
+ 800085c:	f897 30b6 	ldrb.w	r3, [r7, #182]	; 0xb6
+ 8000860:	2b03      	cmp	r3, #3
+ 8000862:	d810      	bhi.n	8000886 <_ZN6KeypadC1EP11pinStruct_tS1_+0x72>
+		{
+			pinPrevPressed[i][j] = false;
+ 8000864:	f897 20b7 	ldrb.w	r2, [r7, #183]	; 0xb7
+ 8000868:	f897 30b6 	ldrb.w	r3, [r7, #182]	; 0xb6
+ 800086c:	68f9      	ldr	r1, [r7, #12]
+ 800086e:	0092      	lsls	r2, r2, #2
+ 8000870:	440a      	add	r2, r1
+ 8000872:	4413      	add	r3, r2
+ 8000874:	3308      	adds	r3, #8
+ 8000876:	2200      	movs	r2, #0
+ 8000878:	701a      	strb	r2, [r3, #0]
+		for(uint8_t j = 0; j < NUMBER_OF_COLUMNS; j++)
+ 800087a:	f897 30b6 	ldrb.w	r3, [r7, #182]	; 0xb6
+ 800087e:	3301      	adds	r3, #1
+ 8000880:	f887 30b6 	strb.w	r3, [r7, #182]	; 0xb6
+ 8000884:	e7ea      	b.n	800085c <_ZN6KeypadC1EP11pinStruct_tS1_+0x48>
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 8000886:	f897 30b7 	ldrb.w	r3, [r7, #183]	; 0xb7
+ 800088a:	3301      	adds	r3, #1
+ 800088c:	f887 30b7 	strb.w	r3, [r7, #183]	; 0xb7
+ 8000890:	e7dd      	b.n	800084e <_ZN6KeypadC1EP11pinStruct_tS1_+0x3a>
+		}
+	}
+	//Initialize rows
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 8000892:	2300      	movs	r3, #0
+ 8000894:	f887 30b5 	strb.w	r3, [r7, #181]	; 0xb5
+ 8000898:	f897 30b5 	ldrb.w	r3, [r7, #181]	; 0xb5
+ 800089c:	2b03      	cmp	r3, #3
+ 800089e:	d837      	bhi.n	8000910 <_ZN6KeypadC1EP11pinStruct_tS1_+0xfc>
+	{
+		rowPinInitStruct[i].Pin = pRow[i].selectedPin;
+ 80008a0:	68fb      	ldr	r3, [r7, #12]
+ 80008a2:	681a      	ldr	r2, [r3, #0]
+ 80008a4:	f897 30b5 	ldrb.w	r3, [r7, #181]	; 0xb5
+ 80008a8:	00db      	lsls	r3, r3, #3
+ 80008aa:	4413      	add	r3, r2
+ 80008ac:	889b      	ldrh	r3, [r3, #4]
+ 80008ae:	f897 20b5 	ldrb.w	r2, [r7, #181]	; 0xb5
+ 80008b2:	4619      	mov	r1, r3
+ 80008b4:	4613      	mov	r3, r2
+ 80008b6:	009b      	lsls	r3, r3, #2
+ 80008b8:	4413      	add	r3, r2
+ 80008ba:	009b      	lsls	r3, r3, #2
+ 80008bc:	f107 02b8 	add.w	r2, r7, #184	; 0xb8
+ 80008c0:	4413      	add	r3, r2
+ 80008c2:	3ba4      	subs	r3, #164	; 0xa4
+ 80008c4:	6019      	str	r1, [r3, #0]
+		rowPinInitStruct[i].Mode = GPIO_MODE_OUTPUT_PP;
+ 80008c6:	f897 20b5 	ldrb.w	r2, [r7, #181]	; 0xb5
+ 80008ca:	4613      	mov	r3, r2
+ 80008cc:	009b      	lsls	r3, r3, #2
+ 80008ce:	4413      	add	r3, r2
+ 80008d0:	009b      	lsls	r3, r3, #2
+ 80008d2:	f107 02b8 	add.w	r2, r7, #184	; 0xb8
+ 80008d6:	4413      	add	r3, r2
+ 80008d8:	3ba0      	subs	r3, #160	; 0xa0
+ 80008da:	2201      	movs	r2, #1
+ 80008dc:	601a      	str	r2, [r3, #0]
+		HAL_GPIO_Init(pRow[i].port,&rowPinInitStruct[i]);
+ 80008de:	68fb      	ldr	r3, [r7, #12]
+ 80008e0:	681a      	ldr	r2, [r3, #0]
+ 80008e2:	f897 30b5 	ldrb.w	r3, [r7, #181]	; 0xb5
+ 80008e6:	00db      	lsls	r3, r3, #3
+ 80008e8:	4413      	add	r3, r2
+ 80008ea:	6818      	ldr	r0, [r3, #0]
+ 80008ec:	f897 20b5 	ldrb.w	r2, [r7, #181]	; 0xb5
+ 80008f0:	f107 0114 	add.w	r1, r7, #20
+ 80008f4:	4613      	mov	r3, r2
+ 80008f6:	009b      	lsls	r3, r3, #2
+ 80008f8:	4413      	add	r3, r2
+ 80008fa:	009b      	lsls	r3, r3, #2
+ 80008fc:	440b      	add	r3, r1
+ 80008fe:	4619      	mov	r1, r3
+ 8000900:	f000 fd8a 	bl	8001418 <HAL_GPIO_Init>
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 8000904:	f897 30b5 	ldrb.w	r3, [r7, #181]	; 0xb5
+ 8000908:	3301      	adds	r3, #1
+ 800090a:	f887 30b5 	strb.w	r3, [r7, #181]	; 0xb5
+ 800090e:	e7c3      	b.n	8000898 <_ZN6KeypadC1EP11pinStruct_tS1_+0x84>
+	}
+	//Initialize columns
+	for(uint8_t i = 0; i < NUMBER_OF_COLUMNS; i++)
+ 8000910:	2300      	movs	r3, #0
+ 8000912:	f887 30b4 	strb.w	r3, [r7, #180]	; 0xb4
+ 8000916:	f897 30b4 	ldrb.w	r3, [r7, #180]	; 0xb4
+ 800091a:	2b03      	cmp	r3, #3
+ 800091c:	d843      	bhi.n	80009a6 <_ZN6KeypadC1EP11pinStruct_tS1_+0x192>
+	{
+		columnPinInitStruct[i].Pin = pCol[i].selectedPin;
+ 800091e:	68fb      	ldr	r3, [r7, #12]
+ 8000920:	685a      	ldr	r2, [r3, #4]
+ 8000922:	f897 30b4 	ldrb.w	r3, [r7, #180]	; 0xb4
+ 8000926:	00db      	lsls	r3, r3, #3
+ 8000928:	4413      	add	r3, r2
+ 800092a:	889b      	ldrh	r3, [r3, #4]
+ 800092c:	f897 20b4 	ldrb.w	r2, [r7, #180]	; 0xb4
+ 8000930:	4619      	mov	r1, r3
+ 8000932:	4613      	mov	r3, r2
+ 8000934:	009b      	lsls	r3, r3, #2
+ 8000936:	4413      	add	r3, r2
+ 8000938:	009b      	lsls	r3, r3, #2
+ 800093a:	f107 02b8 	add.w	r2, r7, #184	; 0xb8
+ 800093e:	4413      	add	r3, r2
+ 8000940:	3b54      	subs	r3, #84	; 0x54
+ 8000942:	6019      	str	r1, [r3, #0]
+		columnPinInitStruct[i].Mode = GPIO_MODE_INPUT;
+ 8000944:	f897 20b4 	ldrb.w	r2, [r7, #180]	; 0xb4
+ 8000948:	4613      	mov	r3, r2
+ 800094a:	009b      	lsls	r3, r3, #2
+ 800094c:	4413      	add	r3, r2
+ 800094e:	009b      	lsls	r3, r3, #2
+ 8000950:	f107 02b8 	add.w	r2, r7, #184	; 0xb8
+ 8000954:	4413      	add	r3, r2
+ 8000956:	3b50      	subs	r3, #80	; 0x50
+ 8000958:	2200      	movs	r2, #0
+ 800095a:	601a      	str	r2, [r3, #0]
+		columnPinInitStruct[i].Pull = GPIO_PULLUP;
+ 800095c:	f897 20b4 	ldrb.w	r2, [r7, #180]	; 0xb4
+ 8000960:	4613      	mov	r3, r2
+ 8000962:	009b      	lsls	r3, r3, #2
+ 8000964:	4413      	add	r3, r2
+ 8000966:	009b      	lsls	r3, r3, #2
+ 8000968:	f107 02b8 	add.w	r2, r7, #184	; 0xb8
+ 800096c:	4413      	add	r3, r2
+ 800096e:	3b4c      	subs	r3, #76	; 0x4c
+ 8000970:	2201      	movs	r2, #1
+ 8000972:	601a      	str	r2, [r3, #0]
+		HAL_GPIO_Init(pCol[i].port,&columnPinInitStruct[i]);
+ 8000974:	68fb      	ldr	r3, [r7, #12]
+ 8000976:	685a      	ldr	r2, [r3, #4]
+ 8000978:	f897 30b4 	ldrb.w	r3, [r7, #180]	; 0xb4
+ 800097c:	00db      	lsls	r3, r3, #3
+ 800097e:	4413      	add	r3, r2
+ 8000980:	6818      	ldr	r0, [r3, #0]
+ 8000982:	f897 20b4 	ldrb.w	r2, [r7, #180]	; 0xb4
+ 8000986:	f107 0164 	add.w	r1, r7, #100	; 0x64
+ 800098a:	4613      	mov	r3, r2
+ 800098c:	009b      	lsls	r3, r3, #2
+ 800098e:	4413      	add	r3, r2
+ 8000990:	009b      	lsls	r3, r3, #2
+ 8000992:	440b      	add	r3, r1
+ 8000994:	4619      	mov	r1, r3
+ 8000996:	f000 fd3f 	bl	8001418 <HAL_GPIO_Init>
+	for(uint8_t i = 0; i < NUMBER_OF_COLUMNS; i++)
+ 800099a:	f897 30b4 	ldrb.w	r3, [r7, #180]	; 0xb4
+ 800099e:	3301      	adds	r3, #1
+ 80009a0:	f887 30b4 	strb.w	r3, [r7, #180]	; 0xb4
+ 80009a4:	e7b7      	b.n	8000916 <_ZN6KeypadC1EP11pinStruct_tS1_+0x102>
+	}
+}
+ 80009a6:	68fb      	ldr	r3, [r7, #12]
+ 80009a8:	4618      	mov	r0, r3
+ 80009aa:	37b8      	adds	r7, #184	; 0xb8
+ 80009ac:	46bd      	mov	sp, r7
+ 80009ae:	bd80      	pop	{r7, pc}
+
+080009b0 <_ZN6Keypad17GetCharShortPressEv>:
+
+char Keypad::GetCharShortPress(void)
+{
+ 80009b0:	b580      	push	{r7, lr}
+ 80009b2:	b084      	sub	sp, #16
+ 80009b4:	af00      	add	r7, sp, #0
+ 80009b6:	6078      	str	r0, [r7, #4]
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 80009b8:	2300      	movs	r3, #0
+ 80009ba:	73fb      	strb	r3, [r7, #15]
+ 80009bc:	7bfb      	ldrb	r3, [r7, #15]
+ 80009be:	2b03      	cmp	r3, #3
+ 80009c0:	d85f      	bhi.n	8000a82 <_ZN6Keypad17GetCharShortPressEv+0xd2>
+	{
+		Keypad::SelectRow(i);
+ 80009c2:	7bfb      	ldrb	r3, [r7, #15]
+ 80009c4:	4619      	mov	r1, r3
+ 80009c6:	6878      	ldr	r0, [r7, #4]
+ 80009c8:	f7ff feae 	bl	8000728 <_ZN6Keypad9SelectRowEh>
+		for(uint8_t j = 0; j < NUMBER_OF_COLUMNS; j++)
+ 80009cc:	2300      	movs	r3, #0
+ 80009ce:	73bb      	strb	r3, [r7, #14]
+ 80009d0:	7bbb      	ldrb	r3, [r7, #14]
+ 80009d2:	2b03      	cmp	r3, #3
+ 80009d4:	d851      	bhi.n	8000a7a <_ZN6Keypad17GetCharShortPressEv+0xca>
+		{
+			if(Keypad::IsDebounced(j) && !pinPrevPressed[i][j])
+ 80009d6:	7bbb      	ldrb	r3, [r7, #14]
+ 80009d8:	4619      	mov	r1, r3
+ 80009da:	6878      	ldr	r0, [r7, #4]
+ 80009dc:	f7ff fedc 	bl	8000798 <_ZN6Keypad11IsDebouncedEh>
+ 80009e0:	4603      	mov	r3, r0
+ 80009e2:	2b00      	cmp	r3, #0
+ 80009e4:	d00e      	beq.n	8000a04 <_ZN6Keypad17GetCharShortPressEv+0x54>
+ 80009e6:	7bfa      	ldrb	r2, [r7, #15]
+ 80009e8:	7bbb      	ldrb	r3, [r7, #14]
+ 80009ea:	6879      	ldr	r1, [r7, #4]
+ 80009ec:	0092      	lsls	r2, r2, #2
+ 80009ee:	440a      	add	r2, r1
+ 80009f0:	4413      	add	r3, r2
+ 80009f2:	3308      	adds	r3, #8
+ 80009f4:	781b      	ldrb	r3, [r3, #0]
+ 80009f6:	f083 0301 	eor.w	r3, r3, #1
+ 80009fa:	b2db      	uxtb	r3, r3
+ 80009fc:	2b00      	cmp	r3, #0
+ 80009fe:	d001      	beq.n	8000a04 <_ZN6Keypad17GetCharShortPressEv+0x54>
+ 8000a00:	2301      	movs	r3, #1
+ 8000a02:	e000      	b.n	8000a06 <_ZN6Keypad17GetCharShortPressEv+0x56>
+ 8000a04:	2300      	movs	r3, #0
+ 8000a06:	2b00      	cmp	r3, #0
+ 8000a08:	d010      	beq.n	8000a2c <_ZN6Keypad17GetCharShortPressEv+0x7c>
+			{
+				pinPrevPressed[i][j] = true;
+ 8000a0a:	7bfa      	ldrb	r2, [r7, #15]
+ 8000a0c:	7bbb      	ldrb	r3, [r7, #14]
+ 8000a0e:	6879      	ldr	r1, [r7, #4]
+ 8000a10:	0092      	lsls	r2, r2, #2
+ 8000a12:	440a      	add	r2, r1
+ 8000a14:	4413      	add	r3, r2
+ 8000a16:	3308      	adds	r3, #8
+ 8000a18:	2201      	movs	r2, #1
+ 8000a1a:	701a      	strb	r2, [r3, #0]
+				return keypadMatrix[i][j];
+ 8000a1c:	7bfa      	ldrb	r2, [r7, #15]
+ 8000a1e:	7bbb      	ldrb	r3, [r7, #14]
+ 8000a20:	491a      	ldr	r1, [pc, #104]	; (8000a8c <_ZN6Keypad17GetCharShortPressEv+0xdc>)
+ 8000a22:	0092      	lsls	r2, r2, #2
+ 8000a24:	440a      	add	r2, r1
+ 8000a26:	4413      	add	r3, r2
+ 8000a28:	781b      	ldrb	r3, [r3, #0]
+ 8000a2a:	e02b      	b.n	8000a84 <_ZN6Keypad17GetCharShortPressEv+0xd4>
+			}
+			else if(!Keypad::IsDebounced(j) && pinPrevPressed[i][j])
+ 8000a2c:	7bbb      	ldrb	r3, [r7, #14]
+ 8000a2e:	4619      	mov	r1, r3
+ 8000a30:	6878      	ldr	r0, [r7, #4]
+ 8000a32:	f7ff feb1 	bl	8000798 <_ZN6Keypad11IsDebouncedEh>
+ 8000a36:	4603      	mov	r3, r0
+ 8000a38:	f083 0301 	eor.w	r3, r3, #1
+ 8000a3c:	b2db      	uxtb	r3, r3
+ 8000a3e:	2b00      	cmp	r3, #0
+ 8000a40:	d00b      	beq.n	8000a5a <_ZN6Keypad17GetCharShortPressEv+0xaa>
+ 8000a42:	7bfa      	ldrb	r2, [r7, #15]
+ 8000a44:	7bbb      	ldrb	r3, [r7, #14]
+ 8000a46:	6879      	ldr	r1, [r7, #4]
+ 8000a48:	0092      	lsls	r2, r2, #2
+ 8000a4a:	440a      	add	r2, r1
+ 8000a4c:	4413      	add	r3, r2
+ 8000a4e:	3308      	adds	r3, #8
+ 8000a50:	781b      	ldrb	r3, [r3, #0]
+ 8000a52:	2b00      	cmp	r3, #0
+ 8000a54:	d001      	beq.n	8000a5a <_ZN6Keypad17GetCharShortPressEv+0xaa>
+ 8000a56:	2301      	movs	r3, #1
+ 8000a58:	e000      	b.n	8000a5c <_ZN6Keypad17GetCharShortPressEv+0xac>
+ 8000a5a:	2300      	movs	r3, #0
+ 8000a5c:	2b00      	cmp	r3, #0
+ 8000a5e:	d008      	beq.n	8000a72 <_ZN6Keypad17GetCharShortPressEv+0xc2>
+			{
+				pinPrevPressed[i][j] = false;
+ 8000a60:	7bfa      	ldrb	r2, [r7, #15]
+ 8000a62:	7bbb      	ldrb	r3, [r7, #14]
+ 8000a64:	6879      	ldr	r1, [r7, #4]
+ 8000a66:	0092      	lsls	r2, r2, #2
+ 8000a68:	440a      	add	r2, r1
+ 8000a6a:	4413      	add	r3, r2
+ 8000a6c:	3308      	adds	r3, #8
+ 8000a6e:	2200      	movs	r2, #0
+ 8000a70:	701a      	strb	r2, [r3, #0]
+		for(uint8_t j = 0; j < NUMBER_OF_COLUMNS; j++)
+ 8000a72:	7bbb      	ldrb	r3, [r7, #14]
+ 8000a74:	3301      	adds	r3, #1
+ 8000a76:	73bb      	strb	r3, [r7, #14]
+ 8000a78:	e7aa      	b.n	80009d0 <_ZN6Keypad17GetCharShortPressEv+0x20>
+	for(uint8_t i = 0; i < NUMBER_OF_ROWS; i++)
+ 8000a7a:	7bfb      	ldrb	r3, [r7, #15]
+ 8000a7c:	3301      	adds	r3, #1
+ 8000a7e:	73fb      	strb	r3, [r7, #15]
+ 8000a80:	e79c      	b.n	80009bc <_ZN6Keypad17GetCharShortPressEv+0xc>
+			}
+		}
+	}
+	return '\0';
+ 8000a82:	2300      	movs	r3, #0
+}
+ 8000a84:	4618      	mov	r0, r3
+ 8000a86:	3710      	adds	r7, #16
+ 8000a88:	46bd      	mov	sp, r7
+ 8000a8a:	bd80      	pop	{r7, pc}
+ 8000a8c:	080019b0 	.word	0x080019b0
+
+08000a90 <_ZN3LCD11WriteNibbleEch>:
+		noOfDigits--;
+	}
+}
+
+void LCD::WriteNibble(char byte,uint8_t nibbleBitPos)
+{
+ 8000a90:	b580      	push	{r7, lr}
+ 8000a92:	b086      	sub	sp, #24
+ 8000a94:	af00      	add	r7, sp, #0
+ 8000a96:	6078      	str	r0, [r7, #4]
+ 8000a98:	460b      	mov	r3, r1
+ 8000a9a:	70fb      	strb	r3, [r7, #3]
+ 8000a9c:	4613      	mov	r3, r2
+ 8000a9e:	70bb      	strb	r3, [r7, #2]
+	const GPIO_PinState pinState[2] = {GPIO_PIN_RESET,GPIO_PIN_SET};
+ 8000aa0:	2300      	movs	r3, #0
+ 8000aa2:	743b      	strb	r3, [r7, #16]
+ 8000aa4:	2301      	movs	r3, #1
+ 8000aa6:	747b      	strb	r3, [r7, #17]
+	uint8_t nibbleArr[4] = {0};
+ 8000aa8:	2300      	movs	r3, #0
+ 8000aaa:	60fb      	str	r3, [r7, #12]
+	uint8_t j = 0;
+ 8000aac:	2300      	movs	r3, #0
+ 8000aae:	75fb      	strb	r3, [r7, #23]
+	
+	for(uint8_t i = nibbleBitPos; i < nibbleBitPos+4; i++)
+ 8000ab0:	78bb      	ldrb	r3, [r7, #2]
+ 8000ab2:	75bb      	strb	r3, [r7, #22]
+ 8000ab4:	7dba      	ldrb	r2, [r7, #22]
+ 8000ab6:	78bb      	ldrb	r3, [r7, #2]
+ 8000ab8:	3304      	adds	r3, #4
+ 8000aba:	429a      	cmp	r2, r3
+ 8000abc:	da15      	bge.n	8000aea <_ZN3LCD11WriteNibbleEch+0x5a>
+	{
+		nibbleArr[j] = (byte&(1<<i))>>i;
+ 8000abe:	78fa      	ldrb	r2, [r7, #3]
+ 8000ac0:	7dbb      	ldrb	r3, [r7, #22]
+ 8000ac2:	2101      	movs	r1, #1
+ 8000ac4:	fa01 f303 	lsl.w	r3, r1, r3
+ 8000ac8:	401a      	ands	r2, r3
+ 8000aca:	7dbb      	ldrb	r3, [r7, #22]
+ 8000acc:	411a      	asrs	r2, r3
+ 8000ace:	7dfb      	ldrb	r3, [r7, #23]
+ 8000ad0:	b2d2      	uxtb	r2, r2
+ 8000ad2:	f107 0118 	add.w	r1, r7, #24
+ 8000ad6:	440b      	add	r3, r1
+ 8000ad8:	f803 2c0c 	strb.w	r2, [r3, #-12]
+		j++;
+ 8000adc:	7dfb      	ldrb	r3, [r7, #23]
+ 8000ade:	3301      	adds	r3, #1
+ 8000ae0:	75fb      	strb	r3, [r7, #23]
+	for(uint8_t i = nibbleBitPos; i < nibbleBitPos+4; i++)
+ 8000ae2:	7dbb      	ldrb	r3, [r7, #22]
+ 8000ae4:	3301      	adds	r3, #1
+ 8000ae6:	75bb      	strb	r3, [r7, #22]
+ 8000ae8:	e7e4      	b.n	8000ab4 <_ZN3LCD11WriteNibbleEch+0x24>
+	}
+	//Send nibble
+	for(uint8_t i = 0; i < 4; i++)
+ 8000aea:	2300      	movs	r3, #0
+ 8000aec:	757b      	strb	r3, [r7, #21]
+ 8000aee:	7d7b      	ldrb	r3, [r7, #21]
+ 8000af0:	2b03      	cmp	r3, #3
+ 8000af2:	d81c      	bhi.n	8000b2e <_ZN3LCD11WriteNibbleEch+0x9e>
+	{
+		HAL_GPIO_WritePin(dataPins[i].port,dataPins[i].selectedPin,pinState[nibbleArr[i]]);
+ 8000af4:	7d7a      	ldrb	r2, [r7, #21]
+ 8000af6:	687b      	ldr	r3, [r7, #4]
+ 8000af8:	3202      	adds	r2, #2
+ 8000afa:	f853 0032 	ldr.w	r0, [r3, r2, lsl #3]
+ 8000afe:	7d7b      	ldrb	r3, [r7, #21]
+ 8000b00:	687a      	ldr	r2, [r7, #4]
+ 8000b02:	3302      	adds	r3, #2
+ 8000b04:	00db      	lsls	r3, r3, #3
+ 8000b06:	4413      	add	r3, r2
+ 8000b08:	8899      	ldrh	r1, [r3, #4]
+ 8000b0a:	7d7b      	ldrb	r3, [r7, #21]
+ 8000b0c:	f107 0218 	add.w	r2, r7, #24
+ 8000b10:	4413      	add	r3, r2
+ 8000b12:	f813 3c0c 	ldrb.w	r3, [r3, #-12]
+ 8000b16:	f107 0218 	add.w	r2, r7, #24
+ 8000b1a:	4413      	add	r3, r2
+ 8000b1c:	f813 3c08 	ldrb.w	r3, [r3, #-8]
+ 8000b20:	461a      	mov	r2, r3
+ 8000b22:	f000 fe13 	bl	800174c <HAL_GPIO_WritePin>
+	for(uint8_t i = 0; i < 4; i++)
+ 8000b26:	7d7b      	ldrb	r3, [r7, #21]
+ 8000b28:	3301      	adds	r3, #1
+ 8000b2a:	757b      	strb	r3, [r7, #21]
+ 8000b2c:	e7df      	b.n	8000aee <_ZN3LCD11WriteNibbleEch+0x5e>
+	}
+	//High to low pulse on EN pin (to transfer nibble)
+	HAL_GPIO_WritePin(en.port,en.selectedPin,GPIO_PIN_SET);
+ 8000b2e:	687b      	ldr	r3, [r7, #4]
+ 8000b30:	6898      	ldr	r0, [r3, #8]
+ 8000b32:	687b      	ldr	r3, [r7, #4]
+ 8000b34:	899b      	ldrh	r3, [r3, #12]
+ 8000b36:	2201      	movs	r2, #1
+ 8000b38:	4619      	mov	r1, r3
+ 8000b3a:	f000 fe07 	bl	800174c <HAL_GPIO_WritePin>
+	HAL_Delay(1);
+ 8000b3e:	2001      	movs	r0, #1
+ 8000b40:	f000 fb62 	bl	8001208 <HAL_Delay>
+	HAL_GPIO_WritePin(en.port,en.selectedPin,GPIO_PIN_RESET);
+ 8000b44:	687b      	ldr	r3, [r7, #4]
+ 8000b46:	6898      	ldr	r0, [r3, #8]
+ 8000b48:	687b      	ldr	r3, [r7, #4]
+ 8000b4a:	899b      	ldrh	r3, [r3, #12]
+ 8000b4c:	2200      	movs	r2, #0
+ 8000b4e:	4619      	mov	r1, r3
+ 8000b50:	f000 fdfc 	bl	800174c <HAL_GPIO_WritePin>
+	HAL_Delay(1);
+ 8000b54:	2001      	movs	r0, #1
+ 8000b56:	f000 fb57 	bl	8001208 <HAL_Delay>
+}
+ 8000b5a:	bf00      	nop
+ 8000b5c:	3718      	adds	r7, #24
+ 8000b5e:	46bd      	mov	sp, r7
+ 8000b60:	bd80      	pop	{r7, pc}
+
+08000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>:
+
+void LCD::WriteByte(GPIO_PinState lcdMode,char byte)
+{
+ 8000b62:	b580      	push	{r7, lr}
+ 8000b64:	b082      	sub	sp, #8
+ 8000b66:	af00      	add	r7, sp, #0
+ 8000b68:	6078      	str	r0, [r7, #4]
+ 8000b6a:	460b      	mov	r3, r1
+ 8000b6c:	70fb      	strb	r3, [r7, #3]
+ 8000b6e:	4613      	mov	r3, r2
+ 8000b70:	70bb      	strb	r3, [r7, #2]
+	HAL_GPIO_WritePin(rs.port,rs.selectedPin,lcdMode); //Register select
+ 8000b72:	687b      	ldr	r3, [r7, #4]
+ 8000b74:	6818      	ldr	r0, [r3, #0]
+ 8000b76:	687b      	ldr	r3, [r7, #4]
+ 8000b78:	889b      	ldrh	r3, [r3, #4]
+ 8000b7a:	78fa      	ldrb	r2, [r7, #3]
+ 8000b7c:	4619      	mov	r1, r3
+ 8000b7e:	f000 fde5 	bl	800174c <HAL_GPIO_WritePin>
+	LCD::WriteNibble(byte,HIGH_NIBBLE);
+ 8000b82:	78bb      	ldrb	r3, [r7, #2]
+ 8000b84:	2204      	movs	r2, #4
+ 8000b86:	4619      	mov	r1, r3
+ 8000b88:	6878      	ldr	r0, [r7, #4]
+ 8000b8a:	f7ff ff81 	bl	8000a90 <_ZN3LCD11WriteNibbleEch>
+	LCD::WriteNibble(byte,LOW_NIBBLE);
+ 8000b8e:	78bb      	ldrb	r3, [r7, #2]
+ 8000b90:	2200      	movs	r2, #0
+ 8000b92:	4619      	mov	r1, r3
+ 8000b94:	6878      	ldr	r0, [r7, #4]
+ 8000b96:	f7ff ff7b 	bl	8000a90 <_ZN3LCD11WriteNibbleEch>
+}
+ 8000b9a:	bf00      	nop
+ 8000b9c:	3708      	adds	r7, #8
+ 8000b9e:	46bd      	mov	sp, r7
+ 8000ba0:	bd80      	pop	{r7, pc}
+
+08000ba2 <_ZN3LCD10WriteBytesEPKc>:
+
+void LCD::WriteBytes(const char* pData)
+{
+ 8000ba2:	b580      	push	{r7, lr}
+ 8000ba4:	b082      	sub	sp, #8
+ 8000ba6:	af00      	add	r7, sp, #0
+ 8000ba8:	6078      	str	r0, [r7, #4]
+ 8000baa:	6039      	str	r1, [r7, #0]
+	while(*pData != '\0')
+ 8000bac:	683b      	ldr	r3, [r7, #0]
+ 8000bae:	781b      	ldrb	r3, [r3, #0]
+ 8000bb0:	2b00      	cmp	r3, #0
+ 8000bb2:	d00a      	beq.n	8000bca <_ZN3LCD10WriteBytesEPKc+0x28>
+	{
+		LCD::WriteByte(GPIO_PIN_SET,*pData);
+ 8000bb4:	683b      	ldr	r3, [r7, #0]
+ 8000bb6:	781b      	ldrb	r3, [r3, #0]
+ 8000bb8:	461a      	mov	r2, r3
+ 8000bba:	2101      	movs	r1, #1
+ 8000bbc:	6878      	ldr	r0, [r7, #4]
+ 8000bbe:	f7ff ffd0 	bl	8000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>
+		pData++;
+ 8000bc2:	683b      	ldr	r3, [r7, #0]
+ 8000bc4:	3301      	adds	r3, #1
+ 8000bc6:	603b      	str	r3, [r7, #0]
+	while(*pData != '\0')
+ 8000bc8:	e7f0      	b.n	8000bac <_ZN3LCD10WriteBytesEPKc+0xa>
+	}
+}
+ 8000bca:	bf00      	nop
+ 8000bcc:	3708      	adds	r7, #8
+ 8000bce:	46bd      	mov	sp, r7
+ 8000bd0:	bd80      	pop	{r7, pc}
+	...
+
+08000bd4 <_ZN3LCDC1ER11pinStruct_tS1_S1_S1_S1_S1_>:
+	}
+	IntegerToString(data,integerToStringBuffer);
+	LCD::WriteBytes(integerToStringBuffer);
+}
+
+LCD::LCD(pinStruct_t& RS,
+ 8000bd4:	b580      	push	{r7, lr}
+ 8000bd6:	b0b0      	sub	sp, #192	; 0xc0
+ 8000bd8:	af00      	add	r7, sp, #0
+ 8000bda:	60f8      	str	r0, [r7, #12]
+ 8000bdc:	60b9      	str	r1, [r7, #8]
+ 8000bde:	607a      	str	r2, [r7, #4]
+ 8000be0:	603b      	str	r3, [r7, #0]
+				 pinStruct_t& D5,
+				 pinStruct_t& D6,
+				 pinStruct_t& D7)
+{
+	//LCD pin initialization
+	GPIO_InitTypeDef lcdPinInitStruct[6] = {0};
+ 8000be2:	f107 0340 	add.w	r3, r7, #64	; 0x40
+ 8000be6:	2278      	movs	r2, #120	; 0x78
+ 8000be8:	2100      	movs	r1, #0
+ 8000bea:	4618      	mov	r0, r3
+ 8000bec:	f000 fdec 	bl	80017c8 <memset>
+	pinStruct_t lcdPinArray[6] = {RS,EN,D4,D5,D6,D7};
+ 8000bf0:	68ba      	ldr	r2, [r7, #8]
+ 8000bf2:	f107 0310 	add.w	r3, r7, #16
+ 8000bf6:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000bfa:	e883 0003 	stmia.w	r3, {r0, r1}
+ 8000bfe:	687a      	ldr	r2, [r7, #4]
+ 8000c00:	f107 0318 	add.w	r3, r7, #24
+ 8000c04:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000c08:	e883 0003 	stmia.w	r3, {r0, r1}
+ 8000c0c:	683a      	ldr	r2, [r7, #0]
+ 8000c0e:	f107 0320 	add.w	r3, r7, #32
+ 8000c12:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000c16:	e883 0003 	stmia.w	r3, {r0, r1}
+ 8000c1a:	f8d7 20c8 	ldr.w	r2, [r7, #200]	; 0xc8
+ 8000c1e:	f107 0328 	add.w	r3, r7, #40	; 0x28
+ 8000c22:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000c26:	e883 0003 	stmia.w	r3, {r0, r1}
+ 8000c2a:	f8d7 20cc 	ldr.w	r2, [r7, #204]	; 0xcc
+ 8000c2e:	f107 0330 	add.w	r3, r7, #48	; 0x30
+ 8000c32:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000c36:	e883 0003 	stmia.w	r3, {r0, r1}
+ 8000c3a:	f8d7 20d0 	ldr.w	r2, [r7, #208]	; 0xd0
+ 8000c3e:	f107 0338 	add.w	r3, r7, #56	; 0x38
+ 8000c42:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000c46:	e883 0003 	stmia.w	r3, {r0, r1}
+	for(uint8_t i = 0; i < 6; i++)
+ 8000c4a:	2300      	movs	r3, #0
+ 8000c4c:	f887 30bf 	strb.w	r3, [r7, #191]	; 0xbf
+ 8000c50:	f897 30bf 	ldrb.w	r3, [r7, #191]	; 0xbf
+ 8000c54:	2b05      	cmp	r3, #5
+ 8000c56:	d839      	bhi.n	8000ccc <_ZN3LCDC1ER11pinStruct_tS1_S1_S1_S1_S1_+0xf8>
+	{
+		lcdPinInitStruct[i].Pin = lcdPinArray[i].selectedPin;
+ 8000c58:	f897 30bf 	ldrb.w	r3, [r7, #191]	; 0xbf
+ 8000c5c:	00db      	lsls	r3, r3, #3
+ 8000c5e:	f107 02c0 	add.w	r2, r7, #192	; 0xc0
+ 8000c62:	4413      	add	r3, r2
+ 8000c64:	f833 3cac 	ldrh.w	r3, [r3, #-172]
+ 8000c68:	f897 20bf 	ldrb.w	r2, [r7, #191]	; 0xbf
+ 8000c6c:	4619      	mov	r1, r3
+ 8000c6e:	4613      	mov	r3, r2
+ 8000c70:	009b      	lsls	r3, r3, #2
+ 8000c72:	4413      	add	r3, r2
+ 8000c74:	009b      	lsls	r3, r3, #2
+ 8000c76:	f107 02c0 	add.w	r2, r7, #192	; 0xc0
+ 8000c7a:	4413      	add	r3, r2
+ 8000c7c:	3b80      	subs	r3, #128	; 0x80
+ 8000c7e:	6019      	str	r1, [r3, #0]
+		lcdPinInitStruct[i].Mode = GPIO_MODE_OUTPUT_PP;
+ 8000c80:	f897 20bf 	ldrb.w	r2, [r7, #191]	; 0xbf
+ 8000c84:	4613      	mov	r3, r2
+ 8000c86:	009b      	lsls	r3, r3, #2
+ 8000c88:	4413      	add	r3, r2
+ 8000c8a:	009b      	lsls	r3, r3, #2
+ 8000c8c:	f107 02c0 	add.w	r2, r7, #192	; 0xc0
+ 8000c90:	4413      	add	r3, r2
+ 8000c92:	3b7c      	subs	r3, #124	; 0x7c
+ 8000c94:	2201      	movs	r2, #1
+ 8000c96:	601a      	str	r2, [r3, #0]
+		HAL_GPIO_Init(lcdPinArray[i].port,&lcdPinInitStruct[i]);
+ 8000c98:	f897 30bf 	ldrb.w	r3, [r7, #191]	; 0xbf
+ 8000c9c:	00db      	lsls	r3, r3, #3
+ 8000c9e:	f107 02c0 	add.w	r2, r7, #192	; 0xc0
+ 8000ca2:	4413      	add	r3, r2
+ 8000ca4:	f853 0cb0 	ldr.w	r0, [r3, #-176]
+ 8000ca8:	f897 20bf 	ldrb.w	r2, [r7, #191]	; 0xbf
+ 8000cac:	f107 0140 	add.w	r1, r7, #64	; 0x40
+ 8000cb0:	4613      	mov	r3, r2
+ 8000cb2:	009b      	lsls	r3, r3, #2
+ 8000cb4:	4413      	add	r3, r2
+ 8000cb6:	009b      	lsls	r3, r3, #2
+ 8000cb8:	440b      	add	r3, r1
+ 8000cba:	4619      	mov	r1, r3
+ 8000cbc:	f000 fbac 	bl	8001418 <HAL_GPIO_Init>
+	for(uint8_t i = 0; i < 6; i++)
+ 8000cc0:	f897 30bf 	ldrb.w	r3, [r7, #191]	; 0xbf
+ 8000cc4:	3301      	adds	r3, #1
+ 8000cc6:	f887 30bf 	strb.w	r3, [r7, #191]	; 0xbf
+ 8000cca:	e7c1      	b.n	8000c50 <_ZN3LCDC1ER11pinStruct_tS1_S1_S1_S1_S1_+0x7c>
+	}
+	//Private variable initialization
+	rs = RS;
+ 8000ccc:	68fb      	ldr	r3, [r7, #12]
+ 8000cce:	68ba      	ldr	r2, [r7, #8]
+ 8000cd0:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000cd4:	e883 0003 	stmia.w	r3, {r0, r1}
+	en = EN;
+ 8000cd8:	68fb      	ldr	r3, [r7, #12]
+ 8000cda:	687a      	ldr	r2, [r7, #4]
+ 8000cdc:	3308      	adds	r3, #8
+ 8000cde:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000ce2:	e883 0003 	stmia.w	r3, {r0, r1}
+	dataPins[0] = D4;
+ 8000ce6:	68fb      	ldr	r3, [r7, #12]
+ 8000ce8:	683a      	ldr	r2, [r7, #0]
+ 8000cea:	3310      	adds	r3, #16
+ 8000cec:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000cf0:	e883 0003 	stmia.w	r3, {r0, r1}
+	dataPins[1] = D5;
+ 8000cf4:	68fb      	ldr	r3, [r7, #12]
+ 8000cf6:	f8d7 20c8 	ldr.w	r2, [r7, #200]	; 0xc8
+ 8000cfa:	3318      	adds	r3, #24
+ 8000cfc:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000d00:	e883 0003 	stmia.w	r3, {r0, r1}
+	dataPins[2] = D6;
+ 8000d04:	68fb      	ldr	r3, [r7, #12]
+ 8000d06:	f8d7 20cc 	ldr.w	r2, [r7, #204]	; 0xcc
+ 8000d0a:	3320      	adds	r3, #32
+ 8000d0c:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000d10:	e883 0003 	stmia.w	r3, {r0, r1}
+	dataPins[3] = D7;
+ 8000d14:	68fb      	ldr	r3, [r7, #12]
+ 8000d16:	f8d7 20d0 	ldr.w	r2, [r7, #208]	; 0xd0
+ 8000d1a:	3328      	adds	r3, #40	; 0x28
+ 8000d1c:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000d20:	e883 0003 	stmia.w	r3, {r0, r1}
+	
+	//LCD Initialization sequence according to the datasheet
+	HAL_Delay(16); //Power-on delay
+ 8000d24:	2010      	movs	r0, #16
+ 8000d26:	f000 fa6f 	bl	8001208 <HAL_Delay>
+	LCD::WriteByte(GPIO_PIN_RESET,FUNCTION_SET_8BIT);//Function set mode (8-bit mode)
+ 8000d2a:	2203      	movs	r2, #3
+ 8000d2c:	2100      	movs	r1, #0
+ 8000d2e:	68f8      	ldr	r0, [r7, #12]
+ 8000d30:	f7ff ff17 	bl	8000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>
+	HAL_Delay(5); //wait for more than 4.1ms
+ 8000d34:	2005      	movs	r0, #5
+ 8000d36:	f000 fa67 	bl	8001208 <HAL_Delay>
+	LCD::WriteByte(GPIO_PIN_RESET,FUNCTION_SET_8BIT);//Function set mode (8-bit mode)
+ 8000d3a:	2203      	movs	r2, #3
+ 8000d3c:	2100      	movs	r1, #0
+ 8000d3e:	68f8      	ldr	r0, [r7, #12]
+ 8000d40:	f7ff ff0f 	bl	8000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>
+	HAL_Delay(1); //wait for more than 100us
+ 8000d44:	2001      	movs	r0, #1
+ 8000d46:	f000 fa5f 	bl	8001208 <HAL_Delay>
+	
+	//4-bit operation commands
+	uint8_t fourBitCommandSetting[5] = 
+ 8000d4a:	4a13      	ldr	r2, [pc, #76]	; (8000d98 <_ZN3LCDC1ER11pinStruct_tS1_S1_S1_S1_S1_+0x1c4>)
+ 8000d4c:	f107 03b8 	add.w	r3, r7, #184	; 0xb8
+ 8000d50:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000d54:	6018      	str	r0, [r3, #0]
+ 8000d56:	3304      	adds	r3, #4
+ 8000d58:	7019      	strb	r1, [r3, #0]
+		FUNCTION_SET_2LINE_5x8DOT,
+		CLEAR_DISPLAY,
+		DISPLAY_ON_CURSOR_OFF,
+		ENTRY_MODE_INCREMENT_CURSOR
+	};
+	for(uint8_t i = 0; i < 5; i++)
+ 8000d5a:	2300      	movs	r3, #0
+ 8000d5c:	f887 30be 	strb.w	r3, [r7, #190]	; 0xbe
+ 8000d60:	f897 30be 	ldrb.w	r3, [r7, #190]	; 0xbe
+ 8000d64:	2b04      	cmp	r3, #4
+ 8000d66:	d811      	bhi.n	8000d8c <_ZN3LCDC1ER11pinStruct_tS1_S1_S1_S1_S1_+0x1b8>
+	{
+		LCD::WriteByte(GPIO_PIN_RESET,fourBitCommandSetting[i]);
+ 8000d68:	f897 30be 	ldrb.w	r3, [r7, #190]	; 0xbe
+ 8000d6c:	f107 02c0 	add.w	r2, r7, #192	; 0xc0
+ 8000d70:	4413      	add	r3, r2
+ 8000d72:	f813 3c08 	ldrb.w	r3, [r3, #-8]
+ 8000d76:	461a      	mov	r2, r3
+ 8000d78:	2100      	movs	r1, #0
+ 8000d7a:	68f8      	ldr	r0, [r7, #12]
+ 8000d7c:	f7ff fef1 	bl	8000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>
+	for(uint8_t i = 0; i < 5; i++)
+ 8000d80:	f897 30be 	ldrb.w	r3, [r7, #190]	; 0xbe
+ 8000d84:	3301      	adds	r3, #1
+ 8000d86:	f887 30be 	strb.w	r3, [r7, #190]	; 0xbe
+ 8000d8a:	e7e9      	b.n	8000d60 <_ZN3LCDC1ER11pinStruct_tS1_S1_S1_S1_S1_+0x18c>
+	}
+}
+ 8000d8c:	68fb      	ldr	r3, [r7, #12]
+ 8000d8e:	4618      	mov	r0, r3
+ 8000d90:	37c0      	adds	r7, #192	; 0xc0
+ 8000d92:	46bd      	mov	sp, r7
+ 8000d94:	bd80      	pop	{r7, pc}
+ 8000d96:	bf00      	nop
+ 8000d98:	08001938 	.word	0x08001938
+
+08000d9c <_ZN3LCD9SetCursorEhh>:
+
+void LCD::SetCursor(uint8_t row,uint8_t column)
+{
+ 8000d9c:	b580      	push	{r7, lr}
+ 8000d9e:	b082      	sub	sp, #8
+ 8000da0:	af00      	add	r7, sp, #0
+ 8000da2:	6078      	str	r0, [r7, #4]
+ 8000da4:	460b      	mov	r3, r1
+ 8000da6:	70fb      	strb	r3, [r7, #3]
+ 8000da8:	4613      	mov	r3, r2
+ 8000daa:	70bb      	strb	r3, [r7, #2]
+	if((row > 3)||(column > 19))
+ 8000dac:	78fb      	ldrb	r3, [r7, #3]
+ 8000dae:	2b03      	cmp	r3, #3
+ 8000db0:	d815      	bhi.n	8000dde <_ZN3LCD9SetCursorEhh+0x42>
+ 8000db2:	78bb      	ldrb	r3, [r7, #2]
+ 8000db4:	2b13      	cmp	r3, #19
+ 8000db6:	d812      	bhi.n	8000dde <_ZN3LCD9SetCursorEhh+0x42>
+	{
+		//Out of range
+		return;
+	}
+	LCD::WriteByte(GPIO_PIN_RESET,((1<<7) | ddramAddr[row][column]));
+ 8000db8:	78fa      	ldrb	r2, [r7, #3]
+ 8000dba:	78b9      	ldrb	r1, [r7, #2]
+ 8000dbc:	480a      	ldr	r0, [pc, #40]	; (8000de8 <_ZN3LCD9SetCursorEhh+0x4c>)
+ 8000dbe:	4613      	mov	r3, r2
+ 8000dc0:	009b      	lsls	r3, r3, #2
+ 8000dc2:	4413      	add	r3, r2
+ 8000dc4:	009b      	lsls	r3, r3, #2
+ 8000dc6:	4403      	add	r3, r0
+ 8000dc8:	440b      	add	r3, r1
+ 8000dca:	781b      	ldrb	r3, [r3, #0]
+ 8000dcc:	f063 037f 	orn	r3, r3, #127	; 0x7f
+ 8000dd0:	b2db      	uxtb	r3, r3
+ 8000dd2:	461a      	mov	r2, r3
+ 8000dd4:	2100      	movs	r1, #0
+ 8000dd6:	6878      	ldr	r0, [r7, #4]
+ 8000dd8:	f7ff fec3 	bl	8000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>
+ 8000ddc:	e000      	b.n	8000de0 <_ZN3LCD9SetCursorEhh+0x44>
+		return;
+ 8000dde:	bf00      	nop
+}
+ 8000de0:	3708      	adds	r7, #8
+ 8000de2:	46bd      	mov	sp, r7
+ 8000de4:	bd80      	pop	{r7, pc}
+ 8000de6:	bf00      	nop
+ 8000de8:	080019c0 	.word	0x080019c0
+
+08000dec <_ZN3LCD5PrintEc>:
+
+void LCD::Print(char data)
+{
+ 8000dec:	b580      	push	{r7, lr}
+ 8000dee:	b082      	sub	sp, #8
+ 8000df0:	af00      	add	r7, sp, #0
+ 8000df2:	6078      	str	r0, [r7, #4]
+ 8000df4:	460b      	mov	r3, r1
+ 8000df6:	70fb      	strb	r3, [r7, #3]
+	LCD::WriteByte(GPIO_PIN_SET,data);
+ 8000df8:	78fb      	ldrb	r3, [r7, #3]
+ 8000dfa:	461a      	mov	r2, r3
+ 8000dfc:	2101      	movs	r1, #1
+ 8000dfe:	6878      	ldr	r0, [r7, #4]
+ 8000e00:	f7ff feaf 	bl	8000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>
+}
+ 8000e04:	bf00      	nop
+ 8000e06:	3708      	adds	r7, #8
+ 8000e08:	46bd      	mov	sp, r7
+ 8000e0a:	bd80      	pop	{r7, pc}
+
+08000e0c <_ZN3LCD5PrintEPKc>:
+
+void LCD::Print(const char* pData)
+{
+ 8000e0c:	b580      	push	{r7, lr}
+ 8000e0e:	b082      	sub	sp, #8
+ 8000e10:	af00      	add	r7, sp, #0
+ 8000e12:	6078      	str	r0, [r7, #4]
+ 8000e14:	6039      	str	r1, [r7, #0]
+	LCD::WriteBytes(pData);
+ 8000e16:	6839      	ldr	r1, [r7, #0]
+ 8000e18:	6878      	ldr	r0, [r7, #4]
+ 8000e1a:	f7ff fec2 	bl	8000ba2 <_ZN3LCD10WriteBytesEPKc>
+}
+ 8000e1e:	bf00      	nop
+ 8000e20:	3708      	adds	r7, #8
+ 8000e22:	46bd      	mov	sp, r7
+ 8000e24:	bd80      	pop	{r7, pc}
+
+08000e26 <_ZN3LCD5ClearEv>:
+{
+	LCD::WriteInteger(data);
+}
+
+void LCD::Clear(void)
+{
+ 8000e26:	b580      	push	{r7, lr}
+ 8000e28:	b082      	sub	sp, #8
+ 8000e2a:	af00      	add	r7, sp, #0
+ 8000e2c:	6078      	str	r0, [r7, #4]
+	LCD::WriteByte(GPIO_PIN_RESET,CLEAR_DISPLAY);
+ 8000e2e:	2201      	movs	r2, #1
+ 8000e30:	2100      	movs	r1, #0
+ 8000e32:	6878      	ldr	r0, [r7, #4]
+ 8000e34:	f7ff fe95 	bl	8000b62 <_ZN3LCD9WriteByteE13GPIO_PinStatec>
+}
+ 8000e38:	bf00      	nop
+ 8000e3a:	3708      	adds	r7, #8
+ 8000e3c:	46bd      	mov	sp, r7
+ 8000e3e:	bd80      	pop	{r7, pc}
+
+08000e40 <main>:
+#include "game.h"
+
+int main(void)
+{
+ 8000e40:	b5b0      	push	{r4, r5, r7, lr}
+ 8000e42:	b0a4      	sub	sp, #144	; 0x90
+ 8000e44:	af04      	add	r7, sp, #16
+	HAL_Init();
+ 8000e46:	f000 f96d 	bl	8001124 <HAL_Init>
+	  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+ 8000e4a:	2300      	movs	r3, #0
+ 8000e4c:	60bb      	str	r3, [r7, #8]
+ 8000e4e:	4b5d      	ldr	r3, [pc, #372]	; (8000fc4 <main+0x184>)
+ 8000e50:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000e52:	4a5c      	ldr	r2, [pc, #368]	; (8000fc4 <main+0x184>)
+ 8000e54:	f043 0301 	orr.w	r3, r3, #1
+ 8000e58:	6313      	str	r3, [r2, #48]	; 0x30
+ 8000e5a:	4b5a      	ldr	r3, [pc, #360]	; (8000fc4 <main+0x184>)
+ 8000e5c:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000e5e:	f003 0301 	and.w	r3, r3, #1
+ 8000e62:	60bb      	str	r3, [r7, #8]
+ 8000e64:	68bb      	ldr	r3, [r7, #8]
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+ 8000e66:	2300      	movs	r3, #0
+ 8000e68:	607b      	str	r3, [r7, #4]
+ 8000e6a:	4b56      	ldr	r3, [pc, #344]	; (8000fc4 <main+0x184>)
+ 8000e6c:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000e6e:	4a55      	ldr	r2, [pc, #340]	; (8000fc4 <main+0x184>)
+ 8000e70:	f043 0302 	orr.w	r3, r3, #2
+ 8000e74:	6313      	str	r3, [r2, #48]	; 0x30
+ 8000e76:	4b53      	ldr	r3, [pc, #332]	; (8000fc4 <main+0x184>)
+ 8000e78:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000e7a:	f003 0302 	and.w	r3, r3, #2
+ 8000e7e:	607b      	str	r3, [r7, #4]
+ 8000e80:	687b      	ldr	r3, [r7, #4]
+  __HAL_RCC_GPIOC_CLK_ENABLE();	
+ 8000e82:	2300      	movs	r3, #0
+ 8000e84:	603b      	str	r3, [r7, #0]
+ 8000e86:	4b4f      	ldr	r3, [pc, #316]	; (8000fc4 <main+0x184>)
+ 8000e88:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000e8a:	4a4e      	ldr	r2, [pc, #312]	; (8000fc4 <main+0x184>)
+ 8000e8c:	f043 0304 	orr.w	r3, r3, #4
+ 8000e90:	6313      	str	r3, [r2, #48]	; 0x30
+ 8000e92:	4b4c      	ldr	r3, [pc, #304]	; (8000fc4 <main+0x184>)
+ 8000e94:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000e96:	f003 0304 	and.w	r3, r3, #4
+ 8000e9a:	603b      	str	r3, [r7, #0]
+ 8000e9c:	683b      	ldr	r3, [r7, #0]
+	
+	pinStruct_t rowPins[NUMBER_OF_ROWS] =
+ 8000e9e:	4b4a      	ldr	r3, [pc, #296]	; (8000fc8 <main+0x188>)
+ 8000ea0:	f107 045c 	add.w	r4, r7, #92	; 0x5c
+ 8000ea4:	461d      	mov	r5, r3
+ 8000ea6:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
+ 8000ea8:	c40f      	stmia	r4!, {r0, r1, r2, r3}
+ 8000eaa:	e895 000f 	ldmia.w	r5, {r0, r1, r2, r3}
+ 8000eae:	e884 000f 	stmia.w	r4, {r0, r1, r2, r3}
+		{GPIOC,GPIO_PIN_6},
+		{GPIOA,GPIO_PIN_6},
+		{GPIOA,GPIO_PIN_7},
+		{GPIOB,GPIO_PIN_6}
+	};
+	pinStruct_t columnPins[NUMBER_OF_COLUMNS] =
+ 8000eb2:	4b46      	ldr	r3, [pc, #280]	; (8000fcc <main+0x18c>)
+ 8000eb4:	f107 043c 	add.w	r4, r7, #60	; 0x3c
+ 8000eb8:	461d      	mov	r5, r3
+ 8000eba:	cd0f      	ldmia	r5!, {r0, r1, r2, r3}
+ 8000ebc:	c40f      	stmia	r4!, {r0, r1, r2, r3}
+ 8000ebe:	e895 000f 	ldmia.w	r5, {r0, r1, r2, r3}
+ 8000ec2:	e884 000f 	stmia.w	r4, {r0, r1, r2, r3}
+		{GPIOA,GPIO_PIN_1},
+		{GPIOA,GPIO_PIN_4},
+		{GPIOB,GPIO_PIN_0}			
+	};
+	
+	pinStruct_t rs = {GPIOC,GPIO_PIN_0};
+ 8000ec6:	4a42      	ldr	r2, [pc, #264]	; (8000fd0 <main+0x190>)
+ 8000ec8:	f107 0334 	add.w	r3, r7, #52	; 0x34
+ 8000ecc:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000ed0:	e883 0003 	stmia.w	r3, {r0, r1}
+	pinStruct_t en = {GPIOC,GPIO_PIN_1};
+ 8000ed4:	4a3f      	ldr	r2, [pc, #252]	; (8000fd4 <main+0x194>)
+ 8000ed6:	f107 032c 	add.w	r3, r7, #44	; 0x2c
+ 8000eda:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000ede:	e883 0003 	stmia.w	r3, {r0, r1}
+	pinStruct_t d4 = {GPIOC,GPIO_PIN_2};
+ 8000ee2:	4a3d      	ldr	r2, [pc, #244]	; (8000fd8 <main+0x198>)
+ 8000ee4:	f107 0324 	add.w	r3, r7, #36	; 0x24
+ 8000ee8:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000eec:	e883 0003 	stmia.w	r3, {r0, r1}
+	pinStruct_t d5 = {GPIOC,GPIO_PIN_3};
+ 8000ef0:	4a3a      	ldr	r2, [pc, #232]	; (8000fdc <main+0x19c>)
+ 8000ef2:	f107 031c 	add.w	r3, r7, #28
+ 8000ef6:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000efa:	e883 0003 	stmia.w	r3, {r0, r1}
+	pinStruct_t d6 = {GPIOC,GPIO_PIN_4};
+ 8000efe:	4a38      	ldr	r2, [pc, #224]	; (8000fe0 <main+0x1a0>)
+ 8000f00:	f107 0314 	add.w	r3, r7, #20
+ 8000f04:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000f08:	e883 0003 	stmia.w	r3, {r0, r1}
+	pinStruct_t d7 = {GPIOC,GPIO_PIN_5};
+ 8000f0c:	4a35      	ldr	r2, [pc, #212]	; (8000fe4 <main+0x1a4>)
+ 8000f0e:	f107 030c 	add.w	r3, r7, #12
+ 8000f12:	e892 0003 	ldmia.w	r2, {r0, r1}
+ 8000f16:	e883 0003 	stmia.w	r3, {r0, r1}
+	
+	static Keypad keypad(rowPins,columnPins);
+ 8000f1a:	4b33      	ldr	r3, [pc, #204]	; (8000fe8 <main+0x1a8>)
+ 8000f1c:	681b      	ldr	r3, [r3, #0]
+ 8000f1e:	f003 0301 	and.w	r3, r3, #1
+ 8000f22:	2b00      	cmp	r3, #0
+ 8000f24:	d10a      	bne.n	8000f3c <main+0xfc>
+ 8000f26:	f107 023c 	add.w	r2, r7, #60	; 0x3c
+ 8000f2a:	f107 035c 	add.w	r3, r7, #92	; 0x5c
+ 8000f2e:	4619      	mov	r1, r3
+ 8000f30:	482e      	ldr	r0, [pc, #184]	; (8000fec <main+0x1ac>)
+ 8000f32:	f7ff fc6f 	bl	8000814 <_ZN6KeypadC1EP11pinStruct_tS1_>
+ 8000f36:	4b2c      	ldr	r3, [pc, #176]	; (8000fe8 <main+0x1a8>)
+ 8000f38:	2201      	movs	r2, #1
+ 8000f3a:	601a      	str	r2, [r3, #0]
+	static LCD lcd(rs,en,d4,d5,d6,d7);
+ 8000f3c:	4b2c      	ldr	r3, [pc, #176]	; (8000ff0 <main+0x1b0>)
+ 8000f3e:	681b      	ldr	r3, [r3, #0]
+ 8000f40:	f003 0301 	and.w	r3, r3, #1
+ 8000f44:	2b00      	cmp	r3, #0
+ 8000f46:	d115      	bne.n	8000f74 <main+0x134>
+ 8000f48:	f107 0024 	add.w	r0, r7, #36	; 0x24
+ 8000f4c:	f107 022c 	add.w	r2, r7, #44	; 0x2c
+ 8000f50:	f107 0134 	add.w	r1, r7, #52	; 0x34
+ 8000f54:	f107 030c 	add.w	r3, r7, #12
+ 8000f58:	9302      	str	r3, [sp, #8]
+ 8000f5a:	f107 0314 	add.w	r3, r7, #20
+ 8000f5e:	9301      	str	r3, [sp, #4]
+ 8000f60:	f107 031c 	add.w	r3, r7, #28
+ 8000f64:	9300      	str	r3, [sp, #0]
+ 8000f66:	4603      	mov	r3, r0
+ 8000f68:	4822      	ldr	r0, [pc, #136]	; (8000ff4 <main+0x1b4>)
+ 8000f6a:	f7ff fe33 	bl	8000bd4 <_ZN3LCDC1ER11pinStruct_tS1_S1_S1_S1_S1_>
+ 8000f6e:	4b20      	ldr	r3, [pc, #128]	; (8000ff0 <main+0x1b0>)
+ 8000f70:	2201      	movs	r2, #1
+ 8000f72:	601a      	str	r2, [r3, #0]
+	
+	//Game startup
+	Game_DisplayIntro(lcd);
+ 8000f74:	481f      	ldr	r0, [pc, #124]	; (8000ff4 <main+0x1b4>)
+ 8000f76:	f7ff fa8b 	bl	8000490 <_Z17Game_DisplayIntroR3LCD>
+	HAL_Delay(1500);
+ 8000f7a:	f240 50dc 	movw	r0, #1500	; 0x5dc
+ 8000f7e:	f000 f943 	bl	8001208 <HAL_Delay>
+	Game_DisplayMenu(lcd);
+ 8000f82:	481c      	ldr	r0, [pc, #112]	; (8000ff4 <main+0x1b4>)
+ 8000f84:	f7ff fabc 	bl	8000500 <_Z16Game_DisplayMenuR3LCD>
+	
+	while(1)
+	{
+		char pressedKey = keypad.GetCharShortPress();
+ 8000f88:	4818      	ldr	r0, [pc, #96]	; (8000fec <main+0x1ac>)
+ 8000f8a:	f7ff fd11 	bl	80009b0 <_ZN6Keypad17GetCharShortPressEv>
+ 8000f8e:	4603      	mov	r3, r0
+ 8000f90:	f887 307f 	strb.w	r3, [r7, #127]	; 0x7f
+		
+		switch(pressedKey)
+ 8000f94:	f897 307f 	ldrb.w	r3, [r7, #127]	; 0x7f
+ 8000f98:	2b41      	cmp	r3, #65	; 0x41
+ 8000f9a:	d004      	beq.n	8000fa6 <main+0x166>
+ 8000f9c:	2b42      	cmp	r3, #66	; 0x42
+ 8000f9e:	d007      	beq.n	8000fb0 <main+0x170>
+ 8000fa0:	2b3d      	cmp	r3, #61	; 0x3d
+ 8000fa2:	d009      	beq.n	8000fb8 <main+0x178>
+ 8000fa4:	e00c      	b.n	8000fc0 <main+0x180>
+		{
+			case 'A':
+				Game_Start(lcd,keypad);
+ 8000fa6:	4911      	ldr	r1, [pc, #68]	; (8000fec <main+0x1ac>)
+ 8000fa8:	4812      	ldr	r0, [pc, #72]	; (8000ff4 <main+0x1b4>)
+ 8000faa:	f7ff fb4b 	bl	8000644 <_Z10Game_StartR3LCDR6Keypad>
+				break;
+ 8000fae:	e007      	b.n	8000fc0 <main+0x180>
+			case 'B':
+				Game_DisplayMenu(lcd);
+ 8000fb0:	4810      	ldr	r0, [pc, #64]	; (8000ff4 <main+0x1b4>)
+ 8000fb2:	f7ff faa5 	bl	8000500 <_Z16Game_DisplayMenuR3LCD>
+				break;
+ 8000fb6:	e003      	b.n	8000fc0 <main+0x180>
+			case '=':
+				Game_DisplayRules(lcd);
+ 8000fb8:	480e      	ldr	r0, [pc, #56]	; (8000ff4 <main+0x1b4>)
+ 8000fba:	f7ff fad9 	bl	8000570 <_Z17Game_DisplayRulesR3LCD>
+				break;
+ 8000fbe:	bf00      	nop
+		}
+	}
+ 8000fc0:	e7e2      	b.n	8000f88 <main+0x148>
+ 8000fc2:	bf00      	nop
+ 8000fc4:	40023800 	.word	0x40023800
+ 8000fc8:	08001940 	.word	0x08001940
+ 8000fcc:	08001960 	.word	0x08001960
+ 8000fd0:	08001980 	.word	0x08001980
+ 8000fd4:	08001988 	.word	0x08001988
+ 8000fd8:	08001990 	.word	0x08001990
+ 8000fdc:	08001998 	.word	0x08001998
+ 8000fe0:	080019a0 	.word	0x080019a0
+ 8000fe4:	080019a8 	.word	0x080019a8
+ 8000fe8:	20000050 	.word	0x20000050
+ 8000fec:	20000038 	.word	0x20000038
+ 8000ff0:	20000084 	.word	0x20000084
+ 8000ff4:	20000054 	.word	0x20000054
+
+08000ff8 <SysTick_Handler>:
+}	
+
+extern "C" void SysTick_Handler(void)
+{
+ 8000ff8:	b580      	push	{r7, lr}
+ 8000ffa:	af00      	add	r7, sp, #0
+  HAL_IncTick();
+ 8000ffc:	f000 f8e4 	bl	80011c8 <HAL_IncTick>
+}
+ 8001000:	bf00      	nop
+ 8001002:	bd80      	pop	{r7, pc}
+
+08001004 <HAL_MspInit>:
+/* USER CODE END 0 */
+/**
+  * Initializes the Global MSP.
+  */
+void HAL_MspInit(void)
+{
+ 8001004:	b480      	push	{r7}
+ 8001006:	b083      	sub	sp, #12
+ 8001008:	af00      	add	r7, sp, #0
+  /* USER CODE BEGIN MspInit 0 */
+
+  /* USER CODE END MspInit 0 */
+
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
+ 800100a:	2300      	movs	r3, #0
+ 800100c:	607b      	str	r3, [r7, #4]
+ 800100e:	4b10      	ldr	r3, [pc, #64]	; (8001050 <HAL_MspInit+0x4c>)
+ 8001010:	6c5b      	ldr	r3, [r3, #68]	; 0x44
+ 8001012:	4a0f      	ldr	r2, [pc, #60]	; (8001050 <HAL_MspInit+0x4c>)
+ 8001014:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
+ 8001018:	6453      	str	r3, [r2, #68]	; 0x44
+ 800101a:	4b0d      	ldr	r3, [pc, #52]	; (8001050 <HAL_MspInit+0x4c>)
+ 800101c:	6c5b      	ldr	r3, [r3, #68]	; 0x44
+ 800101e:	f403 4380 	and.w	r3, r3, #16384	; 0x4000
+ 8001022:	607b      	str	r3, [r7, #4]
+ 8001024:	687b      	ldr	r3, [r7, #4]
+  __HAL_RCC_PWR_CLK_ENABLE();
+ 8001026:	2300      	movs	r3, #0
+ 8001028:	603b      	str	r3, [r7, #0]
+ 800102a:	4b09      	ldr	r3, [pc, #36]	; (8001050 <HAL_MspInit+0x4c>)
+ 800102c:	6c1b      	ldr	r3, [r3, #64]	; 0x40
+ 800102e:	4a08      	ldr	r2, [pc, #32]	; (8001050 <HAL_MspInit+0x4c>)
+ 8001030:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 8001034:	6413      	str	r3, [r2, #64]	; 0x40
+ 8001036:	4b06      	ldr	r3, [pc, #24]	; (8001050 <HAL_MspInit+0x4c>)
+ 8001038:	6c1b      	ldr	r3, [r3, #64]	; 0x40
+ 800103a:	f003 5380 	and.w	r3, r3, #268435456	; 0x10000000
+ 800103e:	603b      	str	r3, [r7, #0]
+ 8001040:	683b      	ldr	r3, [r7, #0]
+  /* System interrupt init*/
+
+  /* USER CODE BEGIN MspInit 1 */
+
+  /* USER CODE END MspInit 1 */
+}
+ 8001042:	bf00      	nop
+ 8001044:	370c      	adds	r7, #12
+ 8001046:	46bd      	mov	sp, r7
+ 8001048:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800104c:	4770      	bx	lr
+ 800104e:	bf00      	nop
+ 8001050:	40023800 	.word	0x40023800
+
+08001054 <NMI_Handler>:
+/******************************************************************************/
+/**
+  * @brief This function handles Non maskable interrupt.
+  */
+void NMI_Handler(void)
+{
+ 8001054:	b480      	push	{r7}
+ 8001056:	af00      	add	r7, sp, #0
+
+  /* USER CODE END NonMaskableInt_IRQn 0 */
+  /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
+
+  /* USER CODE END NonMaskableInt_IRQn 1 */
+}
+ 8001058:	bf00      	nop
+ 800105a:	46bd      	mov	sp, r7
+ 800105c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001060:	4770      	bx	lr
+
+08001062 <HardFault_Handler>:
+
+/**
+  * @brief This function handles Hard fault interrupt.
+  */
+void HardFault_Handler(void)
+{
+ 8001062:	b480      	push	{r7}
+ 8001064:	af00      	add	r7, sp, #0
+  /* USER CODE BEGIN HardFault_IRQn 0 */
+
+  /* USER CODE END HardFault_IRQn 0 */
+  while (1)
+ 8001066:	e7fe      	b.n	8001066 <HardFault_Handler+0x4>
+
+08001068 <MemManage_Handler>:
+
+/**
+  * @brief This function handles Memory management fault.
+  */
+void MemManage_Handler(void)
+{
+ 8001068:	b480      	push	{r7}
+ 800106a:	af00      	add	r7, sp, #0
+  /* USER CODE BEGIN MemoryManagement_IRQn 0 */
+
+  /* USER CODE END MemoryManagement_IRQn 0 */
+  while (1)
+ 800106c:	e7fe      	b.n	800106c <MemManage_Handler+0x4>
+
+0800106e <BusFault_Handler>:
+
+/**
+  * @brief This function handles Pre-fetch fault, memory access fault.
+  */
+void BusFault_Handler(void)
+{
+ 800106e:	b480      	push	{r7}
+ 8001070:	af00      	add	r7, sp, #0
+  /* USER CODE BEGIN BusFault_IRQn 0 */
+
+  /* USER CODE END BusFault_IRQn 0 */
+  while (1)
+ 8001072:	e7fe      	b.n	8001072 <BusFault_Handler+0x4>
+
+08001074 <UsageFault_Handler>:
+
+/**
+  * @brief This function handles Undefined instruction or illegal state.
+  */
+void UsageFault_Handler(void)
+{
+ 8001074:	b480      	push	{r7}
+ 8001076:	af00      	add	r7, sp, #0
+  /* USER CODE BEGIN UsageFault_IRQn 0 */
+
+  /* USER CODE END UsageFault_IRQn 0 */
+  while (1)
+ 8001078:	e7fe      	b.n	8001078 <UsageFault_Handler+0x4>
+
+0800107a <SVC_Handler>:
+
+/**
+  * @brief This function handles System service call via SWI instruction.
+  */
+void SVC_Handler(void)
+{
+ 800107a:	b480      	push	{r7}
+ 800107c:	af00      	add	r7, sp, #0
+
+  /* USER CODE END SVCall_IRQn 0 */
+  /* USER CODE BEGIN SVCall_IRQn 1 */
+
+  /* USER CODE END SVCall_IRQn 1 */
+}
+ 800107e:	bf00      	nop
+ 8001080:	46bd      	mov	sp, r7
+ 8001082:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001086:	4770      	bx	lr
+
+08001088 <DebugMon_Handler>:
+
+/**
+  * @brief This function handles Debug monitor.
+  */
+void DebugMon_Handler(void)
+{
+ 8001088:	b480      	push	{r7}
+ 800108a:	af00      	add	r7, sp, #0
+
+  /* USER CODE END DebugMonitor_IRQn 0 */
+  /* USER CODE BEGIN DebugMonitor_IRQn 1 */
+
+  /* USER CODE END DebugMonitor_IRQn 1 */
+}
+ 800108c:	bf00      	nop
+ 800108e:	46bd      	mov	sp, r7
+ 8001090:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001094:	4770      	bx	lr
+
+08001096 <PendSV_Handler>:
+
+/**
+  * @brief This function handles Pendable request for system service.
+  */
+void PendSV_Handler(void)
+{
+ 8001096:	b480      	push	{r7}
+ 8001098:	af00      	add	r7, sp, #0
+
+  /* USER CODE END PendSV_IRQn 0 */
+  /* USER CODE BEGIN PendSV_IRQn 1 */
+
+  /* USER CODE END PendSV_IRQn 1 */
+}
+ 800109a:	bf00      	nop
+ 800109c:	46bd      	mov	sp, r7
+ 800109e:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80010a2:	4770      	bx	lr
+
+080010a4 <SystemInit>:
+  *         configuration.
+  * @param  None
+  * @retval None
+  */
+void SystemInit(void)
+{
+ 80010a4:	b480      	push	{r7}
+ 80010a6:	af00      	add	r7, sp, #0
+  /* FPU settings ------------------------------------------------------------*/
+  #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+    SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+ 80010a8:	4b08      	ldr	r3, [pc, #32]	; (80010cc <SystemInit+0x28>)
+ 80010aa:	f8d3 3088 	ldr.w	r3, [r3, #136]	; 0x88
+ 80010ae:	4a07      	ldr	r2, [pc, #28]	; (80010cc <SystemInit+0x28>)
+ 80010b0:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
+ 80010b4:	f8c2 3088 	str.w	r3, [r2, #136]	; 0x88
+
+  /* Configure the Vector Table location add offset address ------------------*/
+#ifdef VECT_TAB_SRAM
+  SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
+#else
+  SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+ 80010b8:	4b04      	ldr	r3, [pc, #16]	; (80010cc <SystemInit+0x28>)
+ 80010ba:	f04f 6200 	mov.w	r2, #134217728	; 0x8000000
+ 80010be:	609a      	str	r2, [r3, #8]
+#endif
+}
+ 80010c0:	bf00      	nop
+ 80010c2:	46bd      	mov	sp, r7
+ 80010c4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80010c8:	4770      	bx	lr
+ 80010ca:	bf00      	nop
+ 80010cc:	e000ed00 	.word	0xe000ed00
+
+080010d0 <Reset_Handler>:
+
+    .section  .text.Reset_Handler
+  .weak  Reset_Handler
+  .type  Reset_Handler, %function
+Reset_Handler:  
+  ldr   sp, =_estack    		 /* set stack pointer */
+ 80010d0:	f8df d034 	ldr.w	sp, [pc, #52]	; 8001108 <LoopFillZerobss+0x14>
+
+/* Copy the data segment initializers from flash to SRAM */  
+  movs  r1, #0
+ 80010d4:	2100      	movs	r1, #0
+  b  LoopCopyDataInit
+ 80010d6:	e003      	b.n	80010e0 <LoopCopyDataInit>
+
+080010d8 <CopyDataInit>:
+
+CopyDataInit:
+  ldr  r3, =_sidata
+ 80010d8:	4b0c      	ldr	r3, [pc, #48]	; (800110c <LoopFillZerobss+0x18>)
+  ldr  r3, [r3, r1]
+ 80010da:	585b      	ldr	r3, [r3, r1]
+  str  r3, [r0, r1]
+ 80010dc:	5043      	str	r3, [r0, r1]
+  adds  r1, r1, #4
+ 80010de:	3104      	adds	r1, #4
+
+080010e0 <LoopCopyDataInit>:
+    
+LoopCopyDataInit:
+  ldr  r0, =_sdata
+ 80010e0:	480b      	ldr	r0, [pc, #44]	; (8001110 <LoopFillZerobss+0x1c>)
+  ldr  r3, =_edata
+ 80010e2:	4b0c      	ldr	r3, [pc, #48]	; (8001114 <LoopFillZerobss+0x20>)
+  adds  r2, r0, r1
+ 80010e4:	1842      	adds	r2, r0, r1
+  cmp  r2, r3
+ 80010e6:	429a      	cmp	r2, r3
+  bcc  CopyDataInit
+ 80010e8:	d3f6      	bcc.n	80010d8 <CopyDataInit>
+  ldr  r2, =_sbss
+ 80010ea:	4a0b      	ldr	r2, [pc, #44]	; (8001118 <LoopFillZerobss+0x24>)
+  b  LoopFillZerobss
+ 80010ec:	e002      	b.n	80010f4 <LoopFillZerobss>
+
+080010ee <FillZerobss>:
+/* Zero fill the bss segment. */  
+FillZerobss:
+  movs  r3, #0
+ 80010ee:	2300      	movs	r3, #0
+  str  r3, [r2], #4
+ 80010f0:	f842 3b04 	str.w	r3, [r2], #4
+
+080010f4 <LoopFillZerobss>:
+    
+LoopFillZerobss:
+  ldr  r3, = _ebss
+ 80010f4:	4b09      	ldr	r3, [pc, #36]	; (800111c <LoopFillZerobss+0x28>)
+  cmp  r2, r3
+ 80010f6:	429a      	cmp	r2, r3
+  bcc  FillZerobss
+ 80010f8:	d3f9      	bcc.n	80010ee <FillZerobss>
+
+/* Call the clock system intitialization function.*/
+  bl  SystemInit   
+ 80010fa:	f7ff ffd3 	bl	80010a4 <SystemInit>
+/* Call static constructors */
+    bl __libc_init_array
+ 80010fe:	f000 fb3f 	bl	8001780 <__libc_init_array>
+/* Call the application's entry point.*/
+  bl  main
+ 8001102:	f7ff fe9d 	bl	8000e40 <main>
+  bx  lr    
+ 8001106:	4770      	bx	lr
+  ldr   sp, =_estack    		 /* set stack pointer */
+ 8001108:	20018000 	.word	0x20018000
+  ldr  r3, =_sidata
+ 800110c:	08001a18 	.word	0x08001a18
+  ldr  r0, =_sdata
+ 8001110:	20000000 	.word	0x20000000
+  ldr  r3, =_edata
+ 8001114:	20000018 	.word	0x20000018
+  ldr  r2, =_sbss
+ 8001118:	20000018 	.word	0x20000018
+  ldr  r3, = _ebss
+ 800111c:	2000008c 	.word	0x2000008c
+
+08001120 <ADC_IRQHandler>:
+ * @retval None       
+*/
+    .section  .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b  Infinite_Loop
+ 8001120:	e7fe      	b.n	8001120 <ADC_IRQHandler>
+	...
+
+08001124 <HAL_Init>:
+  *         need to ensure that the SysTick time base is always set to 1 millisecond
+  *         to have correct HAL operation.
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_Init(void)
+{
+ 8001124:	b580      	push	{r7, lr}
+ 8001126:	af00      	add	r7, sp, #0
+  /* Configure Flash prefetch, Instruction cache, Data cache */ 
+#if (INSTRUCTION_CACHE_ENABLE != 0U)
+  __HAL_FLASH_INSTRUCTION_CACHE_ENABLE();
+ 8001128:	4b0e      	ldr	r3, [pc, #56]	; (8001164 <HAL_Init+0x40>)
+ 800112a:	681b      	ldr	r3, [r3, #0]
+ 800112c:	4a0d      	ldr	r2, [pc, #52]	; (8001164 <HAL_Init+0x40>)
+ 800112e:	f443 7300 	orr.w	r3, r3, #512	; 0x200
+ 8001132:	6013      	str	r3, [r2, #0]
+#endif /* INSTRUCTION_CACHE_ENABLE */
+
+#if (DATA_CACHE_ENABLE != 0U)
+  __HAL_FLASH_DATA_CACHE_ENABLE();
+ 8001134:	4b0b      	ldr	r3, [pc, #44]	; (8001164 <HAL_Init+0x40>)
+ 8001136:	681b      	ldr	r3, [r3, #0]
+ 8001138:	4a0a      	ldr	r2, [pc, #40]	; (8001164 <HAL_Init+0x40>)
+ 800113a:	f443 6380 	orr.w	r3, r3, #1024	; 0x400
+ 800113e:	6013      	str	r3, [r2, #0]
+#endif /* DATA_CACHE_ENABLE */
+
+#if (PREFETCH_ENABLE != 0U)
+  __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
+ 8001140:	4b08      	ldr	r3, [pc, #32]	; (8001164 <HAL_Init+0x40>)
+ 8001142:	681b      	ldr	r3, [r3, #0]
+ 8001144:	4a07      	ldr	r2, [pc, #28]	; (8001164 <HAL_Init+0x40>)
+ 8001146:	f443 7380 	orr.w	r3, r3, #256	; 0x100
+ 800114a:	6013      	str	r3, [r2, #0]
+#endif /* PREFETCH_ENABLE */
+
+  /* Set Interrupt Group Priority */
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+ 800114c:	2003      	movs	r0, #3
+ 800114e:	f000 f92f 	bl	80013b0 <HAL_NVIC_SetPriorityGrouping>
+
+  /* Use systick as time base source and configure 1ms tick (default clock after Reset is HSI) */
+  HAL_InitTick(TICK_INT_PRIORITY);
+ 8001152:	2000      	movs	r0, #0
+ 8001154:	f000 f808 	bl	8001168 <HAL_InitTick>
+
+  /* Init the low level hardware */
+  HAL_MspInit();
+ 8001158:	f7ff ff54 	bl	8001004 <HAL_MspInit>
+
+  /* Return function status */
+  return HAL_OK;
+ 800115c:	2300      	movs	r3, #0
+}
+ 800115e:	4618      	mov	r0, r3
+ 8001160:	bd80      	pop	{r7, pc}
+ 8001162:	bf00      	nop
+ 8001164:	40023c00 	.word	0x40023c00
+
+08001168 <HAL_InitTick>:
+  *       implementation  in user file.
+  * @param TickPriority Tick interrupt priority.
+  * @retval HAL status
+  */
+__weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
+{
+ 8001168:	b580      	push	{r7, lr}
+ 800116a:	b082      	sub	sp, #8
+ 800116c:	af00      	add	r7, sp, #0
+ 800116e:	6078      	str	r0, [r7, #4]
+  /* Configure the SysTick to have interrupt in 1ms time basis*/
+  if (HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq)) > 0U)
+ 8001170:	4b12      	ldr	r3, [pc, #72]	; (80011bc <HAL_InitTick+0x54>)
+ 8001172:	681a      	ldr	r2, [r3, #0]
+ 8001174:	4b12      	ldr	r3, [pc, #72]	; (80011c0 <HAL_InitTick+0x58>)
+ 8001176:	781b      	ldrb	r3, [r3, #0]
+ 8001178:	4619      	mov	r1, r3
+ 800117a:	f44f 737a 	mov.w	r3, #1000	; 0x3e8
+ 800117e:	fbb3 f3f1 	udiv	r3, r3, r1
+ 8001182:	fbb2 f3f3 	udiv	r3, r2, r3
+ 8001186:	4618      	mov	r0, r3
+ 8001188:	f000 f939 	bl	80013fe <HAL_SYSTICK_Config>
+ 800118c:	4603      	mov	r3, r0
+ 800118e:	2b00      	cmp	r3, #0
+ 8001190:	d001      	beq.n	8001196 <HAL_InitTick+0x2e>
+  {
+    return HAL_ERROR;
+ 8001192:	2301      	movs	r3, #1
+ 8001194:	e00e      	b.n	80011b4 <HAL_InitTick+0x4c>
+  }
+
+  /* Configure the SysTick IRQ priority */
+  if (TickPriority < (1UL << __NVIC_PRIO_BITS))
+ 8001196:	687b      	ldr	r3, [r7, #4]
+ 8001198:	2b0f      	cmp	r3, #15
+ 800119a:	d80a      	bhi.n	80011b2 <HAL_InitTick+0x4a>
+  {
+    HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
+ 800119c:	2200      	movs	r2, #0
+ 800119e:	6879      	ldr	r1, [r7, #4]
+ 80011a0:	f04f 30ff 	mov.w	r0, #4294967295
+ 80011a4:	f000 f90f 	bl	80013c6 <HAL_NVIC_SetPriority>
+    uwTickPrio = TickPriority;
+ 80011a8:	4a06      	ldr	r2, [pc, #24]	; (80011c4 <HAL_InitTick+0x5c>)
+ 80011aa:	687b      	ldr	r3, [r7, #4]
+ 80011ac:	6013      	str	r3, [r2, #0]
+  {
+    return HAL_ERROR;
+  }
+
+  /* Return function status */
+  return HAL_OK;
+ 80011ae:	2300      	movs	r3, #0
+ 80011b0:	e000      	b.n	80011b4 <HAL_InitTick+0x4c>
+    return HAL_ERROR;
+ 80011b2:	2301      	movs	r3, #1
+}
+ 80011b4:	4618      	mov	r0, r3
+ 80011b6:	3708      	adds	r7, #8
+ 80011b8:	46bd      	mov	sp, r7
+ 80011ba:	bd80      	pop	{r7, pc}
+ 80011bc:	2000000c 	.word	0x2000000c
+ 80011c0:	20000014 	.word	0x20000014
+ 80011c4:	20000010 	.word	0x20000010
+
+080011c8 <HAL_IncTick>:
+ * @note This function is declared as __weak to be overwritten in case of other 
+  *      implementations in user file.
+  * @retval None
+  */
+__weak void HAL_IncTick(void)
+{
+ 80011c8:	b480      	push	{r7}
+ 80011ca:	af00      	add	r7, sp, #0
+  uwTick += uwTickFreq;
+ 80011cc:	4b06      	ldr	r3, [pc, #24]	; (80011e8 <HAL_IncTick+0x20>)
+ 80011ce:	781b      	ldrb	r3, [r3, #0]
+ 80011d0:	461a      	mov	r2, r3
+ 80011d2:	4b06      	ldr	r3, [pc, #24]	; (80011ec <HAL_IncTick+0x24>)
+ 80011d4:	681b      	ldr	r3, [r3, #0]
+ 80011d6:	4413      	add	r3, r2
+ 80011d8:	4a04      	ldr	r2, [pc, #16]	; (80011ec <HAL_IncTick+0x24>)
+ 80011da:	6013      	str	r3, [r2, #0]
+}
+ 80011dc:	bf00      	nop
+ 80011de:	46bd      	mov	sp, r7
+ 80011e0:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80011e4:	4770      	bx	lr
+ 80011e6:	bf00      	nop
+ 80011e8:	20000014 	.word	0x20000014
+ 80011ec:	20000088 	.word	0x20000088
+
+080011f0 <HAL_GetTick>:
+  * @note This function is declared as __weak to be overwritten in case of other 
+  *       implementations in user file.
+  * @retval tick value
+  */
+__weak uint32_t HAL_GetTick(void)
+{
+ 80011f0:	b480      	push	{r7}
+ 80011f2:	af00      	add	r7, sp, #0
+  return uwTick;
+ 80011f4:	4b03      	ldr	r3, [pc, #12]	; (8001204 <HAL_GetTick+0x14>)
+ 80011f6:	681b      	ldr	r3, [r3, #0]
+}
+ 80011f8:	4618      	mov	r0, r3
+ 80011fa:	46bd      	mov	sp, r7
+ 80011fc:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001200:	4770      	bx	lr
+ 8001202:	bf00      	nop
+ 8001204:	20000088 	.word	0x20000088
+
+08001208 <HAL_Delay>:
+  *       implementations in user file.
+  * @param Delay specifies the delay time length, in milliseconds.
+  * @retval None
+  */
+__weak void HAL_Delay(uint32_t Delay)
+{
+ 8001208:	b580      	push	{r7, lr}
+ 800120a:	b084      	sub	sp, #16
+ 800120c:	af00      	add	r7, sp, #0
+ 800120e:	6078      	str	r0, [r7, #4]
+  uint32_t tickstart = HAL_GetTick();
+ 8001210:	f7ff ffee 	bl	80011f0 <HAL_GetTick>
+ 8001214:	60b8      	str	r0, [r7, #8]
+  uint32_t wait = Delay;
+ 8001216:	687b      	ldr	r3, [r7, #4]
+ 8001218:	60fb      	str	r3, [r7, #12]
+
+  /* Add a freq to guarantee minimum wait */
+  if (wait < HAL_MAX_DELAY)
+ 800121a:	68fb      	ldr	r3, [r7, #12]
+ 800121c:	f1b3 3fff 	cmp.w	r3, #4294967295
+ 8001220:	d005      	beq.n	800122e <HAL_Delay+0x26>
+  {
+    wait += (uint32_t)(uwTickFreq);
+ 8001222:	4b09      	ldr	r3, [pc, #36]	; (8001248 <HAL_Delay+0x40>)
+ 8001224:	781b      	ldrb	r3, [r3, #0]
+ 8001226:	461a      	mov	r2, r3
+ 8001228:	68fb      	ldr	r3, [r7, #12]
+ 800122a:	4413      	add	r3, r2
+ 800122c:	60fb      	str	r3, [r7, #12]
+  }
+
+  while((HAL_GetTick() - tickstart) < wait)
+ 800122e:	bf00      	nop
+ 8001230:	f7ff ffde 	bl	80011f0 <HAL_GetTick>
+ 8001234:	4602      	mov	r2, r0
+ 8001236:	68bb      	ldr	r3, [r7, #8]
+ 8001238:	1ad3      	subs	r3, r2, r3
+ 800123a:	68fa      	ldr	r2, [r7, #12]
+ 800123c:	429a      	cmp	r2, r3
+ 800123e:	d8f7      	bhi.n	8001230 <HAL_Delay+0x28>
+  {
+  }
+}
+ 8001240:	bf00      	nop
+ 8001242:	3710      	adds	r7, #16
+ 8001244:	46bd      	mov	sp, r7
+ 8001246:	bd80      	pop	{r7, pc}
+ 8001248:	20000014 	.word	0x20000014
+
+0800124c <__NVIC_SetPriorityGrouping>:
+           In case of a conflict between priority grouping and available
+           priority bits (__NVIC_PRIO_BITS), the smallest possible priority group is set.
+  \param [in]      PriorityGroup  Priority grouping field.
+ */
+__STATIC_INLINE void __NVIC_SetPriorityGrouping(uint32_t PriorityGroup)
+{
+ 800124c:	b480      	push	{r7}
+ 800124e:	b085      	sub	sp, #20
+ 8001250:	af00      	add	r7, sp, #0
+ 8001252:	6078      	str	r0, [r7, #4]
+  uint32_t reg_value;
+  uint32_t PriorityGroupTmp = (PriorityGroup & (uint32_t)0x07UL);             /* only values 0..7 are used          */
+ 8001254:	687b      	ldr	r3, [r7, #4]
+ 8001256:	f003 0307 	and.w	r3, r3, #7
+ 800125a:	60fb      	str	r3, [r7, #12]
+
+  reg_value  =  SCB->AIRCR;                                                   /* read old register configuration    */
+ 800125c:	4b0c      	ldr	r3, [pc, #48]	; (8001290 <__NVIC_SetPriorityGrouping+0x44>)
+ 800125e:	68db      	ldr	r3, [r3, #12]
+ 8001260:	60bb      	str	r3, [r7, #8]
+  reg_value &= ~((uint32_t)(SCB_AIRCR_VECTKEY_Msk | SCB_AIRCR_PRIGROUP_Msk)); /* clear bits to change               */
+ 8001262:	68ba      	ldr	r2, [r7, #8]
+ 8001264:	f64f 03ff 	movw	r3, #63743	; 0xf8ff
+ 8001268:	4013      	ands	r3, r2
+ 800126a:	60bb      	str	r3, [r7, #8]
+  reg_value  =  (reg_value                                   |
+                ((uint32_t)0x5FAUL << SCB_AIRCR_VECTKEY_Pos) |
+                (PriorityGroupTmp << SCB_AIRCR_PRIGROUP_Pos)  );              /* Insert write key and priority group */
+ 800126c:	68fb      	ldr	r3, [r7, #12]
+ 800126e:	021a      	lsls	r2, r3, #8
+                ((uint32_t)0x5FAUL << SCB_AIRCR_VECTKEY_Pos) |
+ 8001270:	68bb      	ldr	r3, [r7, #8]
+ 8001272:	4313      	orrs	r3, r2
+  reg_value  =  (reg_value                                   |
+ 8001274:	f043 63bf 	orr.w	r3, r3, #100139008	; 0x5f80000
+ 8001278:	f443 3300 	orr.w	r3, r3, #131072	; 0x20000
+ 800127c:	60bb      	str	r3, [r7, #8]
+  SCB->AIRCR =  reg_value;
+ 800127e:	4a04      	ldr	r2, [pc, #16]	; (8001290 <__NVIC_SetPriorityGrouping+0x44>)
+ 8001280:	68bb      	ldr	r3, [r7, #8]
+ 8001282:	60d3      	str	r3, [r2, #12]
+}
+ 8001284:	bf00      	nop
+ 8001286:	3714      	adds	r7, #20
+ 8001288:	46bd      	mov	sp, r7
+ 800128a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800128e:	4770      	bx	lr
+ 8001290:	e000ed00 	.word	0xe000ed00
+
+08001294 <__NVIC_GetPriorityGrouping>:
+  \brief   Get Priority Grouping
+  \details Reads the priority grouping field from the NVIC Interrupt Controller.
+  \return                Priority grouping field (SCB->AIRCR [10:8] PRIGROUP field).
+ */
+__STATIC_INLINE uint32_t __NVIC_GetPriorityGrouping(void)
+{
+ 8001294:	b480      	push	{r7}
+ 8001296:	af00      	add	r7, sp, #0
+  return ((uint32_t)((SCB->AIRCR & SCB_AIRCR_PRIGROUP_Msk) >> SCB_AIRCR_PRIGROUP_Pos));
+ 8001298:	4b04      	ldr	r3, [pc, #16]	; (80012ac <__NVIC_GetPriorityGrouping+0x18>)
+ 800129a:	68db      	ldr	r3, [r3, #12]
+ 800129c:	0a1b      	lsrs	r3, r3, #8
+ 800129e:	f003 0307 	and.w	r3, r3, #7
+}
+ 80012a2:	4618      	mov	r0, r3
+ 80012a4:	46bd      	mov	sp, r7
+ 80012a6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80012aa:	4770      	bx	lr
+ 80012ac:	e000ed00 	.word	0xe000ed00
+
+080012b0 <__NVIC_SetPriority>:
+  \param [in]      IRQn  Interrupt number.
+  \param [in]  priority  Priority to set.
+  \note    The priority cannot be set for every processor exception.
+ */
+__STATIC_INLINE void __NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
+{
+ 80012b0:	b480      	push	{r7}
+ 80012b2:	b083      	sub	sp, #12
+ 80012b4:	af00      	add	r7, sp, #0
+ 80012b6:	4603      	mov	r3, r0
+ 80012b8:	6039      	str	r1, [r7, #0]
+ 80012ba:	71fb      	strb	r3, [r7, #7]
+  if ((int32_t)(IRQn) >= 0)
+ 80012bc:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 80012c0:	2b00      	cmp	r3, #0
+ 80012c2:	db0a      	blt.n	80012da <__NVIC_SetPriority+0x2a>
+  {
+    NVIC->IP[((uint32_t)IRQn)]               = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 80012c4:	683b      	ldr	r3, [r7, #0]
+ 80012c6:	b2da      	uxtb	r2, r3
+ 80012c8:	490c      	ldr	r1, [pc, #48]	; (80012fc <__NVIC_SetPriority+0x4c>)
+ 80012ca:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 80012ce:	0112      	lsls	r2, r2, #4
+ 80012d0:	b2d2      	uxtb	r2, r2
+ 80012d2:	440b      	add	r3, r1
+ 80012d4:	f883 2300 	strb.w	r2, [r3, #768]	; 0x300
+  }
+  else
+  {
+    SCB->SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+  }
+}
+ 80012d8:	e00a      	b.n	80012f0 <__NVIC_SetPriority+0x40>
+    SCB->SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 80012da:	683b      	ldr	r3, [r7, #0]
+ 80012dc:	b2da      	uxtb	r2, r3
+ 80012de:	4908      	ldr	r1, [pc, #32]	; (8001300 <__NVIC_SetPriority+0x50>)
+ 80012e0:	79fb      	ldrb	r3, [r7, #7]
+ 80012e2:	f003 030f 	and.w	r3, r3, #15
+ 80012e6:	3b04      	subs	r3, #4
+ 80012e8:	0112      	lsls	r2, r2, #4
+ 80012ea:	b2d2      	uxtb	r2, r2
+ 80012ec:	440b      	add	r3, r1
+ 80012ee:	761a      	strb	r2, [r3, #24]
+}
+ 80012f0:	bf00      	nop
+ 80012f2:	370c      	adds	r7, #12
+ 80012f4:	46bd      	mov	sp, r7
+ 80012f6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80012fa:	4770      	bx	lr
+ 80012fc:	e000e100 	.word	0xe000e100
+ 8001300:	e000ed00 	.word	0xe000ed00
+
+08001304 <NVIC_EncodePriority>:
+  \param [in]   PreemptPriority  Preemptive priority value (starting from 0).
+  \param [in]       SubPriority  Subpriority value (starting from 0).
+  \return                        Encoded priority. Value can be used in the function \ref NVIC_SetPriority().
+ */
+__STATIC_INLINE uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t PreemptPriority, uint32_t SubPriority)
+{
+ 8001304:	b480      	push	{r7}
+ 8001306:	b089      	sub	sp, #36	; 0x24
+ 8001308:	af00      	add	r7, sp, #0
+ 800130a:	60f8      	str	r0, [r7, #12]
+ 800130c:	60b9      	str	r1, [r7, #8]
+ 800130e:	607a      	str	r2, [r7, #4]
+  uint32_t PriorityGroupTmp = (PriorityGroup & (uint32_t)0x07UL);   /* only values 0..7 are used          */
+ 8001310:	68fb      	ldr	r3, [r7, #12]
+ 8001312:	f003 0307 	and.w	r3, r3, #7
+ 8001316:	61fb      	str	r3, [r7, #28]
+  uint32_t PreemptPriorityBits;
+  uint32_t SubPriorityBits;
+
+  PreemptPriorityBits = ((7UL - PriorityGroupTmp) > (uint32_t)(__NVIC_PRIO_BITS)) ? (uint32_t)(__NVIC_PRIO_BITS) : (uint32_t)(7UL - PriorityGroupTmp);
+ 8001318:	69fb      	ldr	r3, [r7, #28]
+ 800131a:	f1c3 0307 	rsb	r3, r3, #7
+ 800131e:	2b04      	cmp	r3, #4
+ 8001320:	bf28      	it	cs
+ 8001322:	2304      	movcs	r3, #4
+ 8001324:	61bb      	str	r3, [r7, #24]
+  SubPriorityBits     = ((PriorityGroupTmp + (uint32_t)(__NVIC_PRIO_BITS)) < (uint32_t)7UL) ? (uint32_t)0UL : (uint32_t)((PriorityGroupTmp - 7UL) + (uint32_t)(__NVIC_PRIO_BITS));
+ 8001326:	69fb      	ldr	r3, [r7, #28]
+ 8001328:	3304      	adds	r3, #4
+ 800132a:	2b06      	cmp	r3, #6
+ 800132c:	d902      	bls.n	8001334 <NVIC_EncodePriority+0x30>
+ 800132e:	69fb      	ldr	r3, [r7, #28]
+ 8001330:	3b03      	subs	r3, #3
+ 8001332:	e000      	b.n	8001336 <NVIC_EncodePriority+0x32>
+ 8001334:	2300      	movs	r3, #0
+ 8001336:	617b      	str	r3, [r7, #20]
+
+  return (
+           ((PreemptPriority & (uint32_t)((1UL << (PreemptPriorityBits)) - 1UL)) << SubPriorityBits) |
+ 8001338:	f04f 32ff 	mov.w	r2, #4294967295
+ 800133c:	69bb      	ldr	r3, [r7, #24]
+ 800133e:	fa02 f303 	lsl.w	r3, r2, r3
+ 8001342:	43da      	mvns	r2, r3
+ 8001344:	68bb      	ldr	r3, [r7, #8]
+ 8001346:	401a      	ands	r2, r3
+ 8001348:	697b      	ldr	r3, [r7, #20]
+ 800134a:	409a      	lsls	r2, r3
+           ((SubPriority     & (uint32_t)((1UL << (SubPriorityBits    )) - 1UL)))
+ 800134c:	f04f 31ff 	mov.w	r1, #4294967295
+ 8001350:	697b      	ldr	r3, [r7, #20]
+ 8001352:	fa01 f303 	lsl.w	r3, r1, r3
+ 8001356:	43d9      	mvns	r1, r3
+ 8001358:	687b      	ldr	r3, [r7, #4]
+ 800135a:	400b      	ands	r3, r1
+           ((PreemptPriority & (uint32_t)((1UL << (PreemptPriorityBits)) - 1UL)) << SubPriorityBits) |
+ 800135c:	4313      	orrs	r3, r2
+         );
+}
+ 800135e:	4618      	mov	r0, r3
+ 8001360:	3724      	adds	r7, #36	; 0x24
+ 8001362:	46bd      	mov	sp, r7
+ 8001364:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001368:	4770      	bx	lr
+	...
+
+0800136c <SysTick_Config>:
+  \note    When the variable <b>__Vendor_SysTickConfig</b> is set to 1, then the
+           function <b>SysTick_Config</b> is not included. In this case, the file <b><i>device</i>.h</b>
+           must contain a vendor-specific implementation of this function.
+ */
+__STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
+{
+ 800136c:	b580      	push	{r7, lr}
+ 800136e:	b082      	sub	sp, #8
+ 8001370:	af00      	add	r7, sp, #0
+ 8001372:	6078      	str	r0, [r7, #4]
+  if ((ticks - 1UL) > SysTick_LOAD_RELOAD_Msk)
+ 8001374:	687b      	ldr	r3, [r7, #4]
+ 8001376:	3b01      	subs	r3, #1
+ 8001378:	f1b3 7f80 	cmp.w	r3, #16777216	; 0x1000000
+ 800137c:	d301      	bcc.n	8001382 <SysTick_Config+0x16>
+  {
+    return (1UL);                                                   /* Reload value impossible */
+ 800137e:	2301      	movs	r3, #1
+ 8001380:	e00f      	b.n	80013a2 <SysTick_Config+0x36>
+  }
+
+  SysTick->LOAD  = (uint32_t)(ticks - 1UL);                         /* set reload register */
+ 8001382:	4a0a      	ldr	r2, [pc, #40]	; (80013ac <SysTick_Config+0x40>)
+ 8001384:	687b      	ldr	r3, [r7, #4]
+ 8001386:	3b01      	subs	r3, #1
+ 8001388:	6053      	str	r3, [r2, #4]
+  NVIC_SetPriority (SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL); /* set Priority for Systick Interrupt */
+ 800138a:	210f      	movs	r1, #15
+ 800138c:	f04f 30ff 	mov.w	r0, #4294967295
+ 8001390:	f7ff ff8e 	bl	80012b0 <__NVIC_SetPriority>
+  SysTick->VAL   = 0UL;                                             /* Load the SysTick Counter Value */
+ 8001394:	4b05      	ldr	r3, [pc, #20]	; (80013ac <SysTick_Config+0x40>)
+ 8001396:	2200      	movs	r2, #0
+ 8001398:	609a      	str	r2, [r3, #8]
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
+ 800139a:	4b04      	ldr	r3, [pc, #16]	; (80013ac <SysTick_Config+0x40>)
+ 800139c:	2207      	movs	r2, #7
+ 800139e:	601a      	str	r2, [r3, #0]
+                   SysTick_CTRL_TICKINT_Msk   |
+                   SysTick_CTRL_ENABLE_Msk;                         /* Enable SysTick IRQ and SysTick Timer */
+  return (0UL);                                                     /* Function successful */
+ 80013a0:	2300      	movs	r3, #0
+}
+ 80013a2:	4618      	mov	r0, r3
+ 80013a4:	3708      	adds	r7, #8
+ 80013a6:	46bd      	mov	sp, r7
+ 80013a8:	bd80      	pop	{r7, pc}
+ 80013aa:	bf00      	nop
+ 80013ac:	e000e010 	.word	0xe000e010
+
+080013b0 <HAL_NVIC_SetPriorityGrouping>:
+  * @note   When the NVIC_PriorityGroup_0 is selected, IRQ preemption is no more possible. 
+  *         The pending IRQ priority will be managed only by the subpriority. 
+  * @retval None
+  */
+void HAL_NVIC_SetPriorityGrouping(uint32_t PriorityGroup)
+{
+ 80013b0:	b580      	push	{r7, lr}
+ 80013b2:	b082      	sub	sp, #8
+ 80013b4:	af00      	add	r7, sp, #0
+ 80013b6:	6078      	str	r0, [r7, #4]
+  /* Check the parameters */
+  assert_param(IS_NVIC_PRIORITY_GROUP(PriorityGroup));
+  
+  /* Set the PRIGROUP[10:8] bits according to the PriorityGroup parameter value */
+  NVIC_SetPriorityGrouping(PriorityGroup);
+ 80013b8:	6878      	ldr	r0, [r7, #4]
+ 80013ba:	f7ff ff47 	bl	800124c <__NVIC_SetPriorityGrouping>
+}
+ 80013be:	bf00      	nop
+ 80013c0:	3708      	adds	r7, #8
+ 80013c2:	46bd      	mov	sp, r7
+ 80013c4:	bd80      	pop	{r7, pc}
+
+080013c6 <HAL_NVIC_SetPriority>:
+  *         This parameter can be a value between 0 and 15
+  *         A lower priority value indicates a higher priority.          
+  * @retval None
+  */
+void HAL_NVIC_SetPriority(IRQn_Type IRQn, uint32_t PreemptPriority, uint32_t SubPriority)
+{ 
+ 80013c6:	b580      	push	{r7, lr}
+ 80013c8:	b086      	sub	sp, #24
+ 80013ca:	af00      	add	r7, sp, #0
+ 80013cc:	4603      	mov	r3, r0
+ 80013ce:	60b9      	str	r1, [r7, #8]
+ 80013d0:	607a      	str	r2, [r7, #4]
+ 80013d2:	73fb      	strb	r3, [r7, #15]
+  uint32_t prioritygroup = 0x00U;
+ 80013d4:	2300      	movs	r3, #0
+ 80013d6:	617b      	str	r3, [r7, #20]
+  
+  /* Check the parameters */
+  assert_param(IS_NVIC_SUB_PRIORITY(SubPriority));
+  assert_param(IS_NVIC_PREEMPTION_PRIORITY(PreemptPriority));
+  
+  prioritygroup = NVIC_GetPriorityGrouping();
+ 80013d8:	f7ff ff5c 	bl	8001294 <__NVIC_GetPriorityGrouping>
+ 80013dc:	6178      	str	r0, [r7, #20]
+  
+  NVIC_SetPriority(IRQn, NVIC_EncodePriority(prioritygroup, PreemptPriority, SubPriority));
+ 80013de:	687a      	ldr	r2, [r7, #4]
+ 80013e0:	68b9      	ldr	r1, [r7, #8]
+ 80013e2:	6978      	ldr	r0, [r7, #20]
+ 80013e4:	f7ff ff8e 	bl	8001304 <NVIC_EncodePriority>
+ 80013e8:	4602      	mov	r2, r0
+ 80013ea:	f997 300f 	ldrsb.w	r3, [r7, #15]
+ 80013ee:	4611      	mov	r1, r2
+ 80013f0:	4618      	mov	r0, r3
+ 80013f2:	f7ff ff5d 	bl	80012b0 <__NVIC_SetPriority>
+}
+ 80013f6:	bf00      	nop
+ 80013f8:	3718      	adds	r7, #24
+ 80013fa:	46bd      	mov	sp, r7
+ 80013fc:	bd80      	pop	{r7, pc}
+
+080013fe <HAL_SYSTICK_Config>:
+  * @param  TicksNumb Specifies the ticks Number of ticks between two interrupts.
+  * @retval status:  - 0  Function succeeded.
+  *                  - 1  Function failed.
+  */
+uint32_t HAL_SYSTICK_Config(uint32_t TicksNumb)
+{
+ 80013fe:	b580      	push	{r7, lr}
+ 8001400:	b082      	sub	sp, #8
+ 8001402:	af00      	add	r7, sp, #0
+ 8001404:	6078      	str	r0, [r7, #4]
+   return SysTick_Config(TicksNumb);
+ 8001406:	6878      	ldr	r0, [r7, #4]
+ 8001408:	f7ff ffb0 	bl	800136c <SysTick_Config>
+ 800140c:	4603      	mov	r3, r0
+}
+ 800140e:	4618      	mov	r0, r3
+ 8001410:	3708      	adds	r7, #8
+ 8001412:	46bd      	mov	sp, r7
+ 8001414:	bd80      	pop	{r7, pc}
+	...
+
+08001418 <HAL_GPIO_Init>:
+  * @param  GPIO_Init pointer to a GPIO_InitTypeDef structure that contains
+  *         the configuration information for the specified GPIO peripheral.
+  * @retval None
+  */
+void HAL_GPIO_Init(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
+{
+ 8001418:	b480      	push	{r7}
+ 800141a:	b089      	sub	sp, #36	; 0x24
+ 800141c:	af00      	add	r7, sp, #0
+ 800141e:	6078      	str	r0, [r7, #4]
+ 8001420:	6039      	str	r1, [r7, #0]
+  uint32_t position;
+  uint32_t ioposition = 0x00U;
+ 8001422:	2300      	movs	r3, #0
+ 8001424:	617b      	str	r3, [r7, #20]
+  uint32_t iocurrent = 0x00U;
+ 8001426:	2300      	movs	r3, #0
+ 8001428:	613b      	str	r3, [r7, #16]
+  uint32_t temp = 0x00U;
+ 800142a:	2300      	movs	r3, #0
+ 800142c:	61bb      	str	r3, [r7, #24]
+  assert_param(IS_GPIO_PIN(GPIO_Init->Pin));
+  assert_param(IS_GPIO_MODE(GPIO_Init->Mode));
+  assert_param(IS_GPIO_PULL(GPIO_Init->Pull));
+
+  /* Configure the port pins */
+  for(position = 0U; position < GPIO_NUMBER; position++)
+ 800142e:	2300      	movs	r3, #0
+ 8001430:	61fb      	str	r3, [r7, #28]
+ 8001432:	e159      	b.n	80016e8 <HAL_GPIO_Init+0x2d0>
+  {
+    /* Get the IO position */
+    ioposition = 0x01U << position;
+ 8001434:	2201      	movs	r2, #1
+ 8001436:	69fb      	ldr	r3, [r7, #28]
+ 8001438:	fa02 f303 	lsl.w	r3, r2, r3
+ 800143c:	617b      	str	r3, [r7, #20]
+    /* Get the current IO position */
+    iocurrent = (uint32_t)(GPIO_Init->Pin) & ioposition;
+ 800143e:	683b      	ldr	r3, [r7, #0]
+ 8001440:	681b      	ldr	r3, [r3, #0]
+ 8001442:	697a      	ldr	r2, [r7, #20]
+ 8001444:	4013      	ands	r3, r2
+ 8001446:	613b      	str	r3, [r7, #16]
+
+    if(iocurrent == ioposition)
+ 8001448:	693a      	ldr	r2, [r7, #16]
+ 800144a:	697b      	ldr	r3, [r7, #20]
+ 800144c:	429a      	cmp	r2, r3
+ 800144e:	f040 8148 	bne.w	80016e2 <HAL_GPIO_Init+0x2ca>
+    {
+      /*--------------------- GPIO Mode Configuration ------------------------*/
+      /* In case of Output or Alternate function mode selection */
+      if((GPIO_Init->Mode == GPIO_MODE_OUTPUT_PP) || (GPIO_Init->Mode == GPIO_MODE_AF_PP) ||
+ 8001452:	683b      	ldr	r3, [r7, #0]
+ 8001454:	685b      	ldr	r3, [r3, #4]
+ 8001456:	2b01      	cmp	r3, #1
+ 8001458:	d00b      	beq.n	8001472 <HAL_GPIO_Init+0x5a>
+ 800145a:	683b      	ldr	r3, [r7, #0]
+ 800145c:	685b      	ldr	r3, [r3, #4]
+ 800145e:	2b02      	cmp	r3, #2
+ 8001460:	d007      	beq.n	8001472 <HAL_GPIO_Init+0x5a>
+         (GPIO_Init->Mode == GPIO_MODE_OUTPUT_OD) || (GPIO_Init->Mode == GPIO_MODE_AF_OD))
+ 8001462:	683b      	ldr	r3, [r7, #0]
+ 8001464:	685b      	ldr	r3, [r3, #4]
+      if((GPIO_Init->Mode == GPIO_MODE_OUTPUT_PP) || (GPIO_Init->Mode == GPIO_MODE_AF_PP) ||
+ 8001466:	2b11      	cmp	r3, #17
+ 8001468:	d003      	beq.n	8001472 <HAL_GPIO_Init+0x5a>
+         (GPIO_Init->Mode == GPIO_MODE_OUTPUT_OD) || (GPIO_Init->Mode == GPIO_MODE_AF_OD))
+ 800146a:	683b      	ldr	r3, [r7, #0]
+ 800146c:	685b      	ldr	r3, [r3, #4]
+ 800146e:	2b12      	cmp	r3, #18
+ 8001470:	d130      	bne.n	80014d4 <HAL_GPIO_Init+0xbc>
+      {
+        /* Check the Speed parameter */
+        assert_param(IS_GPIO_SPEED(GPIO_Init->Speed));
+        /* Configure the IO Speed */
+        temp = GPIOx->OSPEEDR; 
+ 8001472:	687b      	ldr	r3, [r7, #4]
+ 8001474:	689b      	ldr	r3, [r3, #8]
+ 8001476:	61bb      	str	r3, [r7, #24]
+        temp &= ~(GPIO_OSPEEDER_OSPEEDR0 << (position * 2U));
+ 8001478:	69fb      	ldr	r3, [r7, #28]
+ 800147a:	005b      	lsls	r3, r3, #1
+ 800147c:	2203      	movs	r2, #3
+ 800147e:	fa02 f303 	lsl.w	r3, r2, r3
+ 8001482:	43db      	mvns	r3, r3
+ 8001484:	69ba      	ldr	r2, [r7, #24]
+ 8001486:	4013      	ands	r3, r2
+ 8001488:	61bb      	str	r3, [r7, #24]
+        temp |= (GPIO_Init->Speed << (position * 2U));
+ 800148a:	683b      	ldr	r3, [r7, #0]
+ 800148c:	68da      	ldr	r2, [r3, #12]
+ 800148e:	69fb      	ldr	r3, [r7, #28]
+ 8001490:	005b      	lsls	r3, r3, #1
+ 8001492:	fa02 f303 	lsl.w	r3, r2, r3
+ 8001496:	69ba      	ldr	r2, [r7, #24]
+ 8001498:	4313      	orrs	r3, r2
+ 800149a:	61bb      	str	r3, [r7, #24]
+        GPIOx->OSPEEDR = temp;
+ 800149c:	687b      	ldr	r3, [r7, #4]
+ 800149e:	69ba      	ldr	r2, [r7, #24]
+ 80014a0:	609a      	str	r2, [r3, #8]
+
+        /* Configure the IO Output Type */
+        temp = GPIOx->OTYPER;
+ 80014a2:	687b      	ldr	r3, [r7, #4]
+ 80014a4:	685b      	ldr	r3, [r3, #4]
+ 80014a6:	61bb      	str	r3, [r7, #24]
+        temp &= ~(GPIO_OTYPER_OT_0 << position) ;
+ 80014a8:	2201      	movs	r2, #1
+ 80014aa:	69fb      	ldr	r3, [r7, #28]
+ 80014ac:	fa02 f303 	lsl.w	r3, r2, r3
+ 80014b0:	43db      	mvns	r3, r3
+ 80014b2:	69ba      	ldr	r2, [r7, #24]
+ 80014b4:	4013      	ands	r3, r2
+ 80014b6:	61bb      	str	r3, [r7, #24]
+        temp |= (((GPIO_Init->Mode & GPIO_OUTPUT_TYPE) >> 4U) << position);
+ 80014b8:	683b      	ldr	r3, [r7, #0]
+ 80014ba:	685b      	ldr	r3, [r3, #4]
+ 80014bc:	091b      	lsrs	r3, r3, #4
+ 80014be:	f003 0201 	and.w	r2, r3, #1
+ 80014c2:	69fb      	ldr	r3, [r7, #28]
+ 80014c4:	fa02 f303 	lsl.w	r3, r2, r3
+ 80014c8:	69ba      	ldr	r2, [r7, #24]
+ 80014ca:	4313      	orrs	r3, r2
+ 80014cc:	61bb      	str	r3, [r7, #24]
+        GPIOx->OTYPER = temp;
+ 80014ce:	687b      	ldr	r3, [r7, #4]
+ 80014d0:	69ba      	ldr	r2, [r7, #24]
+ 80014d2:	605a      	str	r2, [r3, #4]
+       }
+
+      /* Activate the Pull-up or Pull down resistor for the current IO */
+      temp = GPIOx->PUPDR;
+ 80014d4:	687b      	ldr	r3, [r7, #4]
+ 80014d6:	68db      	ldr	r3, [r3, #12]
+ 80014d8:	61bb      	str	r3, [r7, #24]
+      temp &= ~(GPIO_PUPDR_PUPDR0 << (position * 2U));
+ 80014da:	69fb      	ldr	r3, [r7, #28]
+ 80014dc:	005b      	lsls	r3, r3, #1
+ 80014de:	2203      	movs	r2, #3
+ 80014e0:	fa02 f303 	lsl.w	r3, r2, r3
+ 80014e4:	43db      	mvns	r3, r3
+ 80014e6:	69ba      	ldr	r2, [r7, #24]
+ 80014e8:	4013      	ands	r3, r2
+ 80014ea:	61bb      	str	r3, [r7, #24]
+      temp |= ((GPIO_Init->Pull) << (position * 2U));
+ 80014ec:	683b      	ldr	r3, [r7, #0]
+ 80014ee:	689a      	ldr	r2, [r3, #8]
+ 80014f0:	69fb      	ldr	r3, [r7, #28]
+ 80014f2:	005b      	lsls	r3, r3, #1
+ 80014f4:	fa02 f303 	lsl.w	r3, r2, r3
+ 80014f8:	69ba      	ldr	r2, [r7, #24]
+ 80014fa:	4313      	orrs	r3, r2
+ 80014fc:	61bb      	str	r3, [r7, #24]
+      GPIOx->PUPDR = temp;
+ 80014fe:	687b      	ldr	r3, [r7, #4]
+ 8001500:	69ba      	ldr	r2, [r7, #24]
+ 8001502:	60da      	str	r2, [r3, #12]
+
+      /* In case of Alternate function mode selection */
+      if((GPIO_Init->Mode == GPIO_MODE_AF_PP) || (GPIO_Init->Mode == GPIO_MODE_AF_OD))
+ 8001504:	683b      	ldr	r3, [r7, #0]
+ 8001506:	685b      	ldr	r3, [r3, #4]
+ 8001508:	2b02      	cmp	r3, #2
+ 800150a:	d003      	beq.n	8001514 <HAL_GPIO_Init+0xfc>
+ 800150c:	683b      	ldr	r3, [r7, #0]
+ 800150e:	685b      	ldr	r3, [r3, #4]
+ 8001510:	2b12      	cmp	r3, #18
+ 8001512:	d123      	bne.n	800155c <HAL_GPIO_Init+0x144>
+      {
+        /* Check the Alternate function parameter */
+        assert_param(IS_GPIO_AF(GPIO_Init->Alternate));
+        /* Configure Alternate function mapped with the current IO */
+        temp = GPIOx->AFR[position >> 3U];
+ 8001514:	69fb      	ldr	r3, [r7, #28]
+ 8001516:	08da      	lsrs	r2, r3, #3
+ 8001518:	687b      	ldr	r3, [r7, #4]
+ 800151a:	3208      	adds	r2, #8
+ 800151c:	f853 3022 	ldr.w	r3, [r3, r2, lsl #2]
+ 8001520:	61bb      	str	r3, [r7, #24]
+        temp &= ~(0xFU << ((uint32_t)(position & 0x07U) * 4U)) ;
+ 8001522:	69fb      	ldr	r3, [r7, #28]
+ 8001524:	f003 0307 	and.w	r3, r3, #7
+ 8001528:	009b      	lsls	r3, r3, #2
+ 800152a:	220f      	movs	r2, #15
+ 800152c:	fa02 f303 	lsl.w	r3, r2, r3
+ 8001530:	43db      	mvns	r3, r3
+ 8001532:	69ba      	ldr	r2, [r7, #24]
+ 8001534:	4013      	ands	r3, r2
+ 8001536:	61bb      	str	r3, [r7, #24]
+        temp |= ((uint32_t)(GPIO_Init->Alternate) << (((uint32_t)position & 0x07U) * 4U));
+ 8001538:	683b      	ldr	r3, [r7, #0]
+ 800153a:	691a      	ldr	r2, [r3, #16]
+ 800153c:	69fb      	ldr	r3, [r7, #28]
+ 800153e:	f003 0307 	and.w	r3, r3, #7
+ 8001542:	009b      	lsls	r3, r3, #2
+ 8001544:	fa02 f303 	lsl.w	r3, r2, r3
+ 8001548:	69ba      	ldr	r2, [r7, #24]
+ 800154a:	4313      	orrs	r3, r2
+ 800154c:	61bb      	str	r3, [r7, #24]
+        GPIOx->AFR[position >> 3U] = temp;
+ 800154e:	69fb      	ldr	r3, [r7, #28]
+ 8001550:	08da      	lsrs	r2, r3, #3
+ 8001552:	687b      	ldr	r3, [r7, #4]
+ 8001554:	3208      	adds	r2, #8
+ 8001556:	69b9      	ldr	r1, [r7, #24]
+ 8001558:	f843 1022 	str.w	r1, [r3, r2, lsl #2]
+      }
+
+      /* Configure IO Direction mode (Input, Output, Alternate or Analog) */
+      temp = GPIOx->MODER;
+ 800155c:	687b      	ldr	r3, [r7, #4]
+ 800155e:	681b      	ldr	r3, [r3, #0]
+ 8001560:	61bb      	str	r3, [r7, #24]
+      temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
+ 8001562:	69fb      	ldr	r3, [r7, #28]
+ 8001564:	005b      	lsls	r3, r3, #1
+ 8001566:	2203      	movs	r2, #3
+ 8001568:	fa02 f303 	lsl.w	r3, r2, r3
+ 800156c:	43db      	mvns	r3, r3
+ 800156e:	69ba      	ldr	r2, [r7, #24]
+ 8001570:	4013      	ands	r3, r2
+ 8001572:	61bb      	str	r3, [r7, #24]
+      temp |= ((GPIO_Init->Mode & GPIO_MODE) << (position * 2U));
+ 8001574:	683b      	ldr	r3, [r7, #0]
+ 8001576:	685b      	ldr	r3, [r3, #4]
+ 8001578:	f003 0203 	and.w	r2, r3, #3
+ 800157c:	69fb      	ldr	r3, [r7, #28]
+ 800157e:	005b      	lsls	r3, r3, #1
+ 8001580:	fa02 f303 	lsl.w	r3, r2, r3
+ 8001584:	69ba      	ldr	r2, [r7, #24]
+ 8001586:	4313      	orrs	r3, r2
+ 8001588:	61bb      	str	r3, [r7, #24]
+      GPIOx->MODER = temp;
+ 800158a:	687b      	ldr	r3, [r7, #4]
+ 800158c:	69ba      	ldr	r2, [r7, #24]
+ 800158e:	601a      	str	r2, [r3, #0]
+
+      /*--------------------- EXTI Mode Configuration ------------------------*/
+      /* Configure the External Interrupt or event for the current IO */
+      if((GPIO_Init->Mode & EXTI_MODE) == EXTI_MODE)
+ 8001590:	683b      	ldr	r3, [r7, #0]
+ 8001592:	685b      	ldr	r3, [r3, #4]
+ 8001594:	f003 5380 	and.w	r3, r3, #268435456	; 0x10000000
+ 8001598:	2b00      	cmp	r3, #0
+ 800159a:	f000 80a2 	beq.w	80016e2 <HAL_GPIO_Init+0x2ca>
+      {
+        /* Enable SYSCFG Clock */
+        __HAL_RCC_SYSCFG_CLK_ENABLE();
+ 800159e:	2300      	movs	r3, #0
+ 80015a0:	60fb      	str	r3, [r7, #12]
+ 80015a2:	4b56      	ldr	r3, [pc, #344]	; (80016fc <HAL_GPIO_Init+0x2e4>)
+ 80015a4:	6c5b      	ldr	r3, [r3, #68]	; 0x44
+ 80015a6:	4a55      	ldr	r2, [pc, #340]	; (80016fc <HAL_GPIO_Init+0x2e4>)
+ 80015a8:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
+ 80015ac:	6453      	str	r3, [r2, #68]	; 0x44
+ 80015ae:	4b53      	ldr	r3, [pc, #332]	; (80016fc <HAL_GPIO_Init+0x2e4>)
+ 80015b0:	6c5b      	ldr	r3, [r3, #68]	; 0x44
+ 80015b2:	f403 4380 	and.w	r3, r3, #16384	; 0x4000
+ 80015b6:	60fb      	str	r3, [r7, #12]
+ 80015b8:	68fb      	ldr	r3, [r7, #12]
+
+        temp = SYSCFG->EXTICR[position >> 2U];
+ 80015ba:	4a51      	ldr	r2, [pc, #324]	; (8001700 <HAL_GPIO_Init+0x2e8>)
+ 80015bc:	69fb      	ldr	r3, [r7, #28]
+ 80015be:	089b      	lsrs	r3, r3, #2
+ 80015c0:	3302      	adds	r3, #2
+ 80015c2:	f852 3023 	ldr.w	r3, [r2, r3, lsl #2]
+ 80015c6:	61bb      	str	r3, [r7, #24]
+        temp &= ~(0x0FU << (4U * (position & 0x03U)));
+ 80015c8:	69fb      	ldr	r3, [r7, #28]
+ 80015ca:	f003 0303 	and.w	r3, r3, #3
+ 80015ce:	009b      	lsls	r3, r3, #2
+ 80015d0:	220f      	movs	r2, #15
+ 80015d2:	fa02 f303 	lsl.w	r3, r2, r3
+ 80015d6:	43db      	mvns	r3, r3
+ 80015d8:	69ba      	ldr	r2, [r7, #24]
+ 80015da:	4013      	ands	r3, r2
+ 80015dc:	61bb      	str	r3, [r7, #24]
+        temp |= ((uint32_t)(GPIO_GET_INDEX(GPIOx)) << (4U * (position & 0x03U)));
+ 80015de:	687b      	ldr	r3, [r7, #4]
+ 80015e0:	4a48      	ldr	r2, [pc, #288]	; (8001704 <HAL_GPIO_Init+0x2ec>)
+ 80015e2:	4293      	cmp	r3, r2
+ 80015e4:	d019      	beq.n	800161a <HAL_GPIO_Init+0x202>
+ 80015e6:	687b      	ldr	r3, [r7, #4]
+ 80015e8:	4a47      	ldr	r2, [pc, #284]	; (8001708 <HAL_GPIO_Init+0x2f0>)
+ 80015ea:	4293      	cmp	r3, r2
+ 80015ec:	d013      	beq.n	8001616 <HAL_GPIO_Init+0x1fe>
+ 80015ee:	687b      	ldr	r3, [r7, #4]
+ 80015f0:	4a46      	ldr	r2, [pc, #280]	; (800170c <HAL_GPIO_Init+0x2f4>)
+ 80015f2:	4293      	cmp	r3, r2
+ 80015f4:	d00d      	beq.n	8001612 <HAL_GPIO_Init+0x1fa>
+ 80015f6:	687b      	ldr	r3, [r7, #4]
+ 80015f8:	4a45      	ldr	r2, [pc, #276]	; (8001710 <HAL_GPIO_Init+0x2f8>)
+ 80015fa:	4293      	cmp	r3, r2
+ 80015fc:	d007      	beq.n	800160e <HAL_GPIO_Init+0x1f6>
+ 80015fe:	687b      	ldr	r3, [r7, #4]
+ 8001600:	4a44      	ldr	r2, [pc, #272]	; (8001714 <HAL_GPIO_Init+0x2fc>)
+ 8001602:	4293      	cmp	r3, r2
+ 8001604:	d101      	bne.n	800160a <HAL_GPIO_Init+0x1f2>
+ 8001606:	2304      	movs	r3, #4
+ 8001608:	e008      	b.n	800161c <HAL_GPIO_Init+0x204>
+ 800160a:	2307      	movs	r3, #7
+ 800160c:	e006      	b.n	800161c <HAL_GPIO_Init+0x204>
+ 800160e:	2303      	movs	r3, #3
+ 8001610:	e004      	b.n	800161c <HAL_GPIO_Init+0x204>
+ 8001612:	2302      	movs	r3, #2
+ 8001614:	e002      	b.n	800161c <HAL_GPIO_Init+0x204>
+ 8001616:	2301      	movs	r3, #1
+ 8001618:	e000      	b.n	800161c <HAL_GPIO_Init+0x204>
+ 800161a:	2300      	movs	r3, #0
+ 800161c:	69fa      	ldr	r2, [r7, #28]
+ 800161e:	f002 0203 	and.w	r2, r2, #3
+ 8001622:	0092      	lsls	r2, r2, #2
+ 8001624:	4093      	lsls	r3, r2
+ 8001626:	69ba      	ldr	r2, [r7, #24]
+ 8001628:	4313      	orrs	r3, r2
+ 800162a:	61bb      	str	r3, [r7, #24]
+        SYSCFG->EXTICR[position >> 2U] = temp;
+ 800162c:	4934      	ldr	r1, [pc, #208]	; (8001700 <HAL_GPIO_Init+0x2e8>)
+ 800162e:	69fb      	ldr	r3, [r7, #28]
+ 8001630:	089b      	lsrs	r3, r3, #2
+ 8001632:	3302      	adds	r3, #2
+ 8001634:	69ba      	ldr	r2, [r7, #24]
+ 8001636:	f841 2023 	str.w	r2, [r1, r3, lsl #2]
+
+        /* Clear EXTI line configuration */
+        temp = EXTI->IMR;
+ 800163a:	4b37      	ldr	r3, [pc, #220]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 800163c:	681b      	ldr	r3, [r3, #0]
+ 800163e:	61bb      	str	r3, [r7, #24]
+        temp &= ~((uint32_t)iocurrent);
+ 8001640:	693b      	ldr	r3, [r7, #16]
+ 8001642:	43db      	mvns	r3, r3
+ 8001644:	69ba      	ldr	r2, [r7, #24]
+ 8001646:	4013      	ands	r3, r2
+ 8001648:	61bb      	str	r3, [r7, #24]
+        if((GPIO_Init->Mode & GPIO_MODE_IT) == GPIO_MODE_IT)
+ 800164a:	683b      	ldr	r3, [r7, #0]
+ 800164c:	685b      	ldr	r3, [r3, #4]
+ 800164e:	f403 3380 	and.w	r3, r3, #65536	; 0x10000
+ 8001652:	2b00      	cmp	r3, #0
+ 8001654:	d003      	beq.n	800165e <HAL_GPIO_Init+0x246>
+        {
+          temp |= iocurrent;
+ 8001656:	69ba      	ldr	r2, [r7, #24]
+ 8001658:	693b      	ldr	r3, [r7, #16]
+ 800165a:	4313      	orrs	r3, r2
+ 800165c:	61bb      	str	r3, [r7, #24]
+        }
+        EXTI->IMR = temp;
+ 800165e:	4a2e      	ldr	r2, [pc, #184]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 8001660:	69bb      	ldr	r3, [r7, #24]
+ 8001662:	6013      	str	r3, [r2, #0]
+
+        temp = EXTI->EMR;
+ 8001664:	4b2c      	ldr	r3, [pc, #176]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 8001666:	685b      	ldr	r3, [r3, #4]
+ 8001668:	61bb      	str	r3, [r7, #24]
+        temp &= ~((uint32_t)iocurrent);
+ 800166a:	693b      	ldr	r3, [r7, #16]
+ 800166c:	43db      	mvns	r3, r3
+ 800166e:	69ba      	ldr	r2, [r7, #24]
+ 8001670:	4013      	ands	r3, r2
+ 8001672:	61bb      	str	r3, [r7, #24]
+        if((GPIO_Init->Mode & GPIO_MODE_EVT) == GPIO_MODE_EVT)
+ 8001674:	683b      	ldr	r3, [r7, #0]
+ 8001676:	685b      	ldr	r3, [r3, #4]
+ 8001678:	f403 3300 	and.w	r3, r3, #131072	; 0x20000
+ 800167c:	2b00      	cmp	r3, #0
+ 800167e:	d003      	beq.n	8001688 <HAL_GPIO_Init+0x270>
+        {
+          temp |= iocurrent;
+ 8001680:	69ba      	ldr	r2, [r7, #24]
+ 8001682:	693b      	ldr	r3, [r7, #16]
+ 8001684:	4313      	orrs	r3, r2
+ 8001686:	61bb      	str	r3, [r7, #24]
+        }
+        EXTI->EMR = temp;
+ 8001688:	4a23      	ldr	r2, [pc, #140]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 800168a:	69bb      	ldr	r3, [r7, #24]
+ 800168c:	6053      	str	r3, [r2, #4]
+
+        /* Clear Rising Falling edge configuration */
+        temp = EXTI->RTSR;
+ 800168e:	4b22      	ldr	r3, [pc, #136]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 8001690:	689b      	ldr	r3, [r3, #8]
+ 8001692:	61bb      	str	r3, [r7, #24]
+        temp &= ~((uint32_t)iocurrent);
+ 8001694:	693b      	ldr	r3, [r7, #16]
+ 8001696:	43db      	mvns	r3, r3
+ 8001698:	69ba      	ldr	r2, [r7, #24]
+ 800169a:	4013      	ands	r3, r2
+ 800169c:	61bb      	str	r3, [r7, #24]
+        if((GPIO_Init->Mode & RISING_EDGE) == RISING_EDGE)
+ 800169e:	683b      	ldr	r3, [r7, #0]
+ 80016a0:	685b      	ldr	r3, [r3, #4]
+ 80016a2:	f403 1380 	and.w	r3, r3, #1048576	; 0x100000
+ 80016a6:	2b00      	cmp	r3, #0
+ 80016a8:	d003      	beq.n	80016b2 <HAL_GPIO_Init+0x29a>
+        {
+          temp |= iocurrent;
+ 80016aa:	69ba      	ldr	r2, [r7, #24]
+ 80016ac:	693b      	ldr	r3, [r7, #16]
+ 80016ae:	4313      	orrs	r3, r2
+ 80016b0:	61bb      	str	r3, [r7, #24]
+        }
+        EXTI->RTSR = temp;
+ 80016b2:	4a19      	ldr	r2, [pc, #100]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 80016b4:	69bb      	ldr	r3, [r7, #24]
+ 80016b6:	6093      	str	r3, [r2, #8]
+
+        temp = EXTI->FTSR;
+ 80016b8:	4b17      	ldr	r3, [pc, #92]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 80016ba:	68db      	ldr	r3, [r3, #12]
+ 80016bc:	61bb      	str	r3, [r7, #24]
+        temp &= ~((uint32_t)iocurrent);
+ 80016be:	693b      	ldr	r3, [r7, #16]
+ 80016c0:	43db      	mvns	r3, r3
+ 80016c2:	69ba      	ldr	r2, [r7, #24]
+ 80016c4:	4013      	ands	r3, r2
+ 80016c6:	61bb      	str	r3, [r7, #24]
+        if((GPIO_Init->Mode & FALLING_EDGE) == FALLING_EDGE)
+ 80016c8:	683b      	ldr	r3, [r7, #0]
+ 80016ca:	685b      	ldr	r3, [r3, #4]
+ 80016cc:	f403 1300 	and.w	r3, r3, #2097152	; 0x200000
+ 80016d0:	2b00      	cmp	r3, #0
+ 80016d2:	d003      	beq.n	80016dc <HAL_GPIO_Init+0x2c4>
+        {
+          temp |= iocurrent;
+ 80016d4:	69ba      	ldr	r2, [r7, #24]
+ 80016d6:	693b      	ldr	r3, [r7, #16]
+ 80016d8:	4313      	orrs	r3, r2
+ 80016da:	61bb      	str	r3, [r7, #24]
+        }
+        EXTI->FTSR = temp;
+ 80016dc:	4a0e      	ldr	r2, [pc, #56]	; (8001718 <HAL_GPIO_Init+0x300>)
+ 80016de:	69bb      	ldr	r3, [r7, #24]
+ 80016e0:	60d3      	str	r3, [r2, #12]
+  for(position = 0U; position < GPIO_NUMBER; position++)
+ 80016e2:	69fb      	ldr	r3, [r7, #28]
+ 80016e4:	3301      	adds	r3, #1
+ 80016e6:	61fb      	str	r3, [r7, #28]
+ 80016e8:	69fb      	ldr	r3, [r7, #28]
+ 80016ea:	2b0f      	cmp	r3, #15
+ 80016ec:	f67f aea2 	bls.w	8001434 <HAL_GPIO_Init+0x1c>
+      }
+    }
+  }
+}
+ 80016f0:	bf00      	nop
+ 80016f2:	3724      	adds	r7, #36	; 0x24
+ 80016f4:	46bd      	mov	sp, r7
+ 80016f6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80016fa:	4770      	bx	lr
+ 80016fc:	40023800 	.word	0x40023800
+ 8001700:	40013800 	.word	0x40013800
+ 8001704:	40020000 	.word	0x40020000
+ 8001708:	40020400 	.word	0x40020400
+ 800170c:	40020800 	.word	0x40020800
+ 8001710:	40020c00 	.word	0x40020c00
+ 8001714:	40021000 	.word	0x40021000
+ 8001718:	40013c00 	.word	0x40013c00
+
+0800171c <HAL_GPIO_ReadPin>:
+  * @param  GPIO_Pin specifies the port bit to read.
+  *         This parameter can be GPIO_PIN_x where x can be (0..15).
+  * @retval The input port pin value.
+  */
+GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
+{
+ 800171c:	b480      	push	{r7}
+ 800171e:	b085      	sub	sp, #20
+ 8001720:	af00      	add	r7, sp, #0
+ 8001722:	6078      	str	r0, [r7, #4]
+ 8001724:	460b      	mov	r3, r1
+ 8001726:	807b      	strh	r3, [r7, #2]
+  GPIO_PinState bitstatus;
+
+  /* Check the parameters */
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
+
+  if((GPIOx->IDR & GPIO_Pin) != (uint32_t)GPIO_PIN_RESET)
+ 8001728:	687b      	ldr	r3, [r7, #4]
+ 800172a:	691a      	ldr	r2, [r3, #16]
+ 800172c:	887b      	ldrh	r3, [r7, #2]
+ 800172e:	4013      	ands	r3, r2
+ 8001730:	2b00      	cmp	r3, #0
+ 8001732:	d002      	beq.n	800173a <HAL_GPIO_ReadPin+0x1e>
+  {
+    bitstatus = GPIO_PIN_SET;
+ 8001734:	2301      	movs	r3, #1
+ 8001736:	73fb      	strb	r3, [r7, #15]
+ 8001738:	e001      	b.n	800173e <HAL_GPIO_ReadPin+0x22>
+  }
+  else
+  {
+    bitstatus = GPIO_PIN_RESET;
+ 800173a:	2300      	movs	r3, #0
+ 800173c:	73fb      	strb	r3, [r7, #15]
+  }
+  return bitstatus;
+ 800173e:	7bfb      	ldrb	r3, [r7, #15]
+}
+ 8001740:	4618      	mov	r0, r3
+ 8001742:	3714      	adds	r7, #20
+ 8001744:	46bd      	mov	sp, r7
+ 8001746:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800174a:	4770      	bx	lr
+
+0800174c <HAL_GPIO_WritePin>:
+  *            @arg GPIO_PIN_RESET: to clear the port pin
+  *            @arg GPIO_PIN_SET: to set the port pin
+  * @retval None
+  */
+void HAL_GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
+{
+ 800174c:	b480      	push	{r7}
+ 800174e:	b083      	sub	sp, #12
+ 8001750:	af00      	add	r7, sp, #0
+ 8001752:	6078      	str	r0, [r7, #4]
+ 8001754:	460b      	mov	r3, r1
+ 8001756:	807b      	strh	r3, [r7, #2]
+ 8001758:	4613      	mov	r3, r2
+ 800175a:	707b      	strb	r3, [r7, #1]
+  /* Check the parameters */
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
+  assert_param(IS_GPIO_PIN_ACTION(PinState));
+
+  if(PinState != GPIO_PIN_RESET)
+ 800175c:	787b      	ldrb	r3, [r7, #1]
+ 800175e:	2b00      	cmp	r3, #0
+ 8001760:	d003      	beq.n	800176a <HAL_GPIO_WritePin+0x1e>
+  {
+    GPIOx->BSRR = GPIO_Pin;
+ 8001762:	887a      	ldrh	r2, [r7, #2]
+ 8001764:	687b      	ldr	r3, [r7, #4]
+ 8001766:	619a      	str	r2, [r3, #24]
+  }
+  else
+  {
+    GPIOx->BSRR = (uint32_t)GPIO_Pin << 16U;
+  }
+}
+ 8001768:	e003      	b.n	8001772 <HAL_GPIO_WritePin+0x26>
+    GPIOx->BSRR = (uint32_t)GPIO_Pin << 16U;
+ 800176a:	887b      	ldrh	r3, [r7, #2]
+ 800176c:	041a      	lsls	r2, r3, #16
+ 800176e:	687b      	ldr	r3, [r7, #4]
+ 8001770:	619a      	str	r2, [r3, #24]
+}
+ 8001772:	bf00      	nop
+ 8001774:	370c      	adds	r7, #12
+ 8001776:	46bd      	mov	sp, r7
+ 8001778:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800177c:	4770      	bx	lr
+	...
+
+08001780 <__libc_init_array>:
+ 8001780:	b570      	push	{r4, r5, r6, lr}
+ 8001782:	4e0d      	ldr	r6, [pc, #52]	; (80017b8 <__libc_init_array+0x38>)
+ 8001784:	4c0d      	ldr	r4, [pc, #52]	; (80017bc <__libc_init_array+0x3c>)
+ 8001786:	1ba4      	subs	r4, r4, r6
+ 8001788:	10a4      	asrs	r4, r4, #2
+ 800178a:	2500      	movs	r5, #0
+ 800178c:	42a5      	cmp	r5, r4
+ 800178e:	d109      	bne.n	80017a4 <__libc_init_array+0x24>
+ 8001790:	4e0b      	ldr	r6, [pc, #44]	; (80017c0 <__libc_init_array+0x40>)
+ 8001792:	4c0c      	ldr	r4, [pc, #48]	; (80017c4 <__libc_init_array+0x44>)
+ 8001794:	f000 f820 	bl	80017d8 <_init>
+ 8001798:	1ba4      	subs	r4, r4, r6
+ 800179a:	10a4      	asrs	r4, r4, #2
+ 800179c:	2500      	movs	r5, #0
+ 800179e:	42a5      	cmp	r5, r4
+ 80017a0:	d105      	bne.n	80017ae <__libc_init_array+0x2e>
+ 80017a2:	bd70      	pop	{r4, r5, r6, pc}
+ 80017a4:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 80017a8:	4798      	blx	r3
+ 80017aa:	3501      	adds	r5, #1
+ 80017ac:	e7ee      	b.n	800178c <__libc_init_array+0xc>
+ 80017ae:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 80017b2:	4798      	blx	r3
+ 80017b4:	3501      	adds	r5, #1
+ 80017b6:	e7f2      	b.n	800179e <__libc_init_array+0x1e>
+ 80017b8:	08001a10 	.word	0x08001a10
+ 80017bc:	08001a10 	.word	0x08001a10
+ 80017c0:	08001a10 	.word	0x08001a10
+ 80017c4:	08001a14 	.word	0x08001a14
+
+080017c8 <memset>:
+ 80017c8:	4402      	add	r2, r0
+ 80017ca:	4603      	mov	r3, r0
+ 80017cc:	4293      	cmp	r3, r2
+ 80017ce:	d100      	bne.n	80017d2 <memset+0xa>
+ 80017d0:	4770      	bx	lr
+ 80017d2:	f803 1b01 	strb.w	r1, [r3], #1
+ 80017d6:	e7f9      	b.n	80017cc <memset+0x4>
+
+080017d8 <_init>:
+ 80017d8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80017da:	bf00      	nop
+ 80017dc:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80017de:	bc08      	pop	{r3}
+ 80017e0:	469e      	mov	lr, r3
+ 80017e2:	4770      	bx	lr
+
+080017e4 <_fini>:
+ 80017e4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80017e6:	bf00      	nop
+ 80017e8:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80017ea:	bc08      	pop	{r3}
+ 80017ec:	469e      	mov	lr, r3
+ 80017ee:	4770      	bx	lr
