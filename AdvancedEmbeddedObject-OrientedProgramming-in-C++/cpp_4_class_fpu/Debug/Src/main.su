@@ -1,0 +1,5 @@
+../Inc/UART.hpp:19:7:void UART::setBaudRate(uint32_t)	16	static
+../Inc/UART.hpp:25:2:UART::UART(USART_TypeDef*, uint32_t)	24	static
+../Inc/UART.hpp:52:7:void UART::send(char)	16	static
+../Inc/UART.hpp:61:7:void UART::sendString(const char*)	16	static
+../Src/main.cpp:13:5:int main()	40	static
