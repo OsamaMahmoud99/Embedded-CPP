@@ -1,0 +1,4 @@
+../Inc/GPIO.hpp:21:2:GPIO::GPIO(GPIO_TypeDef*, uint8_t, bool)	24	static
+../Inc/GPIO.hpp:45:7:void GPIO::toggle()	16	static
+../Inc/GPIO.hpp:59:7:bool GPIO::read()	16	static
+../Src/main.cpp:11:5:int main()	24	static
