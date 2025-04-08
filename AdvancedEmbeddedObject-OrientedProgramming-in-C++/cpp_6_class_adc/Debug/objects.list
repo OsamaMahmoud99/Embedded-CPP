@@ -1,0 +1,8 @@
+"./Src/ADC.o"
+"./Src/FPU.o"
+"./Src/GPIO.o"
+"./Src/Timebase.o"
+"./Src/main.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Startup/startup_stm32f446retx.o"

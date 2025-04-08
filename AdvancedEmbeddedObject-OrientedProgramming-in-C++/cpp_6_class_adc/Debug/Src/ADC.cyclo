@@ -1,0 +1,4 @@
+../Src/ADC.cpp:20:1:ADC_MODULE::ADC_MODULE(ADC_TypeDef*, GPIO_TypeDef*, uint8_t)	1
+../Src/ADC.cpp:24:6:void ADC_MODULE::init()	1
+../Src/ADC.cpp:48:6:void ADC_MODULE::startConversion()	1
+../Src/ADC.cpp:57:10:uint32_t ADC_MODULE::read()	2
